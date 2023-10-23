@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>AppHr</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
+
+    <!-- this is the cdn for sweet alert -->
+
+   <%= stylesheet_link_tag "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" %>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
+
+  </head>
+
+  <body class="d-flex flex-column min-vh-100 bg-light">
+    <% if user_signed_in? %>
+      <%= render 'layouts/navbar' %>
+      <br>
+    <% end %>
+
+    <div class="container flex-grow-1">
+      <div class="overflow-auto"> <!-- Add this div for scrollable content -->
+        <%= yield %>
+      </div>
+      <%= turbo_frame_tag "remote_modal", target: "_top" %>
+      <%= turbo_frame_tag "user_modal", target: "_top" %>
+       <%= turbo_frame_tag "show_user", target: "_top" %>
+    </div>
+
+    <footer class="bg-dark text-white text-center py-3">
+      <div class="container">
+        <%= render 'layouts/footer' %>
+      </div>
+    </footer>
+  </body>
+  <%= javascript_include_tag 'application' %>
+</html>

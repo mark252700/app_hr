@@ -1,0 +1,40 @@
+<%= content_tag :h1, "List of Oth Positions" %>
+
+
+<div class="text-end mb-3">
+  <%= link_to new_oth_position_path, class: 'btn btn-primary' do %>
+    New Oth Position
+  <% end %>
+</div>
+
+
+  <table class="table table-striped table-bordered table-hover">
+    <thead>
+      <tr>
+      <th>#</th>
+            <th>Pos Title</th>
+            <th>Pos Yr</th>
+            <th>Pos Month</th>
+            <th></th>
+        </tr>
+    </thead>
+
+    <tbody>
+      <% @oth_positions.each do |oth_position| %>
+        <tr>
+
+        <th scope="row"><%= oth_position.id %></th>
+        <td><%= oth_position.pos_title %></td>
+        <td><%= oth_position.pos_yr %></td>
+        <td><%= oth_position.pos_month %></td>
+    
+          <td>
+            <%= link_to 'View', oth_position, class: 'btn btn-secondary btn-sm' %>
+            <%= link_to 'Edit', edit_oth_position_path(oth_position), class: 'btn btn-secondary btn-sm' %>
+            <%= link_to "Delete", oth_position, class: "btn btn-danger btn-sm", method: :delete, data: { "turbo-method": :delete, turbo_confirm: "Are you sure?" } %>
+          </td>
+
+        </tr>
+      <% end %>
+    </tbody>
+  </table>

@@ -1,0 +1,9 @@
+
+<%= render @task_perfomance %>
+
+<div>
+  <%= link_to "Edit", edit_task_perfomance_path(@task_perfomance), class: 'btn btn-primary' %> |
+  <%= link_to "Back", task_perfomances_path, class: 'btn btn-primary' %>
+
+  <%= button_to "Delete", @task_perfomance, method: :delete, class: 'btn btn-danger' %>
+</div>

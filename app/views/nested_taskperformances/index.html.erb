@@ -1,0 +1,40 @@
+<%= content_tag :h1, "List of Nested Taskperformances" %>
+
+
+<div class="text-end mb-3">
+  <%= link_to new_nested_taskperformance_path, class: 'btn btn-primary' do %>
+    New Nested Taskperformance
+  <% end %>
+</div>
+
+
+  <table class="table table-striped table-bordered table-hover">
+    <thead>
+      <tr>
+      <th>#</th>
+            <th>Task Notdone</th>
+            <th>Task Reason</th>
+            <th>Task Impact</th>
+            <th></th>
+        </tr>
+    </thead>
+
+    <tbody>
+      <% @nested_taskperformances.each do |nested_taskperformance| %>
+        <tr>
+
+        <th scope="row"><%= nested_taskperformance.id %></th>
+        <td><%= nested_taskperformance.task_notdone %></td>
+        <td><%= nested_taskperformance.task_reason %></td>
+        <td><%= nested_taskperformance.task_impact %></td>
+    
+          <td>
+            <%= link_to 'View', nested_taskperformance, class: 'btn btn-secondary btn-sm' %>
+            <%= link_to 'Edit', edit_nested_taskperformance_path(nested_taskperformance), class: 'btn btn-secondary btn-sm' %>
+            <%= link_to "Delete", nested_taskperformance, class: "btn btn-danger btn-sm", method: :delete, data: { "turbo-method": :delete, turbo_confirm: "Are you sure?" } %>
+          </td>
+
+        </tr>
+      <% end %>
+    </tbody>
+  </table>

@@ -1,0 +1,36 @@
+<%= content_tag :h1, "List of Oth Competencies" %>
+
+
+<div class="text-end mb-3">
+  <%= link_to new_oth_competency_path, class: 'btn btn-primary' do %>
+    New Oth Competency
+  <% end %>
+</div>
+
+
+  <table class="table table-striped table-bordered table-hover">
+    <thead>
+      <tr>
+      <th>#</th>
+            <th>Competency</th>
+            <th></th>
+        </tr>
+    </thead>
+
+    <tbody>
+      <% @oth_competencies.each do |oth_competency| %>
+        <tr>
+
+        <th scope="row"><%= oth_competency.id %></th>
+        <td><%= oth_competency.competency %></td>
+    
+          <td>
+            <%= link_to 'View', oth_competency, class: 'btn btn-secondary btn-sm' %>
+            <%= link_to 'Edit', edit_oth_competency_path(oth_competency), class: 'btn btn-secondary btn-sm' %>
+            <%= link_to "Delete", oth_competency, class: "btn btn-danger btn-sm", method: :delete, data: { "turbo-method": :delete, turbo_confirm: "Are you sure?" } %>
+          </td>
+
+        </tr>
+      <% end %>
+    </tbody>
+  </table>

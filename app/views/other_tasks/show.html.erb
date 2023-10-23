@@ -1,0 +1,9 @@
+
+<%= render @other_task %>
+
+<div>
+  <%= link_to "Edit", edit_other_task_path(@other_task), class: 'btn btn-primary' %> |
+  <%= link_to "Back", other_tasks_path, class: 'btn btn-primary' %>
+
+  <%= button_to "Delete", @other_task, method: :delete, class: 'btn btn-danger' %>
+</div>

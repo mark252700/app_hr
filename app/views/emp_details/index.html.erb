@@ -1,0 +1,80 @@
+<%= content_tag :h1, "List of Emp Details" %>
+
+
+<div class="text-end mb-3">
+  <%= link_to new_emp_detail_path, class: 'btn btn-primary' do %>
+    New Emp Detail
+  <% end %>
+</div>
+
+
+  <table class="table table-striped table-bordered table-hover">
+    <thead>
+      <tr>
+      <th>#</th>
+            <th>Fullname</th>
+            <th>Emp</th>
+            <th>Rank</th>
+            <th>Division</th>
+            <th>Sup Name</th>
+            <th>Pos Title</th>
+            <th>Ser Year</th>
+            <th>Ser Month</th>
+            <th>Educ Course</th>
+            <th>Educ Grad</th>
+            <th>Educ Skill</th>
+            <th>Educ Certificate</th>
+            <th>Educ Othskill</th>
+            <th>Contact</th>
+            <th>Department</th>
+            <th>Sup Title</th>
+            <th>Hr Perday</th>
+            <th>Hr Perweek</th>
+            <th>Break</th>
+            <th>Launch</th>
+            <th>Ot Weekday</th>
+            <th>Ot Weekend</th>
+            <th>Workday</th>
+            <th></th>
+        </tr>
+    </thead>
+
+    <tbody>
+      <% @emp_details.each do |emp_detail| %>
+        <tr>
+
+        <th scope="row"><%= emp_detail.id %></th>
+        <td><%= emp_detail.fullname %></td>
+        <td><%= emp_detail.emp_id %></td>
+        <td><%= emp_detail.rank %></td>
+        <td><%= emp_detail.division %></td>
+        <td><%= emp_detail.sup_name %></td>
+        <td><%= emp_detail.pos_title %></td>
+        <td><%= emp_detail.ser_year %></td>
+        <td><%= emp_detail.ser_month %></td>
+        <td><%= emp_detail.educ_course %></td>
+        <td><%= emp_detail.educ_grad %></td>
+        <td><%= emp_detail.educ_skill %></td>
+        <td><%= emp_detail.educ_certificate %></td>
+        <td><%= emp_detail.educ_othskill %></td>
+        <td><%= emp_detail.contact %></td>
+        <td><%= emp_detail.department %></td>
+        <td><%= emp_detail.sup_title %></td>
+        <td><%= emp_detail.hr_perday %></td>
+        <td><%= emp_detail.hr_perweek %></td>
+        <td><%= emp_detail.break %></td>
+        <td><%= emp_detail.launch %></td>
+        <td><%= emp_detail.ot_weekday %></td>
+        <td><%= emp_detail.ot_weekend %></td>
+        <td><%= emp_detail.workday %></td>
+    
+          <td>
+            <%= link_to 'View', emp_detail, class: 'btn btn-secondary btn-sm' %>
+            <%= link_to 'Edit', edit_emp_detail_path(emp_detail), class: 'btn btn-secondary btn-sm' %>
+            <%= link_to "Delete", emp_detail, class: "btn btn-danger btn-sm", method: :delete, data: { "turbo-method": :delete, turbo_confirm: "Are you sure?" } %>
+          </td>
+
+        </tr>
+      <% end %>
+    </tbody>
+  </table>

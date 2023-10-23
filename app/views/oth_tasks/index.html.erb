@@ -1,0 +1,40 @@
+<%= content_tag :h1, "List of Oth Tasks" %>
+
+
+<div class="text-end mb-3">
+  <%= link_to new_oth_task_path, class: 'btn btn-primary' do %>
+    New Oth Task
+  <% end %>
+</div>
+
+
+  <table class="table table-striped table-bordered table-hover">
+    <thead>
+      <tr>
+      <th>#</th>
+            <th>Oth Tasknotdone</th>
+            <th>Oth Reason</th>
+            <th>Oth Impact</th>
+            <th></th>
+        </tr>
+    </thead>
+
+    <tbody>
+      <% @oth_tasks.each do |oth_task| %>
+        <tr>
+
+        <th scope="row"><%= oth_task.id %></th>
+        <td><%= oth_task.oth_tasknotdone %></td>
+        <td><%= oth_task.oth_reason %></td>
+        <td><%= oth_task.oth_impact %></td>
+    
+          <td>
+            <%= link_to 'View', oth_task, class: 'btn btn-secondary btn-sm' %>
+            <%= link_to 'Edit', edit_oth_task_path(oth_task), class: 'btn btn-secondary btn-sm' %>
+            <%= link_to "Delete", oth_task, class: "btn btn-danger btn-sm", method: :delete, data: { "turbo-method": :delete, turbo_confirm: "Are you sure?" } %>
+          </td>
+
+        </tr>
+      <% end %>
+    </tbody>
+  </table>

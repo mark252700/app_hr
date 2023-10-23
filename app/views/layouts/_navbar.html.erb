@@ -1,0 +1,35 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark p-3">
+  <div class="container-fluid">
+    <%= image_tag('logo.png', alt: 'Logo', style: 'height:80px; width:auto', class: 'navbar-logo') %>
+    <a class="navbar-brand text-uppercase" href="#">1CISP</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+      <ul class="navbar-nav ms-auto">
+        <li class="text-uppercase">
+          <%= link_to "Home", admin_index_path, class: 'nav-link' if current_user&.admin? %>
+        </li>
+        <li class="text-uppercase">
+          <%= link_to "Users", admin_index_path, class: 'nav-link' if current_user&.admin? %>
+        </li>
+
+        <li class="nav-item dropdown">
+          <a class="nav-link mx-2 dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <%= current_user.email if user_signed_in? %>
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+            <li>
+              <%= link_to "Sign Out", destroy_user_session_path, method: :delete, class: 'dropdown-item' if user_signed_in? %>
+
+            </li>
+            <li>
+              <%= link_to "Edit Profile", edit_user_registration_path, class: 'dropdown-item' if user_signed_in? %>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>

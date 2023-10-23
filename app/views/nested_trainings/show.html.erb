@@ -1,0 +1,9 @@
+
+<%= render @nested_training %>
+
+<div>
+  <%= link_to "Edit", edit_nested_training_path(@nested_training), class: 'btn btn-primary' %> |
+  <%= link_to "Back", nested_trainings_path, class: 'btn btn-primary' %>
+
+  <%= button_to "Delete", @nested_training, method: :delete, class: 'btn btn-danger' %>
+</div>

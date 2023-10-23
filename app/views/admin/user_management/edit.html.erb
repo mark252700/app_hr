@@ -1,0 +1,29 @@
+<!-- app/views/admin/user_management/edit.html.erb -->
+<%= render "user_modal", title: "" do %>
+<h2>Edit User</h2>
+
+<%= simple_form_for [:admin, @user], url: admin_user_management_path(@user), method: :patch do |f| %>
+  <%= f.error_notification %>
+
+  <div class="form-group">
+      <%= f.input :email, required: true, autofocus: true, input_html: { class: "form-control", autocomplete: "email" } %>
+    </div>
+   <div class="form-group">
+      <p>Role:</p>
+          <div class="form-check form-check-inline">
+      <%= f.radio_button :role, true, class: "form-check-input" %>
+      <label class="form-check-label">Admin</label>
+    </div>
+
+    <div class="form-check form-check-inline">
+      <%= f.radio_button :role, false, class: "form-check-input" %>
+      <label class="form-check-label">Client</label>
+    </div>
+    </div>
+ 
+<br>
+  <div class="form-actions">
+    <%= f.button :submit, "Update User", class: "btn btn-success" %>
+  </div>
+<% end %>
+<% end %>

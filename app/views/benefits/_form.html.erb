@@ -1,0 +1,64 @@
+<%= simple_form_for(@benefit, html: { class: 'form-horizontal', remote: true }) do |f| %>
+  <%= f.error_notification %>
+  <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
+
+  <button type="button" id="add-benefit-input" class="btn btn-success">+</button>
+  <div id="benefits-container">
+    <div class="form-inputs">
+      <div class="input-group mb-3 original-input">
+      
+        <%= f.input :benefit, input_html: { class: 'form-control', style: 'width:450px;' } %>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-actions">
+   
+ <%= f.button :submit, 'Add', class: 'btn btn-primary' %>
+<%# <% if @emp_detail.present? %> 
+  <%# <%= link_to 'previous', edit_emp_detail_path(@emp_detail), method: :get, class: 'btn btn-secondary', style: 'float: right' %> 
+<%# <% end %> 
+
+
+  </div>
+<%end%>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+  $(document).ready(function () {
+    // Initialize a counter to keep track of added input fields
+    var inputCounter = 1;
+
+    // Find the container where you want to add inputs
+    var container = $('#benefits-container');
+
+    // Handle the click event of the "Add Another Benefit" button
+    $('#add-benefit-input').click(function () {
+      // Clone the original input and remove its value
+      var newInput = $('.original-input').first().clone();
+      newInput.find('input').val('').attr('name', 'benefits[' + inputCounter + '][benefit]');
+
+      // Create a remove button
+      var removeButton = $('<button>', {
+        type: 'button',
+        class: 'btn btn-danger',
+        text: 'Remove',
+      });
+
+      // Append the remove button to the input group
+      newInput.find('.input-group').append(removeButton);
+
+      // Handle the click event of the remove button
+      removeButton.click(function () {
+        newInput.remove(); // Remove the input when the remove button is clicked
+      });
+
+      // Append the new input to the container
+      container.find('.form-inputs').append(newInput);
+
+      // Increment the counter for the next input
+      inputCounter++;
+    });
+  });
+</script>
+

@@ -1,0 +1,42 @@
+<%= content_tag :h1, "List of Nested Trainings" %>
+
+
+<div class="text-end mb-3">
+  <%= link_to new_nested_training_path, class: 'btn btn-primary' do %>
+    New Nested Training
+  <% end %>
+</div>
+
+
+  <table class="table table-striped table-bordered table-hover">
+    <thead>
+      <tr>
+      <th>#</th>
+            <th>Train Type</th>
+            <th>Train Benefit</th>
+            <th>Sup Name</th>
+            <th>Sup Title</th>
+            <th></th>
+        </tr>
+    </thead>
+
+    <tbody>
+      <% @nested_trainings.each do |nested_training| %>
+        <tr>
+
+        <th scope="row"><%= nested_training.id %></th>
+        <td><%= nested_training.train_type %></td>
+        <td><%= nested_training.train_benefit %></td>
+        <td><%= nested_training.sup_name %></td>
+        <td><%= nested_training.sup_title %></td>
+    
+          <td>
+            <%= link_to 'View', nested_training, class: 'btn btn-secondary btn-sm' %>
+            <%= link_to 'Edit', edit_nested_training_path(nested_training), class: 'btn btn-secondary btn-sm' %>
+            <%= link_to "Delete", nested_training, class: "btn btn-danger btn-sm", method: :delete, data: { "turbo-method": :delete, turbo_confirm: "Are you sure?" } %>
+          </td>
+
+        </tr>
+      <% end %>
+    </tbody>
+  </table>

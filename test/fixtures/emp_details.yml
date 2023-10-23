@@ -1,0 +1,51 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  fullname: MyString
+  emp_id: 1
+  rank: MyString
+  division: MyString
+  sup_name: MyString
+  pos_title: MyString
+  ser_year: 1
+  ser_month: 1
+  educ_course: MyString
+  educ_grad: 2023-10-14 23:29:43
+  educ_skill: MyString
+  educ_certificate: MyString
+  educ_othskill: MyString
+  contact: MyString
+  department: MyString
+  sup_title: MyString
+  hr_perday: 1
+  hr_perweek: 1
+  break: MyString
+  launch: MyString
+  ot_weekday: false
+  ot_weekend: false
+  workday: 1
+
+two:
+  fullname: MyString
+  emp_id: 1
+  rank: MyString
+  division: MyString
+  sup_name: MyString
+  pos_title: MyString
+  ser_year: 1
+  ser_month: 1
+  educ_course: MyString
+  educ_grad: 2023-10-14 23:29:43
+  educ_skill: MyString
+  educ_certificate: MyString
+  educ_othskill: MyString
+  contact: MyString
+  department: MyString
+  sup_title: MyString
+  hr_perday: 1
+  hr_perweek: 1
+  break: MyString
+  launch: MyString
+  ot_weekday: false
+  ot_weekend: false
+  workday: 1

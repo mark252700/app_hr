@@ -1,0 +1,2 @@
+module NotrelTrainingsHelper
+end

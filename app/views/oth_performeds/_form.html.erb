@@ -1,0 +1,416 @@
+<style>
+  /* Add CSS to float the button to the right */
+  #addRowBtn,#addRowBtns,#addrows, #float {
+    float: right;
+     margin-left: 10px;
+   
+  }
+  </style>
+<%= simple_form_for(@oth_performed) do |f| %>
+  <%= f.error_notification %>
+  <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
+
+<div class="card">
+  <h5 class="card-header ">Based on your other job description:</h5>
+  <div class="card-body">
+  <div class="row justify-content-left">
+    <div class="col">
+      <div class="form-group ">
+      <table class="table table-striped">
+       <%= f.fields_for :oth_position, @oth_performed.oth_position || @oth_performed.build_oth_position do |position| %>
+       <tbody>
+       <tr>
+          <td>
+          <br>
+            <div class="mb-3">
+              <%= position.input :pos_title, label: 'Position Title', input_html:{class: 'form-control'} %>
+            </div>
+          </td>
+           <td>
+            <div class="mb-3">
+            <label>Years in Position</label>
+              <%= position.input :pos_yr, label: 'year', input_html:{class: 'form-control'} %>
+            </div>
+          </td>
+           <td>
+           <br>
+            <div class="mb-3">
+              <%= position.input :pos_month, label: 'month', input_html:{class: 'form-control'} %>
+            </div>
+          </td>
+         
+        </tr>
+       </tbody>
+
+       <%end%>
+       </table>
+      </div>
+      </div>
+      </div>
+      </div>
+      </div>
+
+<br>
+<hr>
+ <div class="card">
+  <h5 class="card-header ">Based on your other job description:</h5>
+  <div class="card-body">
+  <div class="row justify-content-left">
+    <div class="col">
+      <div class="form-group ">
+
+       <table class="table table-striped">
+    <button type="button" id="addRowBtn" class="btn btn-success">+</button>
+    <thead>
+      <tr>
+          <td>
+            <div class="mb-3">
+              
+              <%= f.input :job_performed, label: 'Job Performed', input_html:{class: 'form-control'} %>
+            </div>
+          </td>
+          <td>
+            <div class="mb-3">
+              <label>Job Done</label>
+              <%= f.select :job_done, options_for_select(["Daily", "Monthly", "Quarterly", "Annually"], selected: "Select"), {}, class: 'form-select shorter-inputs' %>
+            </div>
+          </td>
+          <td>
+            <div class="mb-3">
+              <label>Hours</label>
+              <%= f.number_field :job_hr, class: 'form-control shorter-input' %>
+            </div>
+          </td>
+          <td>
+            <div class="mb-3">
+              <label>Minutes</label>
+              <%= f.number_field :job_min, class: 'form-control shorter-input' %>
+            </div>
+          </td>
+          <td>
+            <div class="mb-3">
+              <label>Job Current</label>
+              <div class="form-check">
+                <%= f.radio_button :job_current, 'true', class: 'form-check-input' %>
+                <label class="form-check-label">Yes</label>
+              </div>
+              <div class="form-check">
+                <%= f.radio_button :job_current, 'false', class: 'form-check-input' %>
+                <label class="form-check-label">No</label>
+              </div>
+            </div>
+          </td>
+          <td>
+            <div class="mb-3">
+              <label>Reason For doing this task</label>
+              <%= f.input :job_reason, label: false, input_html:{class: 'form-control long-input'} %>
+            </div>
+          </td>
+          <td>
+            <div class="mb-3">
+              <br>
+              <!-- Add remove button for each row -->
+              <button type="button" class="btn btn-danger remove-row">Remove</button>
+            </div>
+          </td>
+        </tr>
+    </thead>
+    <tbody id="formContainer">
+      <!-- Use fields_for to handle nested attributes -->
+  <%= f.fields_for :nested_othperformes do |jb| %>
+        <tr>
+          <td>
+            <div class="mb-3">
+              
+              <%= jb.input :job_performed, label: 'Job Performed', input_html:{class: 'form-control'} %>
+            </div>
+          </td>
+          <td>
+            <div class="mb-3">
+              <label>Job Done</label>
+              <%= jb.select :job_done, options_for_select(["Daily", "Monthly", "Quarterly", "Annually"], selected: "Select"), {}, class: 'form-select shorter-inputs' %>
+            </div>
+          </td>
+          <td>
+            <div class="mb-3">
+              <label>Hours</label>
+              <%= jb.number_field :job_hr, class: 'form-control shorter-input' %>
+            </div>
+          </td>
+          <td>
+            <div class="mb-3">
+              <label>Minutes</label>
+              <%= jb.number_field :job_min, class: 'form-control shorter-input' %>
+            </div>
+          </td>
+          <td>
+            <div class="mb-3">
+              <label>Job Current</label>
+              <div class="form-check">
+                <%= jb.radio_button :job_current, 'true', class: 'form-check-input' %>
+                <label class="form-check-label">Yes</label>
+              </div>
+              <div class="form-check">
+                <%= jb.radio_button :job_current, 'false', class: 'form-check-input' %>
+                <label class="form-check-label">No</label>
+              </div>
+            </div>
+          </td>
+          <td>
+            <div class="mb-3">
+              <label>Reason For doing this task</label>
+              <%= jb.input :job_reason, label: false, input_html:{class: 'form-control long-input'} %>
+            </div>
+          </td>
+          <td>
+            <div class="mb-3">
+              <br>
+              <!-- Add remove button for each row -->
+              <button type="button" class="btn btn-danger remove-row">Remove</button>
+            </div>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+      </div>
+      </div>
+      </div>
+       </div>
+      </div>
+
+ <br>
+  <hr>
+  <div class="card">
+    <h5 class="card-header">Task Performance</h5>
+    <div class="card-body">
+      <div class="row justify-content-center">
+    <div class="col">
+      <div class="form-group">
+        <button type="button" id="addRowBtns" class="btn btn-success">+</button>
+        <table class="table table-responsive-lg">
+          <thead class="">
+           
+          </thead>
+          <tbody class="border" id="formContainers">
+          
+        
+         
+    <%= f.fields_for :other_tasks do |t| %>
+ <tr>
+    <td class="col-4">
+      <div class="mb-3">
+        <%= t.input :task_notdone, label: 'Task that are not done', input_html: { class: 'form-control' } %>
+      </div>
+    </td>
+    <td class="col-4">
+      <div class="mb-3">
+        <%= t.input :task_reason, label: 'Reasons for not doing the task', input_html: { class: 'form-control' } %>
+      </div>
+    </td>
+    <td class="col-4">
+      <div class="mb-3">
+        <%= t.input :task_impact, label: 'Impact of not doing the task', input_html: { class: 'form-control' } %>
+      </div>
+    </td>
+    <td class="col">
+      <div class="mb-3">
+        <button type="button" class="remove-row btn btn-danger">Remove</button>
+      </div>
+    </td>
+  </tr>
+<%end%>
+
+
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+   </div>
+  </div>
+  <br>
+<hr>
+
+ <div class="card">
+    <h5 class="card-header">Required Competencies</h5>
+    <div class="card-body">
+      <div class="container mt-4">
+        <div class="row justify-content-center">
+          <div class="col">
+            <table class="table table-lg">
+             <button type="button" class="btn btn-success" id="addrows">+</button>
+              <thead>
+               
+              </thead>
+              <tbody id="benefittable">
+                <!-- Use fields_for to handle nested attributes -->
+                <%= f.fields_for :other_competencies do |b| %>
+                  <tr>
+                    <td class="col-11">
+                      <%= b.input :competencies, input_html: {class: 'form-control'} %>
+                    </td>
+                    <td>
+                    <br>
+                      <button type="button" class="removebenefit btn btn-danger">Remove</button>
+                     
+                    </td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+<br>
+<div class="form-actions">
+   <%= f.button :submit, @button_label, name: 'save_button', class: action_name == 'new' ? 'btn btn-primary' : 'btn btn-success' %>
+
+   
+  <% if (taskperformance = current_user.taskperformance).present? %>
+    <%= link_to 'Previous', edit_taskperformance_path(taskperformance), class: 'btn btn-secondary' , id: 'float' %>
+  <% end %>
+</div>
+<% end %>
+
+<script>
+ document.getElementById('addRowBtn').addEventListener('click', function() {
+  var tbody = document.getElementById('formContainer');
+  var rowCount = tbody.getElementsByTagName('tr').length;
+
+  var newRow = document.createElement('tr');
+  newRow.innerHTML = `
+    <td>
+      <div class="mb-3">
+        <label>Job Performed</label>
+        <input type="text" name="oth_performed[nested_othperformes_attributes][${rowCount}][job_performed]" class="form-control">     </div>
+    </td>
+    <td>
+      <div class="mb-3">
+        <label>Job Done</label>
+        <select name="oth_performed[nested_othperformes_attributes][${rowCount}][job_done]" class="form-select shorter-inputs">
+          <option value="none" selected>Select</option>
+          <option value="Daily">Daily</option>
+          <option value="Monthly">Monthly</option>
+          <option value="Quarterly">Quarterly</option>
+          <option value="Annually">Annually</option>
+        </select>
+      </div>
+    </td>
+    <td>
+      <div class="mb-3">
+        <label>Hours</label>
+        <input type="number" name="oth_performed[nested_othperformes_attributes][${rowCount}][job_hr]" class="form-control shorter-input">
+      </div>
+    </td>
+    <td>
+      <div class="mb-3">
+        <label>Minutes</label>
+        <input type="number" name="oth_performed[nested_othperformes_attributes][${rowCount}][job_min]" class="form-control shorter-input">
+      </div>
+    </td>
+    <td>
+      <div class="mb-3">
+        <label>Job Current</label>
+        <div class="form-check">
+          <input type="radio" name="oth_performed[nested_othperformes_attributes][${rowCount}][job_current]" value="true" class="form-check-input">
+          <label class="form-check-label">Yes</label>
+        </div>
+        <div class="form-check">
+          <input type="radio" name="oth_performed[nested_othperformes_attributes][${rowCount}][job_current]" value="false" class="form-check-input">
+          <label class="form-check-label">No</label>
+        </div>
+      </div>
+    </td>
+    <td>
+      <div class="mb-3">
+        <label>Reason For not doing this task</label>
+        <input type="text" name="oth_performed[nested_othperformes_attributes][${rowCount}][job_reason]" class="form-control long-input">
+      </div>
+    </td>
+    <td>
+      <div class="mb-3">
+        <br>
+        <button type="button" class="btn btn-danger remove-row">Remove</button>
+      </div>
+    </td>
+  `;
+
+  tbody.appendChild(newRow);
+});
+
+// Add event listener to handle remove button clicks
+document.getElementById('formContainers').addEventListener('click', function(e) {
+  if (e.target && e.target.className == 'btn btn-danger remove-row') {
+    var row = e.target.closest('tr');
+    row.parentNode.removeChild(row);
+  }
+});
+
+document.getElementById('addRowBtns').addEventListener('click', function() {
+  var tbody = document.getElementById('formContainers');
+  var rowCount = tbody.getElementsByTagName('tr').length;
+
+  var newRow = document.createElement('tr');
+  newRow.innerHTML = `
+    <td class="col-4">
+      <div class="mb-3">
+        <label>Task Not Done</label>
+        <input type="text" name="oth_performed[other_tasks_attributes][${rowCount}][task_notdone]" class="form-control">
+      </div>
+    </td>
+    <td class="col-4">
+      <div class="mb-3">
+        <label>Reason for Not Doing</label>
+        <input type="text" name="oth_performed[other_tasks_attributes][${rowCount}][task_reason]" class="form-control">
+      </div>
+    </td>
+    <td class="col-4">
+      <div class="mb-3">
+        <label>Impact of Not Doing</label>
+        <input type="text" name="oth_performed[other_tasks_attributes][${rowCount}][task_impact]" class="form-control">
+      </div>
+    </td>
+  `;
+
+  tbody.appendChild(newRow);
+});
+
+// Add event listener to handle remove button clicks
+document.getElementById('formContainers').addEventListener('click', function(e) {
+  if (e.target && e.target.className == 'btn btn-danger remove-row') {
+    var row = e.target.closest('tr');
+    row.parentNode.removeChild(row);
+  }
+});
+
+
+  document.getElementById('addrows').addEventListener('click', function() {
+  var tbody = document.getElementById('benefittable');
+  var rowCount = tbody.getElementsByTagName('tr').length;
+  
+  var newRow = document.createElement('tr');
+  newRow.innerHTML = `
+    <td>
+      <input type="text" name="oth_performed[other_competencies_attributes][${rowCount}][competencies]" class="form-control">
+    </td>
+    <td>
+      <button type="button" class="removebenefit btn btn-danger">Remove</button>
+    </td>
+  `;
+  
+  tbody.appendChild(newRow);
+});
+
+  // Add event listener to handle remove button clicks
+  document.getElementById('benefittable').addEventListener('click', function(e) {
+    if (e.target && e.target.className == 'removebenefit btn btn-danger') {
+      var row = e.target.closest('tr');
+      row.parentNode.removeChild(row);
+    }
+  });
+
+</script>

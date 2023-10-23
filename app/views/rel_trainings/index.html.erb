@@ -1,0 +1,38 @@
+<%= content_tag :h1, "List of Rel Trainings" %>
+
+
+<div class="text-end mb-3">
+  <%= link_to new_rel_training_path, class: 'btn btn-primary' do %>
+    New Rel Training
+  <% end %>
+</div>
+
+
+  <table class="table table-striped table-bordered table-hover">
+    <thead>
+      <tr>
+      <th>#</th>
+            <th>Train Type</th>
+            <th>Train Benefit</th>
+            <th></th>
+        </tr>
+    </thead>
+
+    <tbody>
+      <% @rel_trainings.each do |rel_training| %>
+        <tr>
+
+        <th scope="row"><%= rel_training.id %></th>
+        <td><%= rel_training.train_type %></td>
+        <td><%= rel_training.train_benefit %></td>
+    
+          <td>
+            <%= link_to 'View', rel_training, class: 'btn btn-secondary btn-sm' %>
+            <%= link_to 'Edit', edit_rel_training_path(rel_training), class: 'btn btn-secondary btn-sm' %>
+            <%= link_to "Delete", rel_training, class: "btn btn-danger btn-sm", method: :delete, data: { "turbo-method": :delete, turbo_confirm: "Are you sure?" } %>
+          </td>
+
+        </tr>
+      <% end %>
+    </tbody>
+  </table>

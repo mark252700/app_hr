@@ -1,0 +1,327 @@
+<style>
+#float{
+float:right
+}
+
+</style>
+
+<%= simple_form_for(@emp_detail, html: { class: 'form-horizontal' }) do |f| %>
+  <%= f.error_notification %>
+  <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
+
+  <div class="row justify-content-center">
+    <div class="col-sm-4">
+      <div class="form-group ">
+        
+        <%= f.input :fullname, label: 'Fullname', input_html: { class: 'form-control has-value' }%>
+        <%= f.error :fullname %>
+      </div>
+    </div>
+
+    <div class="col-sm-4">
+      <div class="form-group ">
+       
+        <%= f.input :emp_id, label: 'Employee No.', input_html: { class: 'form-control has-value' } %>
+        <%= f.error :emp_id %>
+      </div>
+    </div>
+
+     <div class="col-sm-4">
+      <div class="form-group ">
+       
+        <%= f.input :pos_title, label: 'Position', input_html: { class: 'form-control has-value' }%>
+        <%= f.error :pos_title %>
+      </div>
+    </div>
+
+   
+  </div>
+
+  <div class="row justify-content-center">
+    <div class="col-sm-4">
+      <div class="form-group">
+       
+        <%= f.input :division, label: 'Division', input_html: { class: 'form-control has-value' }%>
+        <%= f.error :division %>
+      </div>
+    </div>
+
+    <div class="col-sm-4">
+      <div class="form-group">
+       
+        <%= f.input :department, label: 'department', input_html: { class: 'form-control has-value' }%>
+        <%= f.error :department %>
+      </div>
+    </div>
+
+    <div class="col-sm-4">
+      <div class="form-group ">
+        <%= f.label :rank, class: 'control-label' %>
+        <%= f.select :rank, [['Select a rank', ''], ['Supervisor', 'Supervisor'], ['Manager', 'Manager'], ['Senior Officer', 'Senior Officer']], {}, { class: 'form-control has-value' } %>
+        <%= f.error :rank %>
+      </div>
+    </div>
+  </div>
+
+  <div class="row justify-content-center">
+    <div class="col-sm-4">
+      <div class="form-group ">
+       <br>
+        <%= f.input :contact, label: 'Contact', input_html: { class: 'form-control has-value' }%>
+        <%= f.error :contact %>
+      </div>
+    </div>
+
+    <div class="col-sm-4">
+      <div class="form-group \">
+       <%= f.label :ser_year, label: 'Year in Service', class: 'control-label text-bold fw-bold' %>
+
+        <%= f.input :ser_year, label: 'year', input_html: { class: 'form-control has-value' }%>
+        <%= f.error :ser_year %>
+      </div>
+    </div>
+
+    <div class="col-sm-4">
+      <div class="form-group ">
+       <br>
+        <%= f.input :ser_month, label: 'month', input_html: { class: 'form-control has-value' }%>
+        <%= f.error :ser_month %>
+      </div>
+    </div>
+  </div>
+
+  <div class="row justify-content-center">
+   
+
+     <div class="col-sm-4">
+      <div class="form-group ">
+       
+        <%= f.input :sup_name, label: 'Supervisor Name', input_html: { class: 'form-control has-value' }%>
+        <%= f.error :sup_name %>
+      </div>
+    </div>
+
+    <div class="col-sm-4">
+      <div class="form-group ">
+      
+        <%= f.input :sup_title, label: 'Supervisor Title', input_html: { class: 'form-control has-value' }%>
+        <%= f.error :sup_title %>
+      </div>
+    </div>
+  </div>
+
+  <br/>
+  <hr>
+  <%# <p> education layer </p> %>
+  <div class="card">
+  <h5 class="card-header text-uppercase">Educational Attainment</h5>
+  <div class="card-body">
+
+  <div class="row justify-content-center">
+    <div class="col-sm-4">
+      <div class="form-group ">
+        
+        <%= f.input :educ_course, label: 'Course', input_html: { class: 'form-control has-value' }%>
+        <%= f.error :educ_course %>
+      </div>
+    </div>
+
+    <div class="col-sm-4">
+      <div class="form-group ">
+         <%= f.label :educ_grad, 'Year of Graduation' %><br>
+            <%= f.date_field :educ_grad, class: 'form-control has-value', data: { controller: 'datepicker' }, max: Date.today.strftime('%Y-%m-%d') %>
+            <%= f.error :educ_grad %>
+      </div>
+    </div>
+
+    <div class="col-sm-4">
+      <div class="form-group ">
+        
+        <%= f.input :educ_skill, label: 'Skills', input_html: { class: 'form-control has-value' }%>
+        <%= f.error :educ_skill %>
+      </div>
+    </div>
+  </div>
+
+  <div class="row justify-content-center">
+    <div class="col-sm-4">
+      <div class="form-group ">
+      
+        <%= f.input :educ_certificate, label: 'Certificate', input_html: { class: 'form-control has-value' }%>
+        <%= f.error :educ_certificate %>
+      </div>
+    </div>
+
+    <div class="col-sm-4">
+      <div class="form-group ">
+       
+        <%= f.input :educ_othskill, label: 'Other Skills', input_html: { class: 'form-control has-value' }%>
+        <%= f.error :educ_othskill %>
+      </div>
+    </div>
+  </div>
+   </div>
+    </div>
+
+  <br>
+  <hr>
+  <%# <p> position details </p> %>
+   <div class="card">
+  <h5 class="card-header text-uppercase">Position Details</h5>
+  <div class="card-body">
+
+  <div class="row justify-content-center">
+    <div class="col-sm-4">
+      <div class="form-group ">
+       
+        <%= f.input :hr_perday, label: 'Hour Perday', input_html: { class: 'form-control has-value' }%>
+        <%= f.error :hr_perday %>
+      </div>
+    </div>
+
+    <div class="col-sm-4">
+      <div class="form-group ">
+        
+        <%= f.input :hr_perweek, label: 'Hour Perweek', input_html: { class: 'form-control has-value' }%>
+        <%= f.error :hr_perweek %>
+      </div>
+    </div>
+
+    <div class="col-sm-4">
+      <div class="form-group ">
+        <%= f.label :workday, class: 'control-label' %>
+        <%= f.input :workday, label: false, input_html: { class: 'form-control has-value' }%>
+        <%= f.error :workday %>
+      </div>
+    </div>
+
+    <div class="col -sm">
+      <div class="form-group">
+        
+        <%= f.input :break, label: 'Break Time', input_html: { class: 'form-control has-value' }%>
+        <%= f.error :break %>
+      </div>
+    </div>
+
+    <div class="col-sm">
+      <div class="form-group">
+       
+        <%= f.input :launch, label: 'Launch Time', input_html: { class: 'form-control has-value' }%>
+        <%= f.error :launch %>
+      </div>
+    </div>
+
+    <div class="col-sm">
+      <div class="form-group ">
+        <%= f.label :ot_weekday,label: 'Overtime Weekday' ,class: 'control-label' %>
+        <div>
+          <label class="radio-inline">
+            <%= f.radio_button :ot_weekday, true %>
+            Yes
+          </label>
+          <label class="radio-inline">
+            <%= f.radio_button :ot_weekday, false %>
+            No
+          </label>
+        </div>
+        <%= f.error :ot_weekday %>
+      </div>
+    </div>
+
+    <div class="col-sm-4">
+      <div class="form-group ">
+        <%= f.label :ot_weekend,label: 'Overtime Weekend' , class: 'control-label' %>
+        <div>
+          <label class="radio-inline">
+            <%= f.radio_button :ot_weekend, true %>
+            Yes
+          </label>
+          <label class="radio-inline">
+            <%= f.radio_button :ot_weekend, false %>
+            No
+          </label>
+        </div>
+        <%= f.error :ot_weekend %>
+      </div>
+    </div>
+  </div>
+  </div>
+  </div>
+  <br>
+  <hr>
+
+  <div class="row justify-content-center">
+    <div class="col">
+      <%# <%= f.simple_fields_for :benefits do |b| %>
+        <%# <%= render 'emp_details/benefit_fields', f: b %> 
+      <%# <% end %> 
+       
+      <%# <%= link_to_add_association 'Add New Benefit', f, :benefits, class: 'btn btn-secondary' %> 
+   <table class="table">
+  <thead>
+    <tr>
+      <th class="">Benefit</th>
+      <th class="text-right col-2">
+        <button type="button" class="btn btn-success" id="addrows">+</button>
+      </th>
+    </tr>
+  </thead>
+ <tbody id="benefittable">
+  <!-- Use fields_for to handle nested attributes -->
+<%= f.fields_for :benefits do |b| %>
+  <tr>
+    <td>
+      <%= b.input :benefit, input_html: {class: 'form-control'} %>
+    </td>
+    <td>
+    <br>
+      <button type="button" class="removebenefit btn btn-danger">Remove</button>
+     
+    </td>
+  </tr>
+<% end %>
+</tbody>
+</table>
+
+
+      
+    </div>
+  </div>
+
+  <br>
+<div class="form-actions">
+  <div class="col">
+    <%= f.button :submit, @button_label, name: 'save_button', class: action_name == 'new' ? 'btn btn-primary' : 'btn btn-success' %>
+  
+  </div>
+</div>
+  <br>
+<% end %>
+
+<script>
+  document.getElementById('addrows').addEventListener('click', function() {
+    var tbody = document.getElementById('benefittable');
+    var rowCount = tbody.getElementsByTagName('tr').length;
+
+    var newRow = document.createElement('tr');
+    newRow.innerHTML = `
+      <td>
+        <input type="text" name="emp_detail[benefits_attributes][${rowCount}][benefit]" class="form-control">
+      </td>
+      <td>
+        <button type="button" class="removebenefit btn btn-danger">Remove</button>
+      </td>
+    `;
+
+    tbody.appendChild(newRow);
+  });
+
+  // Add event listener to handle remove button clicks
+  document.getElementById('benefittable').addEventListener('click', function(e) {
+    if (e.target && e.target.className.includes('removebenefit')) {
+      var row = e.target.closest('tr');
+      row.parentNode.removeChild(row);
+    }
+  });
+</script>
+

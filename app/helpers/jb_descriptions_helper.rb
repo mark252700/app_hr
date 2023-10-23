@@ -1,0 +1,2 @@
+module JbDescriptionsHelper
+end

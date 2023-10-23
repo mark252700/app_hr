@@ -1,0 +1,36 @@
+<%= content_tag :h1, "List of Jb Descriptions" %>
+
+
+<div class="text-end mb-3">
+  <%= link_to new_jb_description_path, class: 'btn btn-primary' do %>
+    New Jb Description
+  <% end %>
+</div>
+
+
+  <table class="table table-striped table-bordered table-hover">
+    <thead>
+      <tr>
+      <th>#</th>
+            <th>Description</th>
+            <th></th>
+        </tr>
+    </thead>
+
+    <tbody>
+      <% @jb_descriptions.each do |jb_description| %>
+        <tr>
+
+        <th scope="row"><%= jb_description.id %></th>
+        <td><%= jb_description.description %></td>
+    
+          <td>
+            <%= link_to 'View', jb_description, class: 'btn btn-secondary btn-sm' %>
+            <%= link_to 'Edit', edit_jb_description_path(jb_description), class: 'btn btn-secondary btn-sm' %>
+            <%= link_to "Delete", jb_description, class: "btn btn-danger btn-sm", method: :delete, data: { "turbo-method": :delete, turbo_confirm: "Are you sure?" } %>
+          </td>
+
+        </tr>
+      <% end %>
+    </tbody>
+  </table>

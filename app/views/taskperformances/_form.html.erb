@@ -1,0 +1,190 @@
+<style>
+  /* Add CSS to float the button to the right */
+  #addRowBtn, #addrows, #float {
+    float: right;
+     margin-left: 10px;
+  }
+</style>
+
+<%= simple_form_for(@taskperformance) do |f| %>
+  <%= f.error_notification %>
+  <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
+
+  <div class="row justify-content-center">
+    <div class="col">
+      <div class="form-group">
+        <button type="button" id="addRowBtn" class="btn btn-success">+</button>
+        <table class="table table-responsive-lg">
+          <thead class="border border">
+            <td class="col-4">
+      <div class="mb-3">
+        <%= f.input :task_notdone, label: 'Task that are not done', input_html: { class: 'form-control' } %>
+      </div>
+    </td>
+    <td class="col-4">
+      <div class="mb-3">
+        <%= f.input :task_reason, label: 'Reasons for not doing the task', input_html: { class: 'form-control' } %>
+      </div>
+    </td>
+    <td class="col-4">
+      <div class="mb-3">
+        <%= f.input :task_impact, label: 'Impact of not doing the task', input_html: { class: 'form-control' } %>
+      </div>
+    </td>
+    <td class="col">
+      <div class="mb-3">
+        <button type="button" class="remove-row btn btn-danger">Remove</button>
+      </div>
+    </td>
+          </thead>
+          <tbody class="border" id="formContainer">
+          
+        
+         
+    <%= f.fields_for :nested_taskperfomances do |t| %>
+ <tr>
+    <td class="col-4">
+      <div class="mb-3">
+        <%= t.input :task_notdone, label: 'Task that are not done', input_html: { class: 'form-control' } %>
+      </div>
+    </td>
+    <td class="col-4">
+      <div class="mb-3">
+        <%= t.input :task_reason, label: 'Reasons for not doing the task', input_html: { class: 'form-control' } %>
+      </div>
+    </td>
+    <td class="col-4">
+      <div class="mb-3">
+        <%= t.input :task_impact, label: 'Impact of not doing the task', input_html: { class: 'form-control' } %>
+      </div>
+    </td>
+    <td class="col">
+      <div class="mb-3">
+        <button type="button" class="remove-row btn btn-danger">Remove</button>
+      </div>
+    </td>
+    
+  </tr>
+<%end%>
+
+
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <br>
+  <hr>
+  <div class="card">
+    <h5 class="card-header">Required Competencies</h5>
+    <div class="card-body">
+      <div class="container mt-4">
+        <div class="row justify-content-center">
+          <div class="col">
+            <table class="table table-lg">
+              <button type="button" class="btn btn-success" id="addrows">+</button>
+              <thead>
+                
+              </thead>
+              <tbody id="benefittable">
+                <!-- Use fields_for to handle nested attributes -->
+                <%= f.fields_for :competencies do |b| %>
+                  <tr>
+                    <td class="col-11">
+                      <%= b.input :competencies, input_html:{class: 'form-control'} %>
+                    </td>
+                    <td>
+                    <br>
+                      <button type="button" class="removebenefit btn btn-danger">Remove</button>
+                    
+                    </td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+<br>
+  <div class="form-actions">
+      <%= f.button :submit, @button_label, name: 'save_button', class: action_name == 'new' ? 'btn btn-primary' : 'btn btn-success' %>
+     
+     <% if (jb_description = current_user.jb_description).present? %>
+    <%= link_to 'Previous', edit_jb_description_path(jb_description), id: 'float' ,class: 'btn btn-secondary' %>
+  <% end %>
+  </div>
+<% end %>
+
+<script>
+document.getElementById('addRowBtn').addEventListener('click', function() {
+  var tbody = document.getElementById('formContainer');
+  var rowCount = tbody.getElementsByTagName('tr').length;
+
+  var newRow = document.createElement('tr');
+  newRow.innerHTML = `
+    <td class="col-4">
+      <div class="mb-3">
+        <label>Task Not Done</label>
+        <input type="text" name="taskperformance[nested_taskperfomances_attributes][${rowCount}][task_notdone]" class="form-control">
+      </div>
+    </td>
+    <td class="col-4">
+      <div class="mb-3">
+        <label>Reason for Not Doing</label>
+        <input type="text" name="taskperformance[nested_taskperfomances_attributes][${rowCount}][task_reason]" class="form-control">
+      </div>
+    </td>
+    <td class="col-4">
+      <div class="mb-3">
+        <label>Impact of Not Doing</label>
+        <input type="text" name="taskperformance[nested_taskperfomances_attributes][${rowCount}][task_impact]" class="form-control">
+      </div>
+    </td>
+     <td class="col">
+     <br>
+      <div class="mb-3">
+        <button type="button" class="remove-row btn btn-danger">Remove</button>
+      </div>
+    </td>
+  `;
+
+  tbody.appendChild(newRow);
+});
+
+// Add event listener to handle remove button clicks
+document.getElementById('formContainer').addEventListener('click', function(e) {
+  if (e.target && e.target.className == 'btn btn-danger remove-row') {
+    var row = e.target.closest('tr');
+    row.parentNode.removeChild(row);
+  }
+});
+
+
+  document.getElementById('addrows').addEventListener('click', function() {
+  var tbody = document.getElementById('benefittable');
+  var rowCount = tbody.getElementsByTagName('tr').length;
+  
+  var newRow = document.createElement('tr');
+  newRow.innerHTML = `
+    <td class="col-11">
+      <input type="text" name="taskperformance[competencies_attributes][${rowCount}][competencies]" class="form-control">
+    </td>
+    <td>
+      <button type="button" class="removebenefit btn btn-danger">Remove</button>
+    </td>
+  `;
+  
+  tbody.appendChild(newRow);
+});
+
+  // Add event listener to handle remove button clicks
+  document.getElementById('benefittable').addEventListener('click', function(e) {
+    if (e.target && e.target.className == 'removebenefit btn btn-danger') {
+      var row = e.target.closest('tr');
+      row.parentNode.removeChild(row);
+    }
+  });
+</script>
+

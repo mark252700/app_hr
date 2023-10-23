@@ -1,0 +1,9 @@
+
+<%= render @req_training %>
+
+<div>
+  <%= link_to "Edit", edit_req_training_path(@req_training), class: 'btn btn-primary' %> |
+  <%= link_to "Back", req_trainings_path, class: 'btn btn-primary' %>
+
+  <%= button_to "Delete", @req_training, method: :delete, class: 'btn btn-danger' %>
+</div>

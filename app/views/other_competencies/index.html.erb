@@ -1,0 +1,36 @@
+<%= content_tag :h1, "List of Other Competencies" %>
+
+
+<div class="text-end mb-3">
+  <%= link_to new_other_competency_path, class: 'btn btn-primary' do %>
+    New Other Competency
+  <% end %>
+</div>
+
+
+  <table class="table table-striped table-bordered table-hover">
+    <thead>
+      <tr>
+      <th>#</th>
+            <th>Competencies</th>
+            <th></th>
+        </tr>
+    </thead>
+
+    <tbody>
+      <% @other_competencies.each do |other_competency| %>
+        <tr>
+
+        <th scope="row"><%= other_competency.id %></th>
+        <td><%= other_competency.competencies %></td>
+    
+          <td>
+            <%= link_to 'View', other_competency, class: 'btn btn-secondary btn-sm' %>
+            <%= link_to 'Edit', edit_other_competency_path(other_competency), class: 'btn btn-secondary btn-sm' %>
+            <%= link_to "Delete", other_competency, class: "btn btn-danger btn-sm", method: :delete, data: { "turbo-method": :delete, turbo_confirm: "Are you sure?" } %>
+          </td>
+
+        </tr>
+      <% end %>
+    </tbody>
+  </table>

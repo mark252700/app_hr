@@ -1,0 +1,11 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  task_notdone: MyString
+  task_reason: MyString
+  task_impact: MyString
+
+two:
+  task_notdone: MyString
+  task_reason: MyString
+  task_impact: MyString

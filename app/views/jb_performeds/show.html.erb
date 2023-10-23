@@ -1,0 +1,9 @@
+
+<%= render @jb_performed %>
+
+<div>
+  <%= link_to "Edit", edit_jb_performed_path(@jb_performed), class: 'btn btn-primary' %> |
+  <%= link_to "Back", jb_performeds_path, class: 'btn btn-primary' %>
+
+  <%= button_to "Delete", @jb_performed, method: :delete, class: 'btn btn-danger' %>
+</div>

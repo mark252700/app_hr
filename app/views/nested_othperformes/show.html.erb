@@ -1,0 +1,9 @@
+
+<%= render @nested_othperforme %>
+
+<div>
+  <%= link_to "Edit", edit_nested_othperforme_path(@nested_othperforme), class: 'btn btn-primary' %> |
+  <%= link_to "Back", nested_othperformes_path, class: 'btn btn-primary' %>
+
+  <%= button_to "Delete", @nested_othperforme, method: :delete, class: 'btn btn-danger' %>
+</div>

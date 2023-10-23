@@ -1,0 +1,420 @@
+<%= render "show", title: "User Details" do %>
+<div class="card">
+  <h5 class="card-header text-uppercase">Employee Details</h5>
+  <div class="card-body">
+    <table class="table table-bordered table-striped">
+      <tbody>
+        <tr>
+          <td><strong>Full Name:</strong></td>
+          <td><%= @emp_detail.fullname&.upcase %></td>
+          <td><strong>Position Title:</strong></td>
+          <td><%= @emp_detail.pos_title&.upcase %></td>
+        </tr>
+        <tr>
+          <td><strong>Employee ID:</strong></td>
+          <td><%= @emp_detail.emp_id %></td>
+          <td><strong>Years in Service:</strong></td>
+          <td><strong>Years:</strong> <%= @emp_detail.ser_year %></td>
+          <td><strong>Month:</strong> <%= @emp_detail.ser_month %></td>
+        </tr>
+        <tr>
+          <td><strong>Email:</strong></td>
+          <td><%= @user.email.upcase %></td>
+          <td><strong>Mobile No.:</strong></td>
+          <td><%= @emp_detail.contact %></td>
+        </tr>
+        <tr>
+         <td><strong>Division:</strong></td>
+          <td> <%= @emp_detail.division&.upcase %></td>
+          <td><strong>Department:</strong> </td>
+          <td><%= @emp_detail.department&.upcase %></td>
+        </tr>
+         <tr>
+         <td><strong>Supervisor Name:</strong></td>
+          <td> <%= @emp_detail.sup_name&.upcase %></td>
+          <td><strong>Supervisor Title:</strong> </td>
+          <td><%= @emp_detail.sup_title&.upcase %></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<br>
+<div class="card">
+  <h5 class="card-header text-uppercase">Educational Attainment</h5>
+  <div class="card-body">
+    <table class="table table-bordered table-striped">
+      <tbody>
+        <tr>
+          <td><strong>Course:</strong></td>
+          <td><%= @emp_detail.educ_course&.upcase %></td>
+          <td><strong>Year Graduated:</strong></td>
+          <td><%= @emp_detail.educ_grad&.strftime("%B %d, %Y") %></td>
+        </tr>
+        <tr>
+          <td><strong>Skills:</strong></td>
+          <td><%= @emp_detail.educ_skill&.upcase %></td>
+          <td><strong>Certificate:</strong></td>
+          <td><%= @emp_detail.educ_certificate&.upcase %></td>
+        </tr>
+        <tr>
+          <td><strong>Other Skills:</strong></td>
+          <td><%= @emp_detail.educ_othskill&.upcase %></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<br>
+<div class="card">
+  <h5 class="card-header text-uppercase">Position Details</h5>
+  <div class="card-body">
+    <table class="table table-bordered table-striped">
+      <tbody>
+        <tr>
+          <td><strong>Work Hours Perday:</strong></td>
+          <td><%= @emp_detail.hr_perday %></td>
+          <td><strong>Work Hours Perweek:</strong></td>
+          <td><%= @emp_detail.hr_perweek %></td>
+        </tr>
+        <tr>
+          <td><strong>Break Time:</strong></td>
+          <td><%= @emp_detail.break %></td>
+          <td><strong>Launch Time:</strong></td>
+          <td><%= @emp_detail.launch %></td>
+           <td><strong>Workdays:</strong></td>
+          <td><%= @emp_detail.workday %></td>
+        </tr>
+        <tr>
+          <td><strong>Overtime Weekday:</strong></td>
+          <td>
+            <%= @emp_detail.ot_weekday ? 'Yes' : 'No' %>
+          </td>
+          <td><strong>Overtime Weekend:</strong></td>
+          <td> <% if @emp_detail.ot_weekend.present? %>
+            <%= @emp_detail.ot_weekend ? 'Yes' : 'No' %>
+            <% end %></td>
+          <td><strong>Benefits:</strong></td>
+           <ul>
+                <% if @emp_detail.benefits.present? %>
+                <% @emp_detail.benefits.each do |benefit| %>
+                    <li><%= benefit.benefit %></li>
+                <% end %>
+                <% else %>
+                <li>No benefits found</li>
+                <% end %>
+            </ul>
+          </td>
+        </tr>
+        
+          
+       
+      </tbody>
+    </table>
+  </div>
+</div>
+
+
+<div class="card">
+  <h5 class="card-header text-uppercase">Job Description</h5>
+  <div class="card-body">
+    <table class="table table-bordered table-striped">
+      <tbody>
+       
+          <tr>
+            <td><strong>Job Description</strong></td>
+            <td><%= @jb_description.description %></td>
+          </tr>
+
+<% if @jb_description.jb_performeds.present? %>
+<table class="table table-bordered table-striped">
+  <thead>
+    <tr>
+      <td><strong>Job Performed</strong></td>
+      <td><strong>Whenever this work done</strong></td>
+      <td><strong>Time alloted for this job</strong></td>
+      <td><strong>Is this within your current job description</strong></td>
+      <td><strong>Reasons for doing this task</strong></td>
+    </tr>
+  </thead>
+  <tbody>
+    <% if @jb_description.jb_performeds.present? %>
+      <% @jb_description.jb_performeds.each do |jb_performed| %>
+        <tr>
+          <td><%= jb_performed.job_performed.upcase %></td>
+          <td><%= jb_performed.job_done.upcase %></td>
+          <td><%= "#{jb_performed.job_hr} hour/s #{jb_performed.job_min} mins" %></td>
+          <td><%= jb_performed.job_current ? 'Yes' : 'No' %></td>
+          <td><%= jb_performed.job_reason %></td>
+        </tr>
+      <% end %>
+    <% else %>
+      <tr>
+        <td colspan="5">No job performed data available</td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<% else %>
+  <!-- Handle the case when jb_performeds is nil or empty -->
+  <p>No job performed data available</p>
+<% end %>
+  </div>
+</div>
+
+<br>
+<div class="card">
+  <h5 class="card-header text-uppercase">Task Performance</h5>
+  <div class="card-body">
+    <table class="table table-bordered table-striped">
+    <thead>
+    <tr>
+    <td><strong>Required Competencies</strong></td>
+    </tr>
+    </thead>
+      <tbody>
+        <% @taskperformance.competencies.each do |competency| %>
+          <tr>
+            
+            <td><%= competency.competencies %></td>
+          </tr>
+        <% end %>
+
+           <table class="table table-bordered table-striped">
+      <thead>
+        <tr>
+          <td><strong>Job Performed</strong></td>
+          <td><strong>Whenever this work done</strong></td>
+          <td><strong>Time alloted for this job</strong></td>
+          <td><strong>Is this within your current job description</strong></td>
+          <td><strong>Reasons for doing this task</strong></td>
+        </tr>
+      </thead>
+      <tbody>
+        <% @jb_description.jb_performeds.each do |jb_performed| %>
+          <tr>
+            <td><%= jb_performed.job_performed.upcase %></td>
+            <td><%= jb_performed.job_done.upcase %></td>
+            <td><%= "#{jb_performed.job_hr} hour/s #{jb_performed.job_min} mins" %></td>
+            <td><%= jb_performed.job_current ? 'Yes' : 'No' %></td>
+            <td><%= jb_performed.job_reason %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+
+        <table class="table table-bordered table-striped">
+          <thead>
+            <tr>
+              <td><strong>Job Performed</strong></td>
+              <td><strong>Whenever this work done</strong></td>
+              <td><strong>Time allotted for this job</strong></td>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><%= @taskperformance.task_notdone&.upcase %></td>
+              <td><%= @taskperformance.task_reason&.upcase %></td>
+              <td><%= @taskperformance.task_impact&.upcase %></td>
+            </tr>
+            <% @taskperformance.nested_taskperfomances.each do |nested| %>
+              <tr>
+                <td><%= nested.task_notdone.upcase %></td>
+                <td><%= nested.task_reason.upcase %></td>
+                <td><%= nested.task_impact.upcase %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<br>
+
+<div class="card">
+  <h5 class="card-header text-uppercase">Other Position Handle</h5>
+  <div class="card-body">
+    <table class="table table-bordered table-striped">
+   
+      <tbody>
+      
+         <tr>
+  <td><strong>Job Performed</strong></td>
+  <td><strong>Years in Position</strong></td>
+</tr>
+
+  <tr>
+    <td><%= @oth_performed.oth_position.pos_title&.upcase %></td>
+    <td><%= "#{@oth_performed.oth_position.pos_yr} years #{@oth_performed.oth_position.pos_month} months" %></td>
+  </tr>
+
+
+<table class="table table-bordered table-striped">
+    <thead>
+    <tr>
+    <td><strong>Other Competencies</strong></td>
+    </tr>
+    </thead>
+      <tbody>
+        <% @oth_performed.other_competencies.each do |competencies| %>
+          <tr>
+            
+            <td><%= competencies.competencies %></td>
+          </tr>
+        <% end %>
+          </tbody>
+
+           <table class="table table-bordered table-striped">
+      <thead>
+        <tr>
+          <td><strong>Job Performed</strong></td>
+          <td><strong>Whenever this work done</strong></td>
+          <td><strong>Time alloted for this job</strong></td>
+          <td><strong>Is this within your current job description</strong></td>
+          <td><strong>Reasons for doing this task</strong></td>
+        </tr>
+      </thead>
+      <tbody>
+      <tr>
+            <td><%= @oth_performed.job_performed&.upcase %></td>
+            <td><%= @oth_performed.job_done&.upcase %></td>
+            <td><%= "#{@oth_performed.job_hr} hour/s #{@oth_performed.job_min} mins" %></td>
+            <td><%= @oth_performed.job_current ? 'Yes' : 'No' %></td>
+            <td><%= @oth_performed.job_reason&.upcase %></td>
+          </tr>
+        <% @oth_performed.nested_othperformes.each do |performes| %>
+          <tr>
+            <td><%= performes.job_performed.upcase %></td>
+            <td><%= performes.job_done.upcase %></td>
+            <td><%= "#{performes.job_hr} hour/s #{performes.job_min} mins" %></td>
+            <td><%= performes.job_current ? 'Yes' : 'No' %></td>
+            <td><%= performes.job_reason %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+
+        <table class="table table-bordered table-striped">
+          <thead>
+            <tr>
+              <td><strong>Job Performed</strong></td>
+              <td><strong>Whenever this work done</strong></td>
+              <td><strong>Time allotted for this job</strong></td>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><%= @taskperformance.task_notdone&.upcase %></td>
+              <td><%= @taskperformance.task_reason&.upcase %></td>
+              <td><%= @taskperformance.task_impact&.upcase %></td>
+            </tr>
+            <% @taskperformance.nested_taskperfomances.each do |nested| %>
+              <tr>
+                <td><%= nested.task_notdone.upcase %></td>
+                <td><%= nested.task_reason.upcase %></td>
+                <td><%= nested.task_impact.upcase %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<br>
+
+<div class="card">
+  <h5 class="card-header text-uppercase">Required Training</h5>
+  <div class="card-body">
+    
+           <table class="table table-bordered table-striped">
+      <thead>
+        <tr>
+          <td><strong>Type of Training</strong></td>
+          <td><strong>Benefits of training in your current role</strong></td>
+          <td><strong>Supervisor Name</strong></td>
+          <td><strong>Supervisor Title</strong></td>
+         
+        </tr>
+      </thead>
+      <tbody>
+      <tr>
+            <td><%= @req_training.train_type.upcase %></td>
+            <td><%= @req_training.train_benefit.upcase %></td>
+            <td><%= @req_training.sup_name.upcase %></td>
+            <td><%= @req_training.sup_title.upcase %></td>
+          </tr>
+        <% @req_training.nested_trainings.each do |training| %>
+          <tr>
+            <td><%= training.train_type.upcase %></td>
+            <td><%= training.train_benefit.upcase %></td>
+            <td><%= training.sup_name  %></td>
+            <td><%= training.sup_title %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+    </div>
+    </div>
+
+    <br>
+
+<div class="card">
+  <h5 class="card-header text-uppercase">Previous Training Related to the Job Role</h5>
+  <div class="card-body">
+        <table class="table table-bordered table-striped">
+          <thead>
+        <tr>
+          <td><strong>Type of Training</strong></td>
+          <td><strong>Benefits of training in your current role</strong></td>
+        </tr>
+      </thead>
+      <tbody>
+      <tr>
+           
+        <% @req_training.rel_trainings.each do |reltraining| %>
+          <tr>
+            <td><%= reltraining.train_type.upcase %></td>
+            <td><%= reltraining.train_benefit.upcase %></td> 
+          </tr>
+        <% end %>
+      </tbody>
+        </table>
+      </tbody>
+    </table>
+</div>
+</div>
+
+<br>
+
+<div class="card">
+  <h5 class="card-header text-uppercase">Previous Training Not Related to the Job Role</h5>
+  <div class="card-body">
+     <table class="table table-bordered table-striped">
+          <thead>
+        <tr>
+          <td><strong>Type of Training</strong></td>
+          <td><strong>Benefits of training in your current role</strong></td>
+        </tr>
+      </thead>
+      <tbody>
+      <tr>
+           
+        <% @req_training.notrel_trainings.each do |notreltraining| %>
+          <tr>
+            <td><%= notreltraining.train_type.upcase %></td>
+            <td><%= notreltraining.train_benefit.upcase %></td> 
+          </tr>
+        <% end %>
+      </tbody>
+        </table>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+ <% end %>

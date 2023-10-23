@@ -1,0 +1,9 @@
+
+<%= render @oth_competency %>
+
+<div>
+  <%= link_to "Edit", edit_oth_competency_path(@oth_competency), class: 'btn btn-primary' %> |
+  <%= link_to "Back", oth_competencies_path, class: 'btn btn-primary' %>
+
+  <%= button_to "Delete", @oth_competency, method: :delete, class: 'btn btn-danger' %>
+</div>

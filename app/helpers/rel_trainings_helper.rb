@@ -1,0 +1,2 @@
+module RelTrainingsHelper
+end

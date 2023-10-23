@@ -1,0 +1,165 @@
+<style>
+  /* Add CSS to float the button to the right */
+  #addRowBtns, #NewCompetencies {
+    float: right;
+  }
+</style>
+
+<%= simple_form_for(@task_perfomance) do |f| %>
+  <%= f.error_notification %>
+  <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
+
+  <div class="row justify-content-center">
+    <div class="col">
+      <div class="form-group ">
+ 
+   <button type="button" id="addRowBtns" class="btn btn-success">+</button>
+    <table class="table table-responsive-lg">
+      <thead class="border border-dark border-3">
+        <!-- Define your table headers here if needed -->
+      </thead>
+      <tbody class="border" id="formContainers">
+        <tr>
+          <td class="col-4">
+            <div class="mb-3">
+              <%= f.input :task_notdone, label: 'Task that are not done', input_html: { class: 'form-control' } %>
+            </div>
+          </td>
+          <td class="col-4">
+            <div class="mb-3">
+              <%= f.input :task_reason, label: 'Reasons for not doing the task', input_html: { class: 'form-control' } %>
+            </div>
+          </td>
+          <td class="col-4">
+            <div class="mb-3">
+              <%= f.input :task_impact, label: 'Impact of not doing the task', input_html: { class: 'form-control' } %>
+            </div>
+          </td>
+          <td class="col">
+            <div class="mb-3">
+              <button type="button" class="remove-row btn btn-danger">Remove</button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+ </div>
+  </div>
+   </div>
+<br>
+<hr>
+<div class="card">
+  <h5 class="card-header ">Required Competencies</h5>
+  <div class="card-body">
+    <div class="container mt-4">
+      <div class="row justify-content-center">
+        <div class="col">
+          <table class="table table-responsive-lg">
+            <button type="button" id="NewCompetencies" class="btn btn-success">+</button>
+            <tbody class="border" id="formCompetencies">
+            <%= f.fields_for :competencies do |r| %>
+                <tr>
+                  <td class="col-11">
+                    <div class="mb-3">
+                      <%= r.label :competencies, 'Competencies' %>
+                      <%= r.input :competencies, label: false, class: 'form-control' %>
+                    </div>
+                  </td>
+                  <td class="col-1">
+                    <div class="mb-2">
+                      <br>
+                      <button type="button" class="remove-competencies btn btn-danger">Remove</button>
+                    </div>
+                  </td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+   
+
+  <div class="form-actions">
+    <%= f.button :submit %>
+  </div>
+<% end %>
+
+<script>
+document.getElementById('addRowBtns').addEventListener('click', function () {
+  var tbody = document.getElementById('formContainers');
+  var rowCount = tbody.getElementsByTagName('tr').length;
+
+  var newRow = document.createElement('tr');
+  newRow.innerHTML = `
+    <td class="col-4">
+      <div class="mb-3">
+        <label>Task that are not done</label>
+        <input type="text" name="task_perfomance[${rowCount}][task_notdone]" class="form-control">
+      </div>
+    </td>
+    <td class="col-4">
+      <div class="mb-3">
+        <label>Reasons for not doing the task</label>
+        <input type="text" name="task_perfomance[${rowCount}][task_reason]" class="form-control">
+      </div>
+    </td>
+    <td class="col-4">
+      <div class="mb-3">
+        <label>Impact of not doing the task</label>
+        <input type="text" name="task_perfomance[${rowCount}][task_impact]" class="form-control">
+      </div>
+    </td>
+    <td class="col">
+      <div class="mb-3">
+        <button type="button" class="remove-row btn btn-danger">Remove</button>
+      </div>
+    </td>
+  `;
+
+  tbody.appendChild(newRow);
+});
+
+// Add event listener to handle remove button clicks
+document.getElementById('formContainers').addEventListener('click', function (e) {
+  if (e.target && e.target.className == 'remove-row btn btn-danger') {
+    var row = e.target.closest('tr');
+    row.parentNode.removeChild(row);
+  }
+});
+
+
+  document.getElementById('NewCompetencies').addEventListener('click', function () {
+    var tbody = document.getElementById('formCompetencies');
+    var rowCount = tbody.getElementsByTagName('tr').length;
+
+    var newRow = document.createElement('tr');
+    newRow.innerHTML = `
+      <td class="col-11">
+        <div class="mb-3">
+          <label>Competencies</label>
+          <input type="text" name="task_performance[competencies_attributes][${rowCount}][competencies]" class="form-control">
+        </div>
+      </td>
+      <td class="col-1">
+        <div class="mb-2">
+          <br>
+          <button type="button" class="remove-competencies btn btn-danger">Remove</button>
+        </div>
+      </td>
+    `;
+
+    tbody.appendChild(newRow);
+  });
+
+  // Add event listener to handle remove button clicks for Required Competencies
+  document.getElementById('formCompetencies').addEventListener('click', function (e) {
+    if (e.target && e.target.className == 'remove-competencies btn btn-danger') {
+      var row = e.target.closest('tr');
+      row.parentNode.removeChild(row);
+    }
+  });
+</script>
+

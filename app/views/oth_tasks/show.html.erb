@@ -1,0 +1,9 @@
+
+<%= render @oth_task %>
+
+<div>
+  <%= link_to "Edit", edit_oth_task_path(@oth_task), class: 'btn btn-primary' %> |
+  <%= link_to "Back", oth_tasks_path, class: 'btn btn-primary' %>
+
+  <%= button_to "Delete", @oth_task, method: :delete, class: 'btn btn-danger' %>
+</div>

@@ -1,0 +1,46 @@
+<%= content_tag :h1, "List of Jb Performeds" %>
+
+
+<div class="text-end mb-3">
+  <%= link_to new_jb_performed_path, class: 'btn btn-primary' do %>
+    New Jb Performed
+  <% end %>
+</div>
+
+
+  <table class="table table-striped table-bordered table-hover">
+    <thead>
+      <tr>
+      <th>#</th>
+            <th>Job Performed</th>
+            <th>Job Done</th>
+            <th>Job Hr</th>
+            <th>Job Min</th>
+            <th>Job Current</th>
+            <th>Job Reason</th>
+            <th></th>
+        </tr>
+    </thead>
+
+    <tbody>
+      <% @jb_performeds.each do |jb_performed| %>
+        <tr>
+
+        <th scope="row"><%= jb_performed.id %></th>
+        <td><%= jb_performed.job_performed %></td>
+        <td><%= jb_performed.job_done %></td>
+        <td><%= jb_performed.job_hr %></td>
+        <td><%= jb_performed.job_min %></td>
+        <td><%= jb_performed.job_current %></td>
+        <td><%= jb_performed.job_reason %></td>
+    
+          <td>
+            <%= link_to 'View', jb_performed, class: 'btn btn-secondary btn-sm' %>
+            <%= link_to 'Edit', edit_jb_performed_path(jb_performed), class: 'btn btn-secondary btn-sm' %>
+            <%= link_to "Delete", jb_performed, class: "btn btn-danger btn-sm", method: :delete, data: { "turbo-method": :delete, turbo_confirm: "Are you sure?" } %>
+          </td>
+
+        </tr>
+      <% end %>
+    </tbody>
+  </table>

@@ -1,0 +1,40 @@
+<%= content_tag :h1, "List of Taskperformances" %>
+
+
+<div class="text-end mb-3">
+  <%= link_to new_taskperformance_path, class: 'btn btn-primary' do %>
+    New Taskperformance
+  <% end %>
+</div>
+
+
+  <table class="table table-striped table-bordered table-hover">
+    <thead>
+      <tr>
+      <th>#</th>
+            <th>Task Notdone</th>
+            <th>Task Reason</th>
+            <th>Task Impact</th>
+            <th></th>
+        </tr>
+    </thead>
+
+    <tbody>
+      <% @taskperformances.each do |taskperformance| %>
+        <tr>
+
+        <th scope="row"><%= taskperformance.id %></th>
+        <td><%= taskperformance.task_notdone %></td>
+        <td><%= taskperformance.task_reason %></td>
+        <td><%= taskperformance.task_impact %></td>
+    
+          <td>
+            <%= link_to 'View', taskperformance, class: 'btn btn-secondary btn-sm' %>
+            <%= link_to 'Edit', edit_taskperformance_path(taskperformance), class: 'btn btn-secondary btn-sm' %>
+            <%= link_to "Delete", taskperformance, class: "btn btn-danger btn-sm", method: :delete, data: { "turbo-method": :delete, turbo_confirm: "Are you sure?" } %>
+          </td>
+
+        </tr>
+      <% end %>
+    </tbody>
+  </table>

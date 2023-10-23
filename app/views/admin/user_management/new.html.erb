@@ -1,0 +1,40 @@
+<!-- app/views/admin/user_management/new.html.erb -->
+<%= render "user_modal", title: "New user" do %>
+<div class="container">
+  <h2>Create User</h2>
+
+  <%= simple_form_for [:admin, @user], url: admin_user_management_index_path, method: :post do |f| %>
+    <%= f.error_notification %>
+
+    <div class="form-group">
+      <%= f.input :email, required: true, autofocus: true, input_html: { class: "form-control", autocomplete: "email" } %>
+    </div>
+
+    <div class="form-group">
+      <%= f.input :password, required: true, hint: ("Minimum #{@minimum_password_length} characters" if @minimum_password_length), input_html: { class: "form-control", autocomplete: "new-password" } %>
+    </div>
+
+    <div class="form-group">
+      <%= f.input :password_confirmation, required: true, input_html: { class: "form-control", autocomplete: "new-password" } %>
+    </div>
+
+    <div class="form-group">
+      <p>Role:</p>
+          <div class="form-check form-check-inline">
+      <%= f.radio_button :role, true, class: "form-check-input" %>
+      <label class="form-check-label">Admin</label>
+    </div>
+
+    <div class="form-check form-check-inline">
+      <%= f.radio_button :role, false, class: "form-check-input" %>
+      <label class="form-check-label">Client</label>
+    </div>
+    </div>
+
+    <br>
+    <div class="form-group">
+      <%= f.button :submit, "Create User", class: "btn btn-primary" %>
+    </div>
+  <% end %>
+</div>
+<% end %>

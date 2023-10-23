@@ -1,0 +1,40 @@
+<%= content_tag :h1, "List of Other Tasks" %>
+
+
+<div class="text-end mb-3">
+  <%= link_to new_other_task_path, class: 'btn btn-primary' do %>
+    New Other Task
+  <% end %>
+</div>
+
+
+  <table class="table table-striped table-bordered table-hover">
+    <thead>
+      <tr>
+      <th>#</th>
+            <th>Task Notdone</th>
+            <th>Task Reason</th>
+            <th>Task Impact</th>
+            <th></th>
+        </tr>
+    </thead>
+
+    <tbody>
+      <% @other_tasks.each do |other_task| %>
+        <tr>
+
+        <th scope="row"><%= other_task.id %></th>
+        <td><%= other_task.task_notdone %></td>
+        <td><%= other_task.task_reason %></td>
+        <td><%= other_task.task_impact %></td>
+    
+          <td>
+            <%= link_to 'View', other_task, class: 'btn btn-secondary btn-sm' %>
+            <%= link_to 'Edit', edit_other_task_path(other_task), class: 'btn btn-secondary btn-sm' %>
+            <%= link_to "Delete", other_task, class: "btn btn-danger btn-sm", method: :delete, data: { "turbo-method": :delete, turbo_confirm: "Are you sure?" } %>
+          </td>
+
+        </tr>
+      <% end %>
+    </tbody>
+  </table>

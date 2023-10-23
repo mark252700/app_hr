@@ -1,0 +1,9 @@
+
+<%= render @jb_description %>
+
+<div>
+  <%= link_to "Edit", edit_jb_description_path(@jb_description), class: 'btn btn-primary' %> |
+  <%= link_to "Back", jb_descriptions_path, class: 'btn btn-primary' %>
+
+  <%= button_to "Delete", @jb_description, method: :delete, class: 'btn btn-danger' %>
+</div>

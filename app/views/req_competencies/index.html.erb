@@ -1,0 +1,36 @@
+<%= content_tag :h1, "List of Req Competencies" %>
+
+
+<div class="text-end mb-3">
+  <%= link_to new_req_competency_path, class: 'btn btn-primary' do %>
+    New Req Competency
+  <% end %>
+</div>
+
+
+  <table class="table table-striped table-bordered table-hover">
+    <thead>
+      <tr>
+      <th>#</th>
+            <th>Competencies</th>
+            <th></th>
+        </tr>
+    </thead>
+
+    <tbody>
+      <% @req_competencies.each do |req_competency| %>
+        <tr>
+
+        <th scope="row"><%= req_competency.id %></th>
+        <td><%= req_competency.competencies %></td>
+    
+          <td>
+            <%= link_to 'View', req_competency, class: 'btn btn-secondary btn-sm' %>
+            <%= link_to 'Edit', edit_req_competency_path(req_competency), class: 'btn btn-secondary btn-sm' %>
+            <%= link_to "Delete", req_competency, class: "btn btn-danger btn-sm", method: :delete, data: { "turbo-method": :delete, turbo_confirm: "Are you sure?" } %>
+          </td>
+
+        </tr>
+      <% end %>
+    </tbody>
+  </table>

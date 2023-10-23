@@ -1,0 +1,2 @@
+module OtherCompetenciesHelper
+end

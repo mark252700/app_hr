@@ -1,0 +1,2 @@
+class NestedOthperformed < ApplicationRecord
+end

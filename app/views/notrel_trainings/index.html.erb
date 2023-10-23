@@ -1,0 +1,38 @@
+<%= content_tag :h1, "List of Notrel Trainings" %>
+
+
+<div class="text-end mb-3">
+  <%= link_to new_notrel_training_path, class: 'btn btn-primary' do %>
+    New Notrel Training
+  <% end %>
+</div>
+
+
+  <table class="table table-striped table-bordered table-hover">
+    <thead>
+      <tr>
+      <th>#</th>
+            <th>Train Type</th>
+            <th>Train Benefit</th>
+            <th></th>
+        </tr>
+    </thead>
+
+    <tbody>
+      <% @notrel_trainings.each do |notrel_training| %>
+        <tr>
+
+        <th scope="row"><%= notrel_training.id %></th>
+        <td><%= notrel_training.train_type %></td>
+        <td><%= notrel_training.train_benefit %></td>
+    
+          <td>
+            <%= link_to 'View', notrel_training, class: 'btn btn-secondary btn-sm' %>
+            <%= link_to 'Edit', edit_notrel_training_path(notrel_training), class: 'btn btn-secondary btn-sm' %>
+            <%= link_to "Delete", notrel_training, class: "btn btn-danger btn-sm", method: :delete, data: { "turbo-method": :delete, turbo_confirm: "Are you sure?" } %>
+          </td>
+
+        </tr>
+      <% end %>
+    </tbody>
+  </table>

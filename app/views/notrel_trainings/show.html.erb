@@ -1,0 +1,9 @@
+
+<%= render @notrel_training %>
+
+<div>
+  <%= link_to "Edit", edit_notrel_training_path(@notrel_training), class: 'btn btn-primary' %> |
+  <%= link_to "Back", notrel_trainings_path, class: 'btn btn-primary' %>
+
+  <%= button_to "Delete", @notrel_training, method: :delete, class: 'btn btn-danger' %>
+</div>

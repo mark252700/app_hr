@@ -1,0 +1,9 @@
+
+<%= render @nested_taskperformance %>
+
+<div>
+  <%= link_to "Edit", edit_nested_taskperformance_path(@nested_taskperformance), class: 'btn btn-primary' %> |
+  <%= link_to "Back", nested_taskperformances_path, class: 'btn btn-primary' %>
+
+  <%= button_to "Delete", @nested_taskperformance, method: :delete, class: 'btn btn-danger' %>
+</div>
