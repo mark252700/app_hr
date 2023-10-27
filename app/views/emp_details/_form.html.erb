@@ -13,44 +13,66 @@ float:right
     <div class="col-sm-4">
       <div class="form-group ">
         
-        <%= f.input :fullname, label: 'Fullname', input_html: { class: 'form-control has-value' }%>
-        <%= f.error :fullname %>
+        <%= f.input :firstname, label: 'Firstname', input_html: { class: 'form-control has-value next-input' }%>
+       
       </div>
     </div>
 
     <div class="col-sm-4">
       <div class="form-group ">
        
-        <%= f.input :emp_id, label: 'Employee No.', input_html: { class: 'form-control has-value' } %>
-        <%= f.error :emp_id %>
+        <%= f.input :middlename, label: 'Middlename', input_html: { class: 'form-control has-value next-input' } %>
+       
       </div>
     </div>
 
      <div class="col-sm-4">
       <div class="form-group ">
        
-        <%= f.input :pos_title, label: 'Position', input_html: { class: 'form-control has-value' }%>
-        <%= f.error :pos_title %>
+        <%= f.input :lastname, label: 'Lastname', input_html: { class: 'form-control has-value next-input' }%>
+       
+      </div>
+    </div>
+
+   
+  </div>
+  <div class="row justify-content-center">
+   
+    <div class="col-sm-4">
+      <div class="form-group ">
+       
+        <%= f.input :emp_id, label: 'Employee No.', input_html: { class: 'form-control has-value next-input' } %>
+      
+      </div>
+    </div>
+
+     <div class="col-sm-4">
+      <div class="form-group ">
+       
+        <%= f.input :pos_title, label: 'Position', input_html: { class: 'form-control has-value next-input' }%>
+      
       </div>
     </div>
 
    
   </div>
 
+  <br>
+
   <div class="row justify-content-center">
     <div class="col-sm-4">
       <div class="form-group">
        
-        <%= f.input :division, label: 'Division', input_html: { class: 'form-control has-value' }%>
-        <%= f.error :division %>
+        <%= f.input :division, label: 'Division', input_html: { class: 'form-control has-value next-input'  }%>
+       
       </div>
     </div>
 
     <div class="col-sm-4">
       <div class="form-group">
        
-        <%= f.input :department, label: 'department', input_html: { class: 'form-control has-value' }%>
-        <%= f.error :department %>
+        <%= f.input :department, label: 'department', input_html: { class: 'form-control has-value next-input' }%>
+        
       </div>
     </div>
 
@@ -58,17 +80,19 @@ float:right
       <div class="form-group ">
         <%= f.label :rank, class: 'control-label' %>
         <%= f.select :rank, [['Select a rank', ''], ['Supervisor', 'Supervisor'], ['Manager', 'Manager'], ['Senior Officer', 'Senior Officer']], {}, { class: 'form-control has-value' } %>
-        <%= f.error :rank %>
+       
       </div>
     </div>
   </div>
+
+<br>
 
   <div class="row justify-content-center">
     <div class="col-sm-4">
       <div class="form-group ">
        <br>
-        <%= f.input :contact, label: 'Contact', input_html: { class: 'form-control has-value' }%>
-        <%= f.error :contact %>
+        <%= f.input :contact, label: 'Contact', input_html: { class: 'form-control has-value next-input' }%>
+       
       </div>
     </div>
 
@@ -76,16 +100,16 @@ float:right
       <div class="form-group \">
        <%= f.label :ser_year, label: 'Year in Service', class: 'control-label text-bold fw-bold' %>
 
-        <%= f.input :ser_year, label: 'year', input_html: { class: 'form-control has-value' }%>
-        <%= f.error :ser_year %>
+        <%= f.input :ser_year, label: 'year', input_html: { class: 'form-control has-value next-input' }%>
+        
       </div>
     </div>
 
     <div class="col-sm-4">
       <div class="form-group ">
        <br>
-        <%= f.input :ser_month, label: 'month', input_html: { class: 'form-control has-value' }%>
-        <%= f.error :ser_month %>
+        <%= f.input :ser_month, label: 'month', input_html: { class: 'form-control has-value next-input' }%>
+        
       </div>
     </div>
   </div>
@@ -96,16 +120,16 @@ float:right
      <div class="col-sm-4">
       <div class="form-group ">
        
-        <%= f.input :sup_name, label: 'Supervisor Name', input_html: { class: 'form-control has-value' }%>
-        <%= f.error :sup_name %>
+        <%= f.input :sup_name, label: 'Supervisor Name', input_html: { class: 'form-control has-value next-input' }%>
+       
       </div>
     </div>
 
     <div class="col-sm-4">
       <div class="form-group ">
       
-        <%= f.input :sup_title, label: 'Supervisor Title', input_html: { class: 'form-control has-value' }%>
-        <%= f.error :sup_title %>
+        <%= f.input :sup_title, label: 'Supervisor Title', input_html: { class: 'form-control has-value next-input' }%>
+        
       </div>
     </div>
   </div>
@@ -121,24 +145,24 @@ float:right
     <div class="col-sm-4">
       <div class="form-group ">
         
-        <%= f.input :educ_course, label: 'Course', input_html: { class: 'form-control has-value' }%>
-        <%= f.error :educ_course %>
+        <%= f.input :educ_course, label: 'Course', input_html: { class: 'form-control has-value next-input' }%>
+       
       </div>
     </div>
 
     <div class="col-sm-4">
       <div class="form-group ">
          <%= f.label :educ_grad, 'Year of Graduation' %><br>
-            <%= f.date_field :educ_grad, class: 'form-control has-value', data: { controller: 'datepicker' }, max: Date.today.strftime('%Y-%m-%d') %>
-            <%= f.error :educ_grad %>
+            <%= f.date_field :educ_grad, class: 'form-control has-value next-input', data: { controller: 'datepicker' }, max: Date.today.strftime('%Y-%m-%d') %>
+           
       </div>
     </div>
 
     <div class="col-sm-4">
       <div class="form-group ">
         
-        <%= f.input :educ_skill, label: 'Skills', input_html: { class: 'form-control has-value' }%>
-        <%= f.error :educ_skill %>
+        <%= f.input :educ_skill, label: 'Skills', input_html: { class: 'form-control has-value next-input' }%>
+        
       </div>
     </div>
   </div>
@@ -147,16 +171,16 @@ float:right
     <div class="col-sm-4">
       <div class="form-group ">
       
-        <%= f.input :educ_certificate, label: 'Certificate', input_html: { class: 'form-control has-value' }%>
-        <%= f.error :educ_certificate %>
+        <%= f.input :educ_certificate, label: 'Certificate', input_html: { class: 'form-control has-value next-input' }%>
+        
       </div>
     </div>
 
     <div class="col-sm-4">
       <div class="form-group ">
        
-        <%= f.input :educ_othskill, label: 'Other Skills', input_html: { class: 'form-control has-value' }%>
-        <%= f.error :educ_othskill %>
+        <%= f.input :educ_othskill, label: 'Other Skills', input_html: { class: 'form-control has-value next-input' }%>
+       
       </div>
     </div>
   </div>
@@ -174,40 +198,40 @@ float:right
     <div class="col-sm-4">
       <div class="form-group ">
        
-        <%= f.input :hr_perday, label: 'Hour Perday', input_html: { class: 'form-control has-value' }%>
-        <%= f.error :hr_perday %>
+        <%= f.input :hr_perday, label: 'Hour Perday', input_html: { class: 'form-control has-value next-input' }%>
+       
       </div>
     </div>
 
     <div class="col-sm-4">
       <div class="form-group ">
         
-        <%= f.input :hr_perweek, label: 'Hour Perweek', input_html: { class: 'form-control has-value' }%>
-        <%= f.error :hr_perweek %>
+        <%= f.input :hr_perweek, label: 'Hour Perweek', input_html: { class: 'form-control has-value next-input' }%>
+       
       </div>
     </div>
 
     <div class="col-sm-4">
       <div class="form-group ">
-        <%= f.label :workday, class: 'control-label' %>
-        <%= f.input :workday, label: false, input_html: { class: 'form-control has-value' }%>
-        <%= f.error :workday %>
+       
+        <%= f.input :workday, label: 'Workday', input_html: { class: 'form-control has-value next-input' }%>
+       
       </div>
     </div>
 
     <div class="col -sm">
       <div class="form-group">
         
-        <%= f.input :break, label: 'Break Time', input_html: { class: 'form-control has-value' }%>
-        <%= f.error :break %>
+        <%= f.input :break, label: 'Break Time', input_html: { class: 'form-control has-value next-input' }%>
+       
       </div>
     </div>
 
     <div class="col-sm">
       <div class="form-group">
        
-        <%= f.input :launch, label: 'Launch Time', input_html: { class: 'form-control has-value' }%>
-        <%= f.error :launch %>
+        <%= f.input :launch, label: 'Launch Time', input_html: { class: 'form-control has-value next-input' }%>
+        
       </div>
     </div>
 
@@ -224,7 +248,7 @@ float:right
             No
           </label>
         </div>
-        <%= f.error :ot_weekday %>
+        
       </div>
     </div>
 
@@ -241,7 +265,7 @@ float:right
             No
           </label>
         </div>
-        <%= f.error :ot_weekend %>
+       
       </div>
     </div>
   </div>
@@ -266,22 +290,22 @@ float:right
       </th>
     </tr>
   </thead>
- <tbody id="benefittable">
+<tbody id="benefittable">
   <!-- Use fields_for to handle nested attributes -->
-<%= f.fields_for :benefits do |b| %>
-  <tr>
-    <td>
-      <%= b.input :benefit, input_html: {class: 'form-control'} %>
-    </td>
-    <td>
-    <br>
-      <button type="button" class="removebenefit btn btn-danger">Remove</button>
-     
-    </td>
-  </tr>
-<% end %>
+  <%= f.fields_for :benefits do |b| %>
+    <tr>
+      <td>
+        <%= b.input :benefit, input_html: { class: 'form-control next-input' } %>
+      </td>
+      <td>
+        <br>
+        <button type="button" class="removebenefit btn btn-danger">Remove</button>
+      </td>
+    </tr>
+  <% end %>
 </tbody>
 </table>
+
 
 
       
@@ -306,7 +330,7 @@ float:right
     var newRow = document.createElement('tr');
     newRow.innerHTML = `
       <td>
-        <input type="text" name="emp_detail[benefits_attributes][${rowCount}][benefit]" class="form-control">
+        <input type="text" name="emp_detail[benefits_attributes][${rowCount}][benefit]" class="form-control next-input">
       </td>
       <td>
         <button type="button" class="removebenefit btn btn-danger">Remove</button>
@@ -323,5 +347,21 @@ float:right
       row.parentNode.removeChild(row);
     }
   });
+
+ document.addEventListener('DOMContentLoaded', function() {
+    var inputs = document.querySelectorAll('.next-input');
+
+    for (var i = 0; i < inputs.length; i++) {
+        inputs[i].addEventListener('keydown', function(event) {
+            if (event.keyCode === 13) {  // Check for the Enter key
+                event.preventDefault();
+                var currentIndex = Array.from(inputs).indexOf(event.target);  // Get the current element's index
+                var nextIndex = (currentIndex + 1) % inputs.length;  // Get the next element's index. Loop to the start if we're at the end.
+                inputs[nextIndex].focus();  // Focus the next element
+            }
+        });
+    }
+});
+
 </script>
 

@@ -2,37 +2,37 @@
 
 class Admin::UserManagementController < ApplicationController
     before_action :authenticate_admin! # Make sure only admins can access this controller
-  
+
     # Display a list of users
     def index
       @users = User.all
     end
-  
+
     # Display the form for creating a new user
     def new
       @user = User.new
     end
-  
+
     # Create a new user
     def create
       @user = User.new(user_params)
-  
+
       if @user.save
         redirect_to admin_index_path, notice: 'User created successfully.'
       else
         render :new
       end
     end
-  
+
     # Display the form for editing a user
     def edit
       @user = User.find(params[:id])
     end
-  
+
     # Update a user's information
     def update
       @user = User.find(params[:id])
-  
+
       if @user.update(user_params)
         redirect_to admin_index_path, notice: 'User updated successfully.'
       else
@@ -42,14 +42,14 @@ class Admin::UserManagementController < ApplicationController
 
     def approve_user
       @user = User.find(params[:id])
-      
+
       if @user.update(approved: true)
         UserMailer.approval_notification(@user).deliver_now
         flash[:success] = "User has been approved, and an approval email has been sent."
       else
         flash[:error] = "Failed to approve the user."
       end
-      
+
       redirect_to admin_index_path
     end
 
@@ -69,23 +69,24 @@ class Admin::UserManagementController < ApplicationController
         notrel_trainings: [OpenStruct.new(train_type: 'N/A', train_benefit: 'N/A')]
       )
     end
-    
+
     def destroy
       @user = User.find(params[:id])
       @user.destroy
-    
+
       respond_to do |format|
         format.html { redirect_to admin_index_path, notice: "User was successfully destroyed." }
         format.json { head :no_content }
       end
     end
-  
+
     private
-  
+
     def user_params
       params.require(:user).permit(:email, :password, :password_confirmation, :role)
     end
-  
+
+
     def authenticate_admin!
         if current_user.nil?
           redirect_to new_user_session_path, alert: 'Please sign in to access this page'
@@ -94,4 +95,3 @@ class Admin::UserManagementController < ApplicationController
         end
       end
   end
-  

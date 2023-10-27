@@ -21,12 +21,12 @@ Rails.application.routes.draw do
   get 'home/index'
   get 'admin_index', to: 'admin#index'
 
-  
+
   get '/emp_details/new', to: 'emp_details#new', as: 'emp_details_new'
-  
+
   get '/emp_details/:id/edit', to: 'emp_details#edit', as: 'emp_details_edit'
   get '/jb_decriptions/new', to: 'jb_decriptions#new', as: 'jb_decriptions_new'
-  
+
 
   get 'benefits/new', to: 'benefits#new', as: 'benefits_new'
   get 'benefits/index', to: 'benefits#index', as: 'benefits_index'
@@ -39,35 +39,37 @@ Rails.application.routes.draw do
   resources :final_step do
     member do
       get 'update_submission'
-      
+
     end
   end
 
 
-  namespace :admin do
-    resources :user_management, only: [:new, :create, :edit, :update, :index] do
-      member do
-        get :approve_user
-        get :show_user
-      end
-    end
-  
-    resources :admin, only: [:index] do
-      member do
-        delete :destroy
-      end
+ # Define the custom actions for AdminController outside the resources block
+get 'admin/destroy_data/:id', to: 'admin#destroy_data', as: 'admin_destroy_data'
+get 'admin/generate_pdf/:id', to: 'admin#generate_pdf', as: 'pdfadmin'
+get 'search_users', to: 'admin#search'
+
+
+# Then, define the resources for admin/user_management as you have it
+namespace :admin do
+  resources :user_management, only: [:new, :create, :edit, :update, :index] do
+    member do
+      get :approve_user
+      get :show_user
     end
   end
+end
 
-  
+
 
   resources :home do
     member do
       get 'destroy_data', to: 'home#destroy_data'
+      get 'generate_pdf', to: 'home#generate_pdf', as: 'pdf'
     end
   end
 
- 
+
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Defines the root path route ("/")

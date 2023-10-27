@@ -79,3 +79,5 @@ gem "cocoon"
 gem 'jquery-rails'
 gem 'ffaker'
 gem 'will_paginate'
+gem 'prawn'
+gem 'prawn-table'

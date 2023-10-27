@@ -71,24 +71,27 @@ Rails.application.configure do
 
   config.sass.inline_source_maps = true
 
-  config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
+#for email
 
-  config.action_mailer.delivery_method = :smtp
-  config.action_mailer.smtp_settings = {
-    address: 'smtp.gmail.com',
-    port: 587,
-    user_name: 'mark.christopher.calixtro1@gmail.com',
-    password: 'Markcali1125',
-    authentication: :plain,
-    enable_starttls_auto: true
-  }
+#config.action_mailer.delivery_method = ':letter_opener'
+config.action_mailer.perform_deliveries = true
 
-  config.action_mailer.default_options = {
-  from: '<1cisp@gmail.com>'
+config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
+
+config.action_mailer.delivery_method = :smtp
+config.action_mailer.smtp_settings = {
+  address: 'smtp.gmail.com',
+  port: 587,
+  user_name: 'mark.christopher.calixtro1@gmail.com',
+  password: 'gxsxldsputjcwqnz',
+  authentication: :plain,
+  enable_starttls_auto: true
+}
+
+config.action_mailer.default_options = {
+from: '<1cisp@gmail.com>'
 }
 
 config.action_mailer.raise_delivery_errors = true
-config.action_mailer.perform_deliveries = true
-config.action_mailer.delivery_method = :smtp
 
 end

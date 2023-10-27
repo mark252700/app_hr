@@ -19,17 +19,21 @@ class JbDescriptionsController < ApplicationController
 
     else
        @jb_description = JbDescription.new
+       @jb_description.jb_performeds.build
     end
 
-   
+
   end
 
   # GET /jb_descriptions/1/edit
   def edit
     set_button_label('Save')
-    @jb_description.jb_performeds.build if @jb_description.jb_performeds.empty?
+    if @jb_description.new_record?
+      redirect_to new_taskperformance_path
+    else
+      @jb_description.jb_performeds.build if @jb_description.jb_performeds.empty?
+    end
 
-  
   end
 
   # POST /jb_descriptions or /jb_descriptions.json
@@ -37,7 +41,7 @@ class JbDescriptionsController < ApplicationController
     @jb_description = JbDescription.new(jb_description_params) # Change this line
 
     @jb_description.user = current_user
-  
+
     respond_to do |format|
       if @jb_description.save
         format.html { redirect_to new_taskperformance_path }
@@ -45,7 +49,7 @@ class JbDescriptionsController < ApplicationController
       else
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @jb_description.errors, status: :unprocessable_entity }
-        puts "Error: #{jb_description.errors.full_messages}" # Change this line
+        puts "Error: #{@jb_description.errors.full_messages}" # Change this line
       end
     end
   end
@@ -54,7 +58,11 @@ class JbDescriptionsController < ApplicationController
   def update
     respond_to do |format|
       if @jb_description.update(jb_description_params)
-        format.html { redirect_to edit_taskperformance_path }
+        if @jb_description.user.taskperformance.nil?
+          format.html { redirect_to new_taskperformance_path }
+        else
+          format.html { redirect_to edit_taskperformance_path }
+        end
         format.json { render :show, status: :ok, location: @jb_description }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -84,12 +92,12 @@ class JbDescriptionsController < ApplicationController
       @jb_description = JbDescription.find(params[:id])
     end
 
-   
+
     def jb_description_params
       params.require(:jb_description).permit(
       :description,
        jb_performeds_attributes: [:id,:job_performed, :job_done, :job_hr, :job_min, :job_current, :job_reason, :_destroy])
     end
-    
-    
+
+
 end

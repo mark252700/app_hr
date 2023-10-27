@@ -4,52 +4,53 @@ class EmpDetailsController < ApplicationController
   # GET /emp_details or /emp_details.json
   def index
     @emp_details = EmpDetail.all
-    @emp_detail = EmpDetail.new(
-      fullname:  FFaker::NamePH.name,
-      emp_id:  FFaker::IdentificationESCL.luhn_number,
-      rank: FFaker::Job.title,
-      division: FFaker::Company.position,
-      sup_name: FFaker::NamePH.name,
-      pos_title: FFaker::Job.title,
-      ser_year: rand(1..30),  # Random service years between 1 and 30
-      ser_month: rand(1..12), # Random service months between 1 and 12
-      educ_course: FFaker::Education.major,
-      educ_grad: FFaker::Time.date,
-      educ_skill: FFaker::Job.key_skill,
-      educ_certificate: FFaker::Education.school,
-      educ_othskill: FFaker::Job.key_skill,
-      contact: FFaker::PhoneNumber.short_phone_number,
-      department: FFaker::Company.position,
-      sup_title: FFaker::Job.title,
-      hr_perday: rand(4..12),   # Random work hours per day between 4 and 12
-      hr_perweek: rand(20..60), # Random work hours per week between 20 and 60
-      break: rand(15..60),      # Random break time in minutes between 15 and 60
-      launch: FFaker::Time.datetime.strftime('%H:%M'),
-      ot_weekday: [true, false].sample, # Random true or false for overtime on weekdays
-      ot_weekend: [true, false].sample, # Random true or false for overtime on weekends
-      workday: rand(1..5) # Random workdays between 1 and 5
-    )  end
+    # @emp_detail = EmpDetail.new(
+    #   fullname:  FFaker::NamePH.name,
+    #   emp_id:  FFaker::IdentificationESCL.luhn_number,
+    #   rank: FFaker::Job.title,
+    #   division: FFaker::Company.position,
+    #   sup_name: FFaker::NamePH.name,
+    #   pos_title: FFaker::Job.title,
+    #   ser_year: rand(1..30),  # Random service years between 1 and 30
+    #   ser_month: rand(1..12), # Random service months between 1 and 12
+    #   educ_course: FFaker::Education.major,
+    #   educ_grad: FFaker::Time.date,
+    #   educ_skill: FFaker::Job.key_skill,
+    #   educ_certificate: FFaker::Education.school,
+    #   educ_othskill: FFaker::Job.key_skill,
+    #   contact: FFaker::PhoneNumber.short_phone_number,
+    #   department: FFaker::Company.position,
+    #   sup_title: FFaker::Job.title,
+    #   hr_perday: rand(4..12),   # Random work hours per day between 4 and 12
+    #   hr_perweek: rand(20..60), # Random work hours per week between 20 and 60
+    #   break: rand(15..60),      # Random break time in minutes between 15 and 60
+    #   launch: FFaker::Time.datetime.strftime('%H:%M'),
+    #   ot_weekday: [true, false].sample, # Random true or false for overtime on weekdays
+    #   ot_weekend: [true, false].sample, # Random true or false for overtime on weekends
+    #   workday: rand(1..5) # Random workdays between 1 and 5
+    # )
+   end
 
   # GET /emp_details/1 or /emp_details/1.json
   def show
- 
-    
+
+
   end
 
-  # GET /emp_details/new
-  def new
-    set_button_label('Next')
+ # GET /emp_details/new
+def new
+  set_button_label('Next')
+
+  if EmpDetail.exists?(user_id: current_user.id)
+    redirect_to new_jb_description_path
+  else
     @emp_detail = EmpDetail.new
-  
-    if EmpDetail.exists?(user_id: current_user.id)
-      redirect_to new_jb_description_path
-    else
-      @emp_detail = EmpDetail.new
-    end
-
- 
-
+    # Build an initial set of benefit fields
+    @emp_detail.benefits.build
   end
+end
+
+
 
   # GET /emp_details/1/edit
   def edit
@@ -99,7 +100,7 @@ end
     end
   end
 
- 
+
 
 
   private
@@ -119,7 +120,7 @@ end
         :fullname, :emp_id, :rank, :division, :sup_name, :pos_title, :ser_year, :ser_month,
         :educ_course, :educ_grad, :educ_skill, :educ_certificate, :educ_othskill,
         :contact, :department, :sup_title, :hr_perday, :hr_perweek, :break, :launch,
-        :ot_weekday, :ot_weekend, :workday,
+        :ot_weekday, :ot_weekend, :workday,:firstname,:middlename,:lastname,
         benefits_attributes: [:id, :benefit, :_destroy] # Include the benefit's ID
       )
     end

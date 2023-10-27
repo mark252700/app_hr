@@ -13,7 +13,7 @@ class ApplicationController < ActionController::Base
         if resource.admin?
           admin_index_path
         else
-          root_path # Modify this to the default path for non-admin users
+          home_index_path # Modify this to the default path for non-admin users
         end
       end
 end

@@ -16,7 +16,7 @@
     <div class="col-sm-4">
       <div class="form-group ">
  
-    <%= f.input :description, label: 'Job Description', input_html:{class: 'form-control'} %>
+    <%= f.input :description, label: 'Job Description', input_html:{class: 'form-control next-input'} %>
   </div>
   </div>
   </div>
@@ -41,36 +41,36 @@
           <td>
             <div class="mb-3">
               
-              <%= jb.input :job_performed, label: 'Job Performed', input_html:{class: 'form-control'} %>
+              <%= jb.input :job_performed, label: 'Job Performed', input_html:{class: 'form-control next-input'}  %>
             </div>
           </td>
           <td>
-            <div class="mb-3">
-              <label>Job Done</label>
-              <%= jb.select :job_done, options_for_select(["Daily", "Monthly", "Quarterly", "Annually"], selected: "Select"), {}, class: 'form-select shorter-inputs' %>
-            </div>
+           <div class="mb-3">
+          <label>Job Done</label>
+          <%= jb.select :job_done, options_for_select(["Select", "Daily", "Monthly", "Quarterly", "Annually"], selected: nil), {}, class: 'form-select shorter-inputs next-input' %>
+          </div>
           </td>
           <td>
             <div class="mb-3">
               <label>Hours</label>
-              <%= jb.number_field :job_hr, class: 'form-control shorter-input' %>
+              <%= jb.number_field :job_hr, class: 'form-control shorter-input next-input' %>
             </div>
           </td>
           <td>
             <div class="mb-3">
               <label>Minutes</label>
-              <%= jb.number_field :job_min, class: 'form-control shorter-input' %>
+              <%= jb.number_field :job_min, class: 'form-control shorter-input next-input' %>
             </div>
           </td>
           <td>
             <div class="mb-3">
               <label>Job Current</label>
               <div class="form-check">
-                <%= jb.radio_button :job_current, 'true', class: 'form-check-input' %>
+                <%= jb.radio_button :job_current, 'true', class: 'form-check-input next-input' %>
                 <label class="form-check-label">Yes</label>
               </div>
               <div class="form-check">
-                <%= jb.radio_button :job_current, 'false', class: 'form-check-input' %>
+                <%= jb.radio_button :job_current, 'false', class: 'form-check-input next-input' %>
                 <label class="form-check-label">No</label>
               </div>
             </div>
@@ -78,7 +78,7 @@
           <td>
             <div class="mb-3">
               <label>Reason For doing this task</label>
-              <%= jb.input :job_reason, label: false, input_html:{class: 'form-control long-input'} %>
+              <%= jb.input :job_reason, label: false, input_html:{class: 'form-control long-input next-input'} %>
             </div>
           </td>
           <td>
@@ -119,12 +119,12 @@
     <td>
       <div class="mb-3">
         <label>Job Performed</label>
-        <input type="text" name="jb_description[jb_performeds_attributes][${rowCount}][job_performed]" class="form-control">     </div>
+        <input type="text" name="jb_description[jb_performeds_attributes][${rowCount}][job_performed]" class="form-control next-input">     </div>
     </td>
     <td>
       <div class="mb-3">
         <label>Job Done</label>
-        <select name="jb_description[jb_performeds_attributes][${rowCount}][job_done]" class="form-select shorter-inputs">
+        <select name="jb_description[jb_performeds_attributes][${rowCount}][job_done]" class="form-select shorter-inputs next-input">
           <option value="none" selected>Select</option>
           <option value="Daily">Daily</option>
           <option value="Monthly">Monthly</option>
@@ -136,24 +136,24 @@
     <td>
       <div class="mb-3">
         <label>Hours</label>
-        <input type="number" name="jb_description[jb_performeds_attributes][${rowCount}][job_hr]" class="form-control shorter-input">
+        <input type="number" name="jb_description[jb_performeds_attributes][${rowCount}][job_hr]" class="form-control next-input shorter-input">
       </div>
     </td>
     <td>
       <div class="mb-3">
         <label>Minutes</label>
-        <input type="number" name="jb_description[jb_performeds_attributes][${rowCount}][job_min]" class="form-control shorter-input">
+        <input type="number" name="jb_description[jb_performeds_attributes][${rowCount}][job_min]" class="form-control next-input shorter-input">
       </div>
     </td>
     <td>
       <div class="mb-3">
         <label>Job Current</label>
         <div class="form-check">
-          <input type="radio" name="jb_description[jb_performeds_attributes][${rowCount}][job_current]" value="true" class="form-check-input">
+          <input type="radio" name="jb_description[jb_performeds_attributes][${rowCount}][job_current]" value="true" class="form-check-input next-input">
           <label class="form-check-label">Yes</label>
         </div>
         <div class="form-check">
-          <input type="radio" name="jb_description[jb_performeds_attributes][${rowCount}][job_current]" value="false" class="form-check-input">
+          <input type="radio" name="jb_description[jb_performeds_attributes][${rowCount}][job_current]" value="false" class="form-check-input next-input">
           <label class="form-check-label">No</label>
         </div>
       </div>
@@ -161,7 +161,7 @@
     <td>
       <div class="mb-3">
         <label>Reason For not doing this task</label>
-        <input type="text" name="jb_description[jb_performeds_attributes][${rowCount}][job_reason]" class="form-control long-input">
+        <input type="text" name="jb_description[jb_performeds_attributes][${rowCount}][job_reason]" class="form-control next-input long-input">
       </div>
     </td>
     <td>
@@ -181,6 +181,22 @@ document.getElementById('formContainer').addEventListener('click', function(e) {
     var row = e.target.closest('tr');
     row.parentNode.removeChild(row);
   }
+});
+
+//for next enter input
+ document.addEventListener('DOMContentLoaded', function() {
+    var inputs = document.querySelectorAll('.next-input');
+
+    for (var i = 0; i < inputs.length; i++) {
+        inputs[i].addEventListener('keydown', function(event) {
+            if (event.keyCode === 13) {  // Check for the Enter key
+                event.preventDefault();
+                var currentIndex = Array.from(inputs).indexOf(event.target);  // Get the current element's index
+                var nextIndex = (currentIndex + 1) % inputs.length;  // Get the next element's index. Loop to the start if we're at the end.
+                inputs[nextIndex].focus();  // Focus the next element
+            }
+        });
+    }
 });
 
 </script>

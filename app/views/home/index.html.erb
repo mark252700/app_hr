@@ -6,9 +6,11 @@ float:right;
 }
 </style>
 
-<% if @emp_detail.nil? %>
+<% unless @emp_detail&.firstname %>
   <%= link_to 'Add Data', new_emp_detail_path, class: 'btn btn-success', id: 'float' %>
 <% end %>
+<%= link_to "Generate PDF", pdf_home_path(current_user), class: "btn btn-primary" %>
+
 <br>
 <br>
 
@@ -19,7 +21,7 @@ float:right;
       <tbody>
         <tr>
           <td><strong>Full Name:</strong></td>
-          <td><%= @emp_detail.fullname&.upcase %></td>
+         <td><%= "#{@emp_detail.firstname} #{@emp_detail.middlename} #{@emp_detail.lastname}".upcase %></td>
           <td><strong>Position Title:</strong></td>
           <td><%= @emp_detail.pos_title&.upcase %></td>
         </tr>
@@ -128,6 +130,7 @@ float:right;
   </div>
 </div>
 
+<br>
 
 <div class="card">
   <h5 class="card-header text-uppercase">Job Description</h5>
@@ -139,7 +142,16 @@ float:right;
             <td><strong>Job Description</strong></td>
             <td><%= @jb_description.description %></td>
           </tr>
+          </tbody>
+          </table>
+          </div>
+          </div>
 
+<br>
+
+<div class="card">
+  <h5 class="card-header text-uppercase">Based on your job description</h5>
+  <div class="card-body">
 <% if @jb_description.jb_performeds.present? %>
 <table class="table table-bordered table-striped">
   <thead>
@@ -176,6 +188,7 @@ float:right;
   </div>
 </div>
 
+
 <br>
 <div class="card">
   <h5 class="card-header text-uppercase">Task Performance</h5>
@@ -194,28 +207,7 @@ float:right;
           </tr>
         <% end %>
 
-           <table class="table table-bordered table-striped">
-      <thead>
-        <tr>
-          <td><strong>Job Performed</strong></td>
-          <td><strong>Whenever this work done</strong></td>
-          <td><strong>Time alloted for this job</strong></td>
-          <td><strong>Is this within your current job description</strong></td>
-          <td><strong>Reasons for doing this task</strong></td>
-        </tr>
-      </thead>
-      <tbody>
-        <% @jb_description.jb_performeds.each do |jb_performed| %>
-          <tr>
-            <td><%= jb_performed.job_performed.upcase %></td>
-            <td><%= jb_performed.job_done.upcase %></td>
-            <td><%= "#{jb_performed.job_hr} hour/s #{jb_performed.job_min} mins" %></td>
-            <td><%= jb_performed.job_current ? 'Yes' : 'No' %></td>
-            <td><%= jb_performed.job_reason %></td>
-          </tr>
-        <% end %>
-      </tbody>
-    </table>
+           
 
         <table class="table table-bordered table-striped">
           <thead>
@@ -255,16 +247,24 @@ float:right;
       <tbody>
       
          <tr>
-  <td><strong>Job Performed</strong></td>
+  <td><strong>Position</strong></td>
   <td><strong>Years in Position</strong></td>
 </tr>
 
   <tr>
-    <td><%= @oth_performed.oth_position.pos_title&.upcase %></td>
-    <td><%= "#{@oth_performed.oth_position.pos_yr} years #{@oth_performed.oth_position.pos_month} months" %></td>
+    <td><%= @oth_performed.oth_position&.pos_title&.upcase %></td>
+    <td><%= "#{@oth_performed.oth_position&.pos_yr} years #{@oth_performed.oth_position&.pos_month} months" %></td>
   </tr>
+  </tbody>
+  </table>
+  </div>
+  </div>
 
+<br>
 
+<div class="card">
+  <h5 class="card-header text-uppercase">Required Competencies(if other position hanlde)</h5>
+  <div class="card-body">
 <table class="table table-bordered table-striped">
     <thead>
     <tr>
@@ -279,6 +279,15 @@ float:right;
           </tr>
         <% end %>
           </tbody>
+          </table>
+          </div>
+          </div>
+
+<br>
+
+<div class="card">
+  <h5 class="card-header text-uppercase">Based on your job description(if other position hanlde)</h5>
+  <div class="card-body">
 
            <table class="table table-bordered table-striped">
       <thead>
@@ -309,7 +318,13 @@ float:right;
         <% end %>
       </tbody>
     </table>
+    </div>
+    </div>
+    <br>
 
+      <div class="card">
+  <h5 class="card-header text-uppercase">Taskperformance(if other position hanlde)</h5>
+  <div class="card-body">
         <table class="table table-bordered table-striped">
           <thead>
             <tr>
@@ -341,7 +356,7 @@ float:right;
 <br>
 
 <div class="card">
-  <h5 class="card-header text-uppercase">Required Training</h5>
+  <h5 class="card-header text-uppercase">Required Training for the Position</h5>
   <div class="card-body">
     
            <table class="table table-bordered table-striped">
@@ -349,8 +364,6 @@ float:right;
         <tr>
           <td><strong>Type of Training</strong></td>
           <td><strong>Benefits of training in your current role</strong></td>
-          <td><strong>Supervisor Name</strong></td>
-          <td><strong>Supervisor Title</strong></td>
          
         </tr>
       </thead>
@@ -358,21 +371,18 @@ float:right;
       <tr>
             <td><%= @req_training.train_type.upcase %></td>
             <td><%= @req_training.train_benefit.upcase %></td>
-            <td><%= @req_training.sup_name.upcase %></td>
-            <td><%= @req_training.sup_title.upcase %></td>
           </tr>
         <% @req_training.nested_trainings.each do |training| %>
           <tr>
             <td><%= training.train_type.upcase %></td>
             <td><%= training.train_benefit.upcase %></td>
-            <td><%= training.sup_name  %></td>
-            <td><%= training.sup_title %></td>
           </tr>
         <% end %>
       </tbody>
     </table>
     </div>
     </div>
+
 
     <br>
 
@@ -429,3 +439,35 @@ float:right;
     </table>
   </div>
 </div>
+
+<br>
+
+<div class="card">
+  <h5 class="card-header text-uppercase">Supervisor</h5>
+  <div class="card-body">
+    
+           <table class="table table-bordered table-striped">
+      <thead>
+        <tr>
+          <td><strong>Supervisor Name</strong></td>
+          <td><strong>Supervisor Title</strong></td>
+         
+        </tr>
+      </thead>
+      <tbody>
+      <tr>
+            <td><%= @req_training.sup_name.upcase %></td>
+            <td><%= @req_training.sup_title.upcase %></td>
+          </tr>
+        <% @req_training.nested_trainings.each do |training| %>
+          <tr>
+            <td><%= training.sup_name  %></td>
+            <td><%= training.sup_title %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+    </div>
+    </div>
+
+    <br>
