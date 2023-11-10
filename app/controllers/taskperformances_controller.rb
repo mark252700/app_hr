@@ -30,9 +30,11 @@ class TaskperformancesController < ApplicationController
       redirect_to new_taskperformance_path
     end
     set_button_label('Save')
+
   end
 
   def create
+
     @taskperformance = Taskperformance.new(task_performance_params)
     @taskperformance.user = current_user
 
@@ -44,6 +46,7 @@ class TaskperformancesController < ApplicationController
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @taskperformance.errors, status: :unprocessable_entity }
         puts "Error: #{@taskperformance.errors.full_messages}" # Change this line
+        set_button_label('next')
       end
     end
   end
@@ -52,13 +55,17 @@ class TaskperformancesController < ApplicationController
   # PATCH/PUT /taskperformances/1 or /taskperformances/1.json
   def update
     respond_to do |format|
-      if @taskperformance.update(task_performance_params) # Change this line
-
+      if @taskperformance.update(task_performance_params)
         format.html { redirect_to edit_oth_performed_path }
         format.json { render :show, status: :ok, location: @taskperformance }
       else
         format.html { render :edit, status: :unprocessable_entity }
         format.json { render json: @taskperformance.errors, status: :unprocessable_entity }
+
+        # Add the redirect condition here
+        if @taskperformance.blank?
+          redirect_to new_taskperformance_path
+        end
       end
     end
   end

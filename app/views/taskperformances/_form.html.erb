@@ -10,6 +10,9 @@
   <%= f.error_notification %>
   <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
 
+<div class="card">
+    <h6 class="card-header">Based on your knowledge without looking at your job description, what task within in your job description	where not accomplished.</h5>
+    <div class="card-body">
   <div class="row justify-content-center">
     <div class="col">
       <div class="form-group">
@@ -33,7 +36,7 @@
     </td>
     <td class="col">
       <div class="mb-3">
-        <button type="button" class="remove-row btn btn-danger">Remove</button>
+        
       </div>
     </td>
           </thead>
@@ -73,10 +76,12 @@
       </div>
     </div>
   </div>
+   </div>
+  </div>
   <br>
   <hr>
   <div class="card">
-    <h5 class="card-header">Required Competencies</h5>
+    <h6 class="card-header">Required Competencies</h5>
     <div class="card-body">
       <div class="container mt-4">
         <div class="row justify-content-center">
@@ -109,10 +114,10 @@
   </div>
 <br>
   <div class="form-actions">
-      <%= f.button :submit, @button_label, name: 'save_button', class: action_name == 'new' ? 'btn btn-primary' : 'btn btn-success' %>
+      <%= f.button :submit, @button_label, name: 'save_button', class: action_name == 'new' ? 'btn btn-primary' : 'btn btn-success', id: 'float' %>
      
      <% if (jb_description = current_user.jb_description).present? %>
-    <%= link_to 'Previous', edit_jb_description_path(jb_description), id: 'float' ,class: 'btn btn-secondary' %>
+    <%= link_to 'Previous', edit_jb_description_path(jb_description) ,class: 'btn btn-secondary' %>
   <% end %>
   </div>
 <% end %>
@@ -155,7 +160,7 @@ document.getElementById('addRowBtn').addEventListener('click', function() {
 
 // Add event listener to handle remove button clicks
 document.getElementById('formContainer').addEventListener('click', function(e) {
-  if (e.target && e.target.className == 'btn btn-danger remove-row') {
+  if (e.target && e.target.className == 'remove-row btn btn-danger') {
     var row = e.target.closest('tr');
     row.parentNode.removeChild(row);
   }

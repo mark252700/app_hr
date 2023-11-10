@@ -1,5 +1,5 @@
 <style>
-#addRowBtn,#addRowBtn1,#addRowBtn2{
+#addRowBtn,#addRowBtn1,#addRowBtn2,#addRowBtn3{
 float:right;
 }
 #float{
@@ -32,18 +32,7 @@ float:right;
               <%= f.input :train_benefit, label: 'Benefits of the training in your current role', input_html:{class: 'form-control'} %>
             </div>
           </td>
-          <td>
-            <div class="mb-3">
-              
-              <%= f.input :sup_name, label: 'Supervisor Name', input_html:{class: 'form-control'} %>
-            </div>
-          </td>
-          <td>
-            <div class="mb-3">
-              
-              <%= f.input :sup_title, label: 'Supervisor Title', input_html:{class: 'form-control'} %>
-            </div>
-          </td>
+         
     </thead>
     <tbody id="formContainer">
       <!-- Use fields_for to handle nested attributes -->
@@ -61,18 +50,7 @@ float:right;
               <%= jb.input :train_benefit, label: 'Benefits of the training in your current role', input_html:{class: 'form-control'} %>
             </div>
           </td>
-          <td>
-            <div class="mb-3">
-              <br>
-              <%= jb.input :sup_name, label: 'Supervisor Name', input_html:{class: 'form-control'} %>
-            </div>
-          </td>
-          <td>
-            <div class="mb-3">
-              <br>
-              <%= jb.input :sup_title, label: 'Supervisor Title', input_html:{class: 'form-control'} %>
-            </div>
-          </td>
+          
          
         
           <td>
@@ -172,16 +150,55 @@ float:right;
       </div>
     </div>
   </div>
+
+
+<div class="card">
+  <h5 class="card-header">Requested Training (not related to the job role)</h5>
+  <div class="card-body">
+    <div class="row justify-content-center">
+      <div class="col">
+        <div class="form-group">
+          <table class="table table-striped">
+            <button type="button" id="addRowBtn3" class="btn btn-success">+</button>
+            <tbody id="formContainer3">
+              <%= f.fields_for :request_trainings do |nrel| %>
+                <tr>
+                  <td>
+                    <div class="mb-3">
+                      <%= nrel.input :train_type, label: 'Type of Training', input_html: { class: 'form-control' } %>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="mb-3">
+                      <%= nrel.input :train_benefit, label: 'Benefits of the training in your current role', input_html: { class: 'form-control' } %>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="mb-3">
+                      <br>
+                      <!-- Add remove button for each row -->
+                      <button type="button" class="btn btn-danger remove-row3">Remove</button>
+                    </div>
+                  </td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 </div>
 
 
 
     <br>
   <div class="form-actions">
-     <%= f.button :submit, 'Save', name: 'save_button', class: 'btn btn-success' %>
+     <%= f.button :submit, 'Save', name: 'save_button', class: 'btn btn-success', id: 'float' %>
    
     <% if (oth_performed = current_user.oth_performed).present? %>
-  <%= link_to 'Previous', edit_oth_performed_path(oth_performed), class: 'btn btn-secondary',id: 'float' %>
+  <%= link_to 'Previous', edit_oth_performed_path(oth_performed), class: 'btn btn-secondary' %>
 <% end %>
   </div>
 <% end %>
@@ -193,7 +210,7 @@ document.getElementById('addRowBtn').addEventListener('click', function() {
 
   var newRow = document.createElement('tr');
   newRow.innerHTML = `
-    <td><br>
+    <td>
       <div class="mb-3">
         <label>Type of Training</label>
         <input type="text" name="req_training[nested_trainings_attributes][${rowCount}][train_type]" class="form-control" value=""> </div>
@@ -203,17 +220,8 @@ document.getElementById('addRowBtn').addEventListener('click', function() {
         <label>Benefits of the training in your current role</label>
         <input type="text" name="req_training[nested_trainings_attributes][${rowCount}][train_benefit]" class="form-control" value=""> </div>
     </td> 
+   
     <td><br>
-      <div class="mb-3">
-        <label>Supervisor Name</label>
-        <input type="text" name="req_training[nested_trainings_attributes][${rowCount}][sup_name]" class="form-control" value=""> </div>
-    </td> 
-    <td><br>
-      <div class="mb-3">
-        <label>Supervisor Title</label>
-        <input type="text" name="req_training[nested_trainings_attributes][${rowCount}][sup_title]" class="form-control" value=""> </div>
-    </td>
-    <td><br><br>
       <div class="mb-3">
         <button type="button" class="btn btn-danger remove-row">Remove</button>
       </div>
@@ -297,6 +305,41 @@ document.getElementById('addRowBtn2').addEventListener('click', function() {
 
 // Add event listener to handle remove button clicks
 document.getElementById('formContainer2').addEventListener('click', function(e) {
+  if (e.target && e.target.className == 'btn btn-danger remove-row2') {
+    var row = e.target.closest('tr');
+    row.parentNode.removeChild(row);
+  }
+});
+
+
+document.getElementById('addRowBtn3').addEventListener('click', function() {
+  var tbody = document.getElementById('formContainer3');
+  var rowCount = tbody.getElementsByTagName('tr').length;
+
+  var newRow = document.createElement('tr');
+  newRow.innerHTML = `
+    <td>
+      <div class="mb-3">
+        <label>Type of Training</label>
+        <input type="text" name="req_training[notrel_trainings_attributes][${rowCount}][train_type]" class="form-control" required value=""> </div>
+    </td>
+     <td>
+      <div class="mb-3">
+        <label>Benefits of the training in your current role</label>
+        <input type="text" name="req_training[notrel_trainings_attributes][${rowCount}][train_benefit]" class="form-control" required value=""> </div>
+    </td> 
+    <td><br>
+      <div class="mb-3">
+        <button type="button" class="btn btn-danger remove-row2">Remove</button>
+      </div>
+    </td>
+  `;
+
+  tbody.appendChild(newRow);
+});
+
+// Add event listener to handle remove button clicks
+document.getElementById('formContainer3').addEventListener('click', function(e) {
   if (e.target && e.target.className == 'btn btn-danger remove-row2') {
     var row = e.target.closest('tr');
     row.parentNode.removeChild(row);

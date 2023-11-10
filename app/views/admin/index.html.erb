@@ -1,18 +1,68 @@
+<style>
+     .pagination {
+            text-align: center; /* Center the pagination controls */
+        }
+
+        .pagination-button-container {
+            display: inline-block;
+        }
+
+        .page-button {
+            margin: 5px;
+            padding: 5px 10px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        .page-button[disabled] {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+
+        .table-container {
+        max-height: 450px; /* Adjust the height as needed */
+        overflow-y: auto;
+      }
+</style>
+
+
 <div class="container-fluid">
 <h1>Employee List</h1>
 
-<div class="d-flex justify-content-end mb-2"> <!-- Align to the right -->
-  <div class="input-group input-group-sm" style="width: 350px;"> <!-- Adjust the width as needed -->
-    <input type="text" class="form-control" placeholder="Search..." id="searchInput">
-    <div class="input-group-append">
-      <button class="btn btn-outline-secondary" type="button" id="searchButton">
-        <i class="fas fa-search"></i>
-      </button>
+  <div class="d-flex justify-content-end mb-2">  <!-- Align to the right -->
+    <!-- Division Dropdown -->
+    <div class="input-group input-group-sm mr-2" style="width: 120px;">
+      <select class="form-control" id="divisionFilter" style="width: 120px;"> <!-- Adjust the width as needed -->
+        <option value="">All Divisions</option>
+        <!-- Add options for each division -->
+        <option value="Life Operations">Life Operations</option>
+        <option value="Nonlife Operations">Nonlife Operations </option>
+        <option value="Admin and Finance">Admin and Finance</option>
+        <option value="Sales and Marketing">Sales and Marketing</option>
+        <option value="Support">Support</option>
+        <option value="CDO Branch">CDO Branch</option>
+        <option value="Ilo-ilo Branch">Ilo-ilo Branch</option>
+        <option value="Davao Branch">Davao Branch</option>
+        <!-- Add more options as needed -->
+      </select>
+    </div>
+
+    <!-- Search Bar -->
+    <div class="input-group input-group-sm" style="width: 350px;"> <!-- Adjust the width as needed -->
+      <input type="text" class="form-control" placeholder="Search..." id="searchInput">
+      <div class="input-group-append">
+        <button class="btn btn-outline-secondary" type="button" id="searchButton">
+          <i class="fas fa-search"></i>
+        </button>
+      </div>
     </div>
   </div>
-</div>
-<div class="table-responsive">
-<table class="table table-hover table-lg">
+
+<div class="table-container">
+<table class="table table-hover table-lg border">
   <thead>
     <tr>
       <th>Employee No.</th>
@@ -20,7 +70,9 @@
       <th>Full Name</th>
       <th>Role</th>
       <th>Submitted</th>
-      <th>Benefits</th>
+       <th>Division</th>
+      <th>Department</th>
+      <th>Date Created</th>
       <th>Actions</th>
     </tr>
   </thead>
@@ -36,22 +88,15 @@
       <td>Client</td>
 
       <td><%= user.submitted ? "Yes" : "No" %></td>
+       <td><%= user.emp_detail&.division %></td>
+      <td><%= user.emp_detail&.department %></td>
+    <td><%= user.created_at.strftime('%m/%d/%Y %I:%M %p') %></td>
       <td>
-        <ul class="<%= user.emp_detail && user.emp_detail.benefits.any? ? 'list-group list-group-blue' : 'list-group list-group-red' %>">
-          <% if user.emp_detail && user.emp_detail.benefits.any? %>
-            <% user.emp_detail.benefits.each do |benefit| %>
-              <li class="list-group-item"><%= benefit.benefit %></li>
-            <% end %>
-          <% else %>
-            <li class="list-group-item list-group-item-danger">No benefits found</li>
-          <% end %>
-        </ul>
-      </td>
-
-      <td>
+      <% if user.emp_detail&.emp_id.present? %>
         <%= link_to show_user_admin_user_management_path(user), class: "btn btn-info btn-sm", data: { turbo_frame: "show_user" } do %>
           <i class="fas fa-eye"></i>
         <% end %>
+         <% end %>
 
         <%= link_to edit_admin_user_management_path(user), class: "btn btn-warning btn-sm", data: { turbo_frame: "user_modal" } do %>
           <i class="fas fa-edit"></i>
@@ -65,9 +110,12 @@
           <i class="fas fa-check"></i>
         <% end unless user.approved? %>
 
-        <%= link_to pdfadmin_path(user), class: "btn btn-secondary btn-sm" do  %>
-          <i class="fas fa-file-pdf"></i>
+        <% if user.emp_detail&.emp_id.present? %>
+          <%= link_to pdfadmin_path(user), class: "btn btn-secondary btn-sm" do %>
+            <i class="fas fa-file-pdf"></i>
+          <% end %>
         <% end %>
+        
       </td>
     </tr>
   <% end %>
@@ -75,32 +123,12 @@
 
   </tbody>
 </table>
-
 </div>
-<nav aria-label="Page navigation">
-  <ul class="pagination justify-content-center">
-    <li class="page-item <%= @users.current_page == 1 ? 'disabled' : '' %>">
-      <a class="page-link" href="<%= url_for(page: @users.current_page - 1) %>" aria-label="Previous">
-        <span aria-hidden="true">Previous</span>
-      </a>
-    </li>
-    <% (1..@users.total_pages).each do |page| %>
-      <li class="page-item <%= page == @users.current_page ? 'active' : '' %>">
-        <a class="page-link" href="<%= url_for(page: page) %>" aria-label="<%= page %>">
-          <span aria-hidden="true"><%= page %></span>
-        </a>
-      </li>
-    <% end %>
-    <li class="page-item <%= @users.current_page == @users.total_pages ? 'disabled' : '' %>">
-      <a class="page-link" href="<%= url_for(page: @users.current_page + 1) %>" aria-label="Next">
-        <span aria-hidden="true">Next</span>
-      </a>
-    </li>
-  </ul>
-</nav>
 
 
-<%= link_to "Register a User", new_admin_user_management_path, class: "btn btn-primary", data: { turbo_frame: "user_modal" } %>
+
+
+<%# <%= link_to "Register a User", new_admin_user_management_path, class: "btn btn-primary", data: { turbo_frame: "user_modal" } %> 
 <br>
 <br>
 
@@ -108,36 +136,37 @@
 </div>
 
 <script>
-// Get the input field and all user rows
-var searchInput = document.getElementById("searchInput");
-var userRows = document.querySelectorAll(".user-row");
+document.addEventListener("turbo:load", function() {
+    // Get the input field and all user rows within the Turbo Frame
+    var searchInput = document.getElementById("searchInput");
+    var userRows = document.querySelectorAll(".user-row"); // Updated selector
 
-// Add an event listener to the input field for keyup events
-searchInput.addEventListener("keyup", function() {
-  var searchText = searchInput.value.toLowerCase();
+    function filterRows() {
+        var searchText = searchInput.value.toLowerCase();
 
-  // Iterate through all user rows
-  for (var i = 0; i < userRows.length; i++) {
-    var row = userRows[i];
-    var cells = row.getElementsByTagName("td");
-    var match = false;
+        userRows.forEach((row, index) => {
+            var cells = row.getElementsByTagName("td");
+            var match = false;
 
-    // Check each cell in the row for a match with the search text
-    for (var j = 0; j < cells.length; j++) {
-      var cell = cells[j];
-      if (cell.textContent.toLowerCase().indexOf(searchText) > -1) {
-        match = true;
-        break; // Exit the loop if a match is found in this row
-      }
+            for (var cell of cells) {
+                if (cell.textContent.toLowerCase().includes(searchText)) {
+                    match = true;
+                    break;
+                }
+            }
+
+            // Hide or show the row based on the match
+            if (match) {
+                row.style.display = "table-row";
+            } else {
+                row.style.display = "none";
+            }
+        })
     }
 
-    // Show or hide the row based on the match
-    if (match) {
-      row.style.display = "";
-    } else {
-      row.style.display = "none";
-    }
-  }
+    searchInput.addEventListener("input", function() { // Change the event to "input"
+        filterRows();
+    });
 });
-
 </script>
+

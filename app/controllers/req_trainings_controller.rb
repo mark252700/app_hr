@@ -1,7 +1,7 @@
 class ReqTrainingsController < ApplicationController
   before_action :set_req_training, only: %i[ show edit update destroy ]
 
-  
+
   # GET /req_trainings or /req_trainings.json
   def index
     @req_trainings = ReqTraining.all
@@ -19,18 +19,21 @@ class ReqTrainingsController < ApplicationController
     elsif current_user.submitted
         flash[:alert] = 'You have already submitted this form.'
         redirect_to home_index_path  # Replace with the path you want to redirect to
-      
+
     else
       @req_training = ReqTraining.new
+      @req_training.rel_trainings.build
+      @req_training.notrel_trainings.build
+      @req_training.request_trainings.build
     end
-  
+
   end
 
   # GET /req_trainings/1/edit
   def edit
     if @req_training.blank?
       redirect_to new_req_training_path
-      
+
     elsif current_user.submitted
       flash[:alert] = 'You have already submitted this form.'
       redirect_to home_index_path  # Replace with the path you want to redirect to
@@ -45,10 +48,14 @@ class ReqTrainingsController < ApplicationController
       if @req_training.save
         format.html { redirect_to final_step_index_path }
         format.json { render :show, status: :created, location: @req_training }
+
       else
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @req_training.errors, status: :unprocessable_entity }
         puts "Error: #{@req_training.errors.full_messages}" # Use the instance variable
+        @req_training.rel_trainings.build if @req_training.rel_trainings.blank?
+        @req_training.notrel_trainings.build if @req_training.notrel_trainings.blank?
+        @req_training.request_trainings.build if @req_training.request_trainings.blank?
       end
     end
   end
@@ -62,6 +69,9 @@ class ReqTrainingsController < ApplicationController
       else
         format.html { render :edit, status: :unprocessable_entity }
         format.json { render json: @req_training.errors, status: :unprocessable_entity }
+        @req_training.rel_trainings.build if @req_training.rel_trainings.blank?
+        @req_training.notrel_trainings.build if @req_training.notrel_trainings.blank?
+        @req_training.request_trainings.build if @req_training.request_trainings.blank?
       end
     end
   end
@@ -88,7 +98,7 @@ class ReqTrainingsController < ApplicationController
         end
       end
     end
-    
+
 
     # Only allow a list of trusted parameters through.
     def req_training_params
@@ -99,7 +109,8 @@ class ReqTrainingsController < ApplicationController
         :sup_title,
         nested_trainings_attributes: [:id, :train_type, :train_benefit, :sup_name, :sup_title, :_destroy],
         rel_trainings_attributes: [:id, :train_type, :train_benefit, :_destroy],
-        notrel_trainings_attributes: [:id, :train_type, :train_benefit, :_destroy]
+        notrel_trainings_attributes: [:id, :train_type, :train_benefit, :_destroy],
+        request_trainings_attributes: [:id, :train_type, :train_benefit, :_destroy]
       )
     end
 end

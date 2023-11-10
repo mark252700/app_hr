@@ -28,12 +28,15 @@ class JbDescriptionsController < ApplicationController
   # GET /jb_descriptions/1/edit
   def edit
     set_button_label('Save')
+
     if @jb_description.new_record?
+      # Redirect to new_taskperformance_path for new records
       redirect_to new_taskperformance_path
     else
       @jb_description.jb_performeds.build if @jb_description.jb_performeds.empty?
-    end
+      # Only build jb_performeds for existing records
 
+    end
   end
 
   # POST /jb_descriptions or /jb_descriptions.json
@@ -49,7 +52,9 @@ class JbDescriptionsController < ApplicationController
       else
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @jb_description.errors, status: :unprocessable_entity }
+        @jb_description.jb_performeds.build if @jb_description.jb_performeds.empty?
         puts "Error: #{@jb_description.errors.full_messages}" # Change this line
+        set_button_label('next')
       end
     end
   end
@@ -67,6 +72,7 @@ class JbDescriptionsController < ApplicationController
       else
         format.html { render :edit, status: :unprocessable_entity }
         format.json { render json: @jb_description.errors, status: :unprocessable_entity }
+
       end
     end
   end
@@ -96,7 +102,8 @@ class JbDescriptionsController < ApplicationController
     def jb_description_params
       params.require(:jb_description).permit(
       :description,
-       jb_performeds_attributes: [:id,:job_performed, :job_done, :job_hr, :job_min, :job_current, :job_reason, :_destroy])
+       jb_performeds_attributes: [:id,:job_performed, :job_done, :job_hr, :job_min, :job_current, :job_reason, :_destroy],
+      nested_descriptions_attributes: [:id, :description, :_destroy])
     end
 
 

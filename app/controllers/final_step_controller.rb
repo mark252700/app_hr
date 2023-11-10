@@ -4,7 +4,8 @@ class FinalStepController < ApplicationController
     @jb_description = current_user.jb_description || OpenStruct.new(description: 'N/A')
     @taskperformance = current_user.taskperformance || OpenStruct.new(competencies: [])
     @emp_detail = current_user.emp_detail || OpenStruct.new(fullname: 'N/A', pos_title: 'N/A', emp_id: 'N/A', ser_year: 'N/A', ser_month: 'N/A')
-    @oth_performed = current_user.oth_performed || OpenStruct.new(other_competencies: [], oth_position: [])
+    @oth_performed = current_user.oth_performed || OpenStruct.new(other_competencies: [])
+    @other_positions = @user.other_positions
     @req_training = current_user.req_training || OpenStruct.new(
       train_type: 'N/A',
       train_benefit: 'N/A',
@@ -27,8 +28,19 @@ class FinalStepController < ApplicationController
     end
   end
 
+  def destroy_data
+    current_user.jb_description&.destroy
+    current_user.taskperformance&.destroy
+    current_user.emp_detail&.destroy
+    current_user.oth_performed&.destroy
+    current_user.req_training&.destroy
+    current_user.other_positions.destroy_all
+
+    redirect_to home_index_path, notice: 'Form has been successfully Cancelled.'
+  end
+
   def update_submission
     current_user.update(submitted: true)
-    redirect_to home_index_path, notice: 'Submission successful.'
+    redirect_to home_index_path, notice: 'Successfuly Submitted'
   end
 end

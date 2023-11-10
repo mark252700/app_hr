@@ -1,7 +1,7 @@
 <div class="d-flex justify-content-center align-items-center vh-100">
 
   <%= simple_form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
-    <div class="container h-custom bg-primary bg-gradient wide-container" style="--bs-bg-opacity: .3; border-radius: 10px;">
+    <div class="container h-custom bg-info bg-gradient wide-container" style="--bs-bg-opacity: .3; border-radius: 10px;">
       <div class="row justify-content-center align-items-center">
         <div class="col-md-9 col-lg-6 col-xl-5">
           <%= image_tag('logo.png', alt: 'Logo', class: 'img-fluid') %>
@@ -48,6 +48,13 @@
             
             <div class="text-center text-lg-start mt-1">
               <%= f.submit "Log in", class: 'btn btn-primary btn-lg', style: 'padding-left: 2.5rem; padding-right: 2.5rem;', id: 'login-button', onclick: 'checkUserApproval(); return false;' %>
+                &nbsp;&nbsp;&nbsp;
+            <%= link_to "Sign up",  new_admin_user_management_path, data: { turbo_frame: "user_modal" } %>
+
+
+
+
+
             </div>
           </div>
         </div>

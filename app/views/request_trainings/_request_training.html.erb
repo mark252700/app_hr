@@ -1,0 +1,17 @@
+<div id="<%= dom_id request_training %>">
+  <p class="my-5">
+    <strong class="block font-medium mb-1">Train type:</strong>
+    <%= request_training.train_type %>
+  </p>
+
+  <p class="my-5">
+    <strong class="block font-medium mb-1">Train benefit:</strong>
+    <%= request_training.train_benefit %>
+  </p>
+
+  <% if action_name != "show" %>
+    <%= link_to "Show this request training", request_training, class: "rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
+    <%= link_to "Edit this request training", edit_request_training_path(request_training), class: "rounded-lg py-3 ml-2 px-5 bg-gray-100 inline-block font-medium" %>
+    <hr class="mt-6">
+  <% end %>
+</div>

@@ -1,0 +1,92 @@
+<div class="container-fluid">
+    <div class="row">
+        <!-- Sidebar with cards -->
+        <div class="col-md-3">
+            <div class="card mb-3">
+                <div class="card-header bg-success text-white">
+                    All Users
+                </div>
+                <div class="card-body">
+                    <p>Total Users: <%= @users.count %></p>
+                </div>
+            </div>
+
+            <div class="card mb-3">
+                <div class="card-header bg-warning text-white">
+                    User Submitted
+                </div>
+                <div class="card-body">
+                    <p>Submitted Users: <%= @submitted_users.count %></p>
+                </div>
+            </div>
+
+            <div class="card">
+            <div class="card-header bg-secondary text-white">
+                Employee
+            </div>
+            <div class="card-body">
+                <p>Employee: <%= @non_client_users.count %></p>
+            </div>
+        </div>
+        <br>
+
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    User Approved
+                </div>
+                <div class="card-body">
+                    <p>Approved Users: <%= @approved_users.count %></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Chart on the right side -->
+        <div class="col-md-9">
+            <turbo-frame id="chart-frame">
+                <div class="row justify-content-center">
+                    <div class="col-md-4">
+                        <canvas id="userPieChart"></canvas>
+                    </div>
+                </div>
+            </turbo-frame>
+        </div>
+    </div>
+</div>
+
+<br>
+
+
+<!-- Include Chart.js library -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<!-- JavaScript to generate the pie chart -->
+<script>
+    // Create a function to initialize the pie chart
+    function initializePieChart() {
+        // Get the submitted and not submitted counts
+        var submittedCount = <%= @submitted_users.count %>;
+        var notSubmittedCount = <%= @users.count - @submitted_users.count %>;
+
+        // Create a data array for the pie chart
+        var data = {
+            labels: ['Submitted', 'Not Submitted'],
+            datasets: [{
+                data: [submittedCount, notSubmittedCount],
+                backgroundColor: ['#00FF00', '#FF0000']
+            }]
+        };
+
+        // Get the canvas element and create the pie chart
+        var ctx = document.getElementById('userPieChart').getContext('2d');
+        var pieChart = new Chart(ctx, {
+            type: 'pie',
+            data: data,
+            options: {
+                responsive: true
+            }
+        });
+    }
+
+    // Initialize the pie chart when the Turbo Frame is loaded
+    initializePieChart();
+</script>

@@ -11,32 +11,57 @@ class OthPerformedsController < ApplicationController
   end
 
   # GET /oth_performeds/new
-  def new
-    if OthPerformed.exists?(user_id: current_user.id)
-      redirect_to new_req_training_path
-    else
-      @oth_performed = OthPerformed.new
-    end
-   
+ # GET /oth_performeds/new
+ def new
+  if OthPerformed.exists?(user_id: current_user.id)
+    redirect_to new_req_training_path
+  else
+    @oth_performed = OthPerformed.new
+
+    @user = current_user
+
+    # Retrieve the @other_positions
+    @other_positions = OtherPosition.where(user_id: current_user.id)
+
     set_button_label('Next')
   end
+end
 
-  # GET /oth_performeds/1/edit
-  def edit
+
+
+
+
+ # GET /oth_performeds/1/edit
+def edit
+  if @oth_performed.nil? || @oth_performed.blank?
+    # Redirect to a new path (e.g., new_oth_performed_path)
+    redirect_to new_oth_performed_path
+  else
+    @user = current_user
     set_button_label('Save')
+    @other_positions = OtherPosition.where(user_id: current_user.id)
   end
+end
 
   # POST /oth_performeds or /oth_performeds.json
   def create
+
+    @user = current_user
     @oth_performed = OthPerformed.new(oth_performed_params)
     @oth_performed.user = current_user
+
+
     respond_to do |format|
       if @oth_performed.save
         format.html { redirect_to new_req_training_path }
         format.json { render :show, status: :created, location: @oth_performed }
       else
+        # If validation fails, re-render the 'new' view without redirecting
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @oth_performed.errors, status: :unprocessable_entity }
+
+
+
       end
     end
   end
@@ -44,12 +69,17 @@ class OthPerformedsController < ApplicationController
   # PATCH/PUT /oth_performeds/1 or /oth_performeds/1.json
   def update
     respond_to do |format|
+      @other_positions = OtherPosition.all
       if @oth_performed.update(oth_performed_params)
         format.html { redirect_to edit_req_training_path }
         format.json { render :show, status: :ok, location: @oth_performed }
       else
+        # If validation fails, re-render the 'edit' view without redirecting
         format.html { render :edit, status: :unprocessable_entity }
         format.json { render json: @oth_performed.errors, status: :unprocessable_entity }
+
+
+
       end
     end
   end
@@ -64,32 +94,39 @@ class OthPerformedsController < ApplicationController
     end
   end
 
+# Custom Delete for oth_position
+
+ # Custom destroy action for OtherPosition
+ def custom_destroy
+  @other_position = OtherPosition.find(params[:id])
+
+  # Perform the deletion
+  @other_position.destroy
+
+  respond_to do |format|
+    format.html { redirect_to new_oth_performed_path }
+    format.json { head :no_content }
+  end
+end
+
+
   private
 
   def set_button_label(label)
     @button_label = label
   end
-    # Use callbacks to share common setup or constraints between actions.
-    def set_oth_performed
-      # if params[:id].nil?
-      #   redirect_to new_oth_performed_path
-      # else
+  def set_oth_performed
+    if params[:id].nil? || !OthPerformed.exists?(id: params[:id])
+      redirect_to new_oth_performed_path
+    else
       @oth_performed = OthPerformed.find(params[:id])
-    #   if @req_training.nil?
-    #     redirect_to new_oth_performed_path
-    #   end
-    # end
     end
+  end
 
     # Only allow a list of trusted parameters through.
     def oth_performed_params
-      params.require(:oth_performed).permit(
-        :job_performed, :job_done, :job_hr, :job_min, :integer, :job_current, :job_reason,
-        nested_othperformes_attributes: [ :id,:job_performed, :job_done, :job_hr, :job_min, :integer, :job_current, :job_reason, :_destroy],
-        other_tasks_attributes: [:id,:task_notdone, :task_reason, :task_impact, :_destroy],
-        other_competencies_attributes: [:id,:competencies, :_destroy],
-        oth_position_attributes: [:pos_title, :pos_yr, :pos_month]
-      )
+      params.permit(:job_performed, :job_done, :job_hr, :job_min, :integer, :job_current, :job_reason)
     end
-    
+
+
 end

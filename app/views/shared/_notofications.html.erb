@@ -1,0 +1,12 @@
+<% flash.each do |type, message| %>
+    <div class="alert alert-success alert-dismissible fade show <%= type == 'notice' ? 'alert-success' : 'alert-danger' %>" role="alert">
+        <%= message %>
+        
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    <script>
+        setTimeout(function() {
+            document.querySelector('.alert').remove();
+        }, 8000); // Close the alert after 5 seconds (adjust the duration as needed)
+    </script>
+<% end %>

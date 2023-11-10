@@ -40,6 +40,7 @@ class EmpDetailsController < ApplicationController
  # GET /emp_details/new
 def new
   set_button_label('Next')
+  self.action_name = 'new'
 
   if EmpDetail.exists?(user_id: current_user.id)
     redirect_to new_jb_description_path
@@ -71,7 +72,9 @@ def create
     else
       format.html { render :new, status: :unprocessable_entity }
       format.json { render json: @emp_detail.errors, status: :unprocessable_entity }
+      @emp_detail.benefits.build if @emp_detail.benefits.empty?
       Rails.logger.error(@emp_detail.errors.full_messages)
+      set_button_label('Next')
     end
   end
 end
@@ -86,6 +89,8 @@ end
       else
         format.html { render :edit, status: :unprocessable_entity }
         format.json { render json: @emp_detail.errors, status: :unprocessable_entity }
+        @emp_detail.benefits.build if @emp_detail.benefits.empty?
+        set_button_label('Save')
       end
     end
   end
@@ -120,7 +125,7 @@ end
         :fullname, :emp_id, :rank, :division, :sup_name, :pos_title, :ser_year, :ser_month,
         :educ_course, :educ_grad, :educ_skill, :educ_certificate, :educ_othskill,
         :contact, :department, :sup_title, :hr_perday, :hr_perweek, :break, :launch,
-        :ot_weekday, :ot_weekend, :workday,:firstname,:middlename,:lastname,
+        :ot_weekday, :ot_weekend, :workday,:firstname,:middlename,:lastname, :educ_undergrad,
         benefits_attributes: [:id, :benefit, :_destroy] # Include the benefit's ID
       )
     end

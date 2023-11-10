@@ -1,0 +1,37 @@
+<div id="<%= dom_id other_perfromed %>">
+  <p class="my-5">
+    <strong class="block font-medium mb-1">Job performed:</strong>
+    <%= other_perfromed.job_performed %>
+  </p>
+
+  <p class="my-5">
+    <strong class="block font-medium mb-1">Job done:</strong>
+    <%= other_perfromed.job_done %>
+  </p>
+
+  <p class="my-5">
+    <strong class="block font-medium mb-1">Job hr:</strong>
+    <%= other_perfromed.job_hr %>
+  </p>
+
+  <p class="my-5">
+    <strong class="block font-medium mb-1">Job min:</strong>
+    <%= other_perfromed.job_min %>
+  </p>
+
+  <p class="my-5">
+    <strong class="block font-medium mb-1">Job current:</strong>
+    <%= other_perfromed.job_current %>
+  </p>
+
+  <p class="my-5">
+    <strong class="block font-medium mb-1">Job reason:</strong>
+    <%= other_perfromed.job_reason %>
+  </p>
+
+  <% if action_name != "show" %>
+    <%= link_to "Show this other perfromed", other_perfromed, class: "rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
+    <%= link_to "Edit this other perfromed", edit_other_perfromed_path(other_perfromed), class: "rounded-lg py-3 ml-2 px-5 bg-gray-100 inline-block font-medium" %>
+    <hr class="mt-6">
+  <% end %>
+</div>

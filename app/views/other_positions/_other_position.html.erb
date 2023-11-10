@@ -1,0 +1,22 @@
+<div id="<%= dom_id other_position %>">
+  <p class="my-5">
+    <strong class="block font-medium mb-1">Pos title:</strong>
+    <%= other_position.pos_title %>
+  </p>
+
+  <p class="my-5">
+    <strong class="block font-medium mb-1">Pos yr:</strong>
+    <%= other_position.pos_yr %>
+  </p>
+
+  <p class="my-5">
+    <strong class="block font-medium mb-1">Pos month:</strong>
+    <%= other_position.pos_month %>
+  </p>
+
+  <% if action_name != "show" %>
+    <%= link_to "Show this other position", other_position, class: "rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
+    <%= link_to "Edit this other position", edit_other_position_path(other_position), class: "rounded-lg py-3 ml-2 px-5 bg-gray-100 inline-block font-medium" %>
+    <hr class="mt-6">
+  <% end %>
+</div>

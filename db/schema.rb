@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_10_25_004518) do
+ActiveRecord::Schema[7.0].define(version: 2023_11_09_112101) do
   create_table "benefits", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "benefit"
     t.datetime "created_at", null: false
@@ -57,6 +57,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_25_004518) do
     t.string "firstname"
     t.string "middlename"
     t.string "lastname"
+    t.string "educ_undergrad"
     t.index ["user_id"], name: "index_emp_details_on_user_id"
   end
 
@@ -79,6 +80,14 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_25_004518) do
     t.datetime "updated_at", null: false
     t.bigint "jb_description_id", null: false
     t.index ["jb_description_id"], name: "index_jb_performeds_on_jb_description_id"
+  end
+
+  create_table "nested_descriptions", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.string "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "jb_description_id", null: false
+    t.index ["jb_description_id"], name: "index_nested_descriptions_on_jb_description_id"
   end
 
   create_table "nested_othperformes", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
@@ -166,12 +175,53 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_25_004518) do
     t.index ["user_id"], name: "index_oth_tasks_on_user_id"
   end
 
+  create_table "other_competences", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.string "competencies"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "other_position_id", null: false
+    t.index ["other_position_id"], name: "index_other_competences_on_other_position_id"
+  end
+
   create_table "other_competencies", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "competencies"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "oth_performed_id", null: false
     t.index ["oth_performed_id"], name: "index_other_competencies_on_oth_performed_id"
+  end
+
+  create_table "other_perfromeds", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.string "job_performed"
+    t.string "job_done"
+    t.integer "job_hr"
+    t.integer "job_min"
+    t.boolean "job_current"
+    t.string "job_reason"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "other_position_id", null: false
+    t.index ["other_position_id"], name: "index_other_perfromeds_on_other_position_id"
+  end
+
+  create_table "other_positions", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.string "pos_title"
+    t.integer "pos_yr"
+    t.integer "pos_month"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "user_id", null: false
+    t.index ["user_id"], name: "index_other_positions_on_user_id"
+  end
+
+  create_table "other_taskperformances", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.string "task_notdone"
+    t.string "task_reason"
+    t.string "task_impact"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "other_position_id", null: false
+    t.index ["other_position_id"], name: "index_other_taskperformances_on_other_position_id"
   end
 
   create_table "other_tasks", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
@@ -210,6 +260,15 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_25_004518) do
     t.datetime "updated_at", null: false
     t.bigint "user_id", null: false
     t.index ["user_id"], name: "index_req_trainings_on_user_id"
+  end
+
+  create_table "request_trainings", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.string "train_type"
+    t.string "train_benefit"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "req_training_id", null: false
+    t.index ["req_training_id"], name: "index_request_trainings_on_req_training_id"
   end
 
   create_table "task_performances", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
@@ -252,6 +311,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_25_004518) do
   add_foreign_key "emp_details", "users"
   add_foreign_key "jb_descriptions", "users"
   add_foreign_key "jb_performeds", "jb_descriptions"
+  add_foreign_key "nested_descriptions", "jb_descriptions"
   add_foreign_key "nested_othperformes", "oth_performeds"
   add_foreign_key "nested_taskperformances", "taskperformances"
   add_foreign_key "nested_trainings", "req_trainings"
@@ -260,11 +320,16 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_25_004518) do
   add_foreign_key "oth_performeds", "users"
   add_foreign_key "oth_positions", "oth_performeds"
   add_foreign_key "oth_tasks", "users"
+  add_foreign_key "other_competences", "other_positions"
   add_foreign_key "other_competencies", "oth_performeds"
+  add_foreign_key "other_perfromeds", "other_positions"
+  add_foreign_key "other_positions", "users"
+  add_foreign_key "other_taskperformances", "other_positions"
   add_foreign_key "other_tasks", "oth_performeds"
   add_foreign_key "rel_trainings", "req_trainings"
   add_foreign_key "req_competencies", "users"
   add_foreign_key "req_trainings", "users"
+  add_foreign_key "request_trainings", "req_trainings"
   add_foreign_key "task_performances", "users"
   add_foreign_key "taskperformances", "users"
 end

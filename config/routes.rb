@@ -1,4 +1,10 @@
 Rails.application.routes.draw do
+  resources :other_competences
+  resources :other_taskperformances
+  resources :other_positions
+  resources :other_perfromeds
+  resources :nested_descriptions
+  resources :request_trainings
   get 'sup_admin/index'
   resources :oth_positions
   get 'final_step/index'
@@ -15,11 +21,12 @@ Rails.application.routes.draw do
   resources :competencies
   resources :oth_tasks
   resources :oth_competencies
-  resources :oth_performeds
+
   resources :req_competencies
   resources :task_perfomances
   get 'home/index'
   get 'admin_index', to: 'admin#index'
+  get 'admin_dashboard', to: 'admin#dashboard'
 
 
   get '/emp_details/new', to: 'emp_details#new', as: 'emp_details_new'
@@ -48,6 +55,8 @@ Rails.application.routes.draw do
 get 'admin/destroy_data/:id', to: 'admin#destroy_data', as: 'admin_destroy_data'
 get 'admin/generate_pdf/:id', to: 'admin#generate_pdf', as: 'pdfadmin'
 get 'search_users', to: 'admin#search'
+get 'destroy_data' => 'final_step#destroy_data', as: :destroy_data_home
+
 
 
 # Then, define the resources for admin/user_management as you have it
@@ -69,11 +78,17 @@ end
     end
   end
 
+  resources :oth_performeds do
+    member do
+      get 'custom_destroy'
+    end
+  end
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Defines the root path route ("/")
   devise_scope :user do
     root to: "devise/sessions#new"
+    get '/news_session', to: 'users/sessions#news', as: 'news_session'
   end
 end

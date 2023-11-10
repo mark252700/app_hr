@@ -1,5 +1,5 @@
 <style>
-#float{
+#float,#next{
 float:right
 }
 
@@ -13,7 +13,7 @@ float:right
     <div class="col-sm-4">
       <div class="form-group ">
         
-        <%= f.input :firstname, label: 'Firstname', input_html: { class: 'form-control has-value next-input' }%>
+        <%= f.input :firstname, label: 'First Name', input_html: { class: 'form-control has-value next-input' }%>
        
       </div>
     </div>
@@ -21,7 +21,7 @@ float:right
     <div class="col-sm-4">
       <div class="form-group ">
        
-        <%= f.input :middlename, label: 'Middlename', input_html: { class: 'form-control has-value next-input' } %>
+        <%= f.input :middlename, label: 'Middle Name', input_html: { class: 'form-control has-value next-input' } %>
        
       </div>
     </div>
@@ -29,7 +29,7 @@ float:right
      <div class="col-sm-4">
       <div class="form-group ">
        
-        <%= f.input :lastname, label: 'Lastname', input_html: { class: 'form-control has-value next-input' }%>
+        <%= f.input :lastname, label: 'Last Name', input_html: { class: 'form-control has-value next-input' }%>
        
       </div>
     </div>
@@ -60,30 +60,39 @@ float:right
   <br>
 
   <div class="row justify-content-center">
-    <div class="col-sm-4">
-      <div class="form-group">
-       
-        <%= f.input :division, label: 'Division', input_html: { class: 'form-control has-value next-input'  }%>
-       
-      </div>
+  <div class="col-sm-4">
+    <div class="form-group">
+      <%= f.label :division, class: 'control-label' %>
+      <%= f.select :division, [['Select Division', ''], ['Life Operations', 'Life Operations'], ['Nonlife Operations', 'Nonlife Operations'], ['Admin and Finance', 'Admin and Finance'],['Sales and Marketing', 'Sales and Marketing'], ['Support', 'Support'], ['CDO Branch', 'CDO,Branch'], ['Ilo-ilo Branch', 'Ilo-ilo Branch'], ['Davao Branch', 'Davao Branch']] , {}, { class: "form-control #{'is-invalid' if f.object.errors[:division].any?}" } %>
+      <% if f.object.errors[:division].any? %>
+        <div class="invalid-feedback">
+          <%= f.object.errors.full_messages_for(:division).join(', ') %>
+        </div>
+      <% end %>
     </div>
+  </div>
 
-    <div class="col-sm-4">
+   <div class="col-sm-4">
       <div class="form-group">
        
-        <%= f.input :department, label: 'department', input_html: { class: 'form-control has-value next-input' }%>
+        <%= f.input :department, label: 'Department', input_html: { class: 'form-control has-value next-input' }%>
         
       </div>
     </div>
 
-    <div class="col-sm-4">
-      <div class="form-group ">
-        <%= f.label :rank, class: 'control-label' %>
-        <%= f.select :rank, [['Select a rank', ''], ['Supervisor', 'Supervisor'], ['Manager', 'Manager'], ['Senior Officer', 'Senior Officer']], {}, { class: 'form-control has-value' } %>
-       
-      </div>
+  <div class="col-sm-4">
+    <div class="form-group">
+      <%= f.label :rank, class: 'control-label' %>
+      <%= f.select :rank, [['Select a rank', ''], ['Senior Officer', 'Senior Officer'],['Manager', 'Manager'],  ['Supervisor', 'Supervisor'], ['Rank and File', 'Rank and File']], {}, { class: "form-control #{'is-invalid' if f.object.errors[:rank].any?}" } %>
+      <% if f.object.errors[:rank].any? %>
+        <div class="invalid-feedback">
+          <%= f.object.errors.full_messages_for(:rank).join(', ') %>
+        </div>
+      <% end %>
     </div>
   </div>
+</div>
+
 
 <br>
 
@@ -91,13 +100,13 @@ float:right
     <div class="col-sm-4">
       <div class="form-group ">
        <br>
-        <%= f.input :contact, label: 'Contact', input_html: { class: 'form-control has-value next-input' }%>
+        <%= f.input :contact, label: 'Contact', input_html: { class: 'form-control has-value next-input', type: 'number', max: 99999999999 }%>
        
       </div>
     </div>
 
     <div class="col-sm-4">
-      <div class="form-group \">
+      <div class="form-group ">
        <%= f.label :ser_year, label: 'Year in Service', class: 'control-label text-bold fw-bold' %>
 
         <%= f.input :ser_year, label: 'year', input_html: { class: 'form-control has-value next-input' }%>
@@ -120,7 +129,7 @@ float:right
      <div class="col-sm-4">
       <div class="form-group ">
        
-        <%= f.input :sup_name, label: 'Supervisor Name', input_html: { class: 'form-control has-value next-input' }%>
+        <%= f.input :sup_name, label: 'Immidiate Superior', input_html: { class: 'form-control has-value next-input' }%>
        
       </div>
     </div>
@@ -128,7 +137,7 @@ float:right
     <div class="col-sm-4">
       <div class="form-group ">
       
-        <%= f.input :sup_title, label: 'Supervisor Title', input_html: { class: 'form-control has-value next-input' }%>
+        <%= f.input :sup_title, label: 'Immidiate Superior Position', input_html: { class: 'form-control has-value next-input' }%>
         
       </div>
     </div>
@@ -148,6 +157,7 @@ float:right
         <%= f.input :educ_course, label: 'Course', input_html: { class: 'form-control has-value next-input' }%>
        
       </div>
+
     </div>
 
     <div class="col-sm-4">
@@ -171,7 +181,7 @@ float:right
     <div class="col-sm-4">
       <div class="form-group ">
       
-        <%= f.input :educ_certificate, label: 'Certificate', input_html: { class: 'form-control has-value next-input' }%>
+         <%= f.input :educ_undergrad, label: 'if Undergraduate', input_html: { class: 'form-control has-value next-input' }%>
         
       </div>
     </div>
@@ -191,7 +201,7 @@ float:right
   <hr>
   <%# <p> position details </p> %>
    <div class="card">
-  <h5 class="card-header text-uppercase">Position Details</h5>
+  <h5 class="card-header text-uppercase">Position Details (Current Position)</h5>
   <div class="card-body">
 
   <div class="row justify-content-center">
@@ -214,7 +224,7 @@ float:right
     <div class="col-sm-4">
       <div class="form-group ">
        
-        <%= f.input :workday, label: 'Workday', input_html: { class: 'form-control has-value next-input' }%>
+        <%= f.input :workday, label: 'Number of Workdays', input_html: { class: 'form-control has-value next-input' }%>
        
       </div>
     </div>
@@ -230,7 +240,7 @@ float:right
     <div class="col-sm">
       <div class="form-group">
        
-        <%= f.input :launch, label: 'Launch Time', input_html: { class: 'form-control has-value next-input' }%>
+        <%= f.input :launch, label: 'Lunch Time', input_html: { class: 'form-control has-value next-input' }%>
         
       </div>
     </div>
@@ -284,7 +294,7 @@ float:right
    <table class="table">
   <thead>
     <tr>
-      <th class="">Benefit</th>
+      <th class="">Benefits Recieved (Mandated and Initiated)</th>
       <th class="text-right col-2">
         <button type="button" class="btn btn-success" id="addrows">+</button>
       </th>
@@ -315,9 +325,9 @@ float:right
   <br>
 <div class="form-actions">
   <div class="col">
-    <%= f.button :submit, @button_label, name: 'save_button', class: action_name == 'new' ? 'btn btn-primary' : 'btn btn-success' %>
-  
-  </div>
+  <%= f.button :submit, @button_label, name: 'save_button', class: action_name == 'new' ? 'btn btn-primary' : 'btn btn-success', id: 'next' %>
+</div>
+
 </div>
   <br>
 <% end %>

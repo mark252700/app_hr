@@ -1,0 +1,2 @@
+module OtherPositionsHelper
+end
