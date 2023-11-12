@@ -189,7 +189,7 @@ end
 
 # Create a table for Job Performed
 pdf.table([
-  ["Job Performed", "Whenever this work done", "Time alloted for this job", "Is this within your current job description", "Reasons for doing this task"]
+  ["Job Performed", "Whenever this work done", "How often do you perform this task?", "Is this within your current job description?", "Reasons for doing this task"]
 ] + @jb_description.jb_performeds.map do |jb_performed|
   [
     jb_performed.job_performed.upcase,
@@ -265,7 +265,7 @@ end
 
         # Table for other_positions and other_performed
         pdf.table([
-          ["Position Title", "Position Year", "Position Month", "Job Performed", "Job Done", "Job Hours", "Job Minutes", "Job Current", "Job Reason"]
+          ["Position Title", "Position Year", "Position Month", "Job Performed", "Job Done", "How often do you perform this task?", "Job Current", "Job Reason"]
         ] + [
           [
             other_position.pos_title, other_position.pos_yr, other_position.pos_month, # These will be repeated for each row
@@ -274,7 +274,7 @@ end
         ] + other_position.other_perfromeds.map { |performed|
           [
             nil, nil, nil, # Empty placeholders for single row
-            performed&.job_performed, performed&.job_done, performed&.job_hr, performed&.job_min,
+            performed&.job_performed, performed&.job_done, "#{performed.job_hr} hour/s #{performed.job_min} mins",
             performed&.job_current ? 'Yes' : 'No', performed&.job_reason
           ]
         },

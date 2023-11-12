@@ -13,15 +13,21 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
 
          def active_for_authentication?
-          super && approved?
+          super && approved? && !archive
         end
 
         def inactive_message
-          approved? ? super : "Your account has not been approved yet."
+          if !approved?
+            "Your account has not been approved yet."
+          elsif archive
+            "Your account has been locked and cannot be used for login."
+          else
+            super
+          end
         end
 
+        def admin?
+          role == true
+        end
 
-  def admin?
-    role == true
-  end
 end

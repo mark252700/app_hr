@@ -14,6 +14,13 @@
       @non_client_users = User.where(role: false)
   end
 
+  def archieve
+    @users = User.includes(:emp_detail).all
+    @submitted_users = User.includes(:emp_detail).where(submitted: true)
+    @approved_users = User.includes(:emp_detail).where(approved: true)
+    @non_client_users = User.where(role: false)
+end
+
 
   def approve_user
     @user = User.find(params[:id])
@@ -207,7 +214,7 @@
 
   # Create a table for Job Performed
   pdf.table([
-    ["Job Performed", "Whenever this work done", "Time alloted for this job", "Is this within your current job description", "Reasons for doing this task"]
+    ["Job Performed", "How often do you perform this task?", "Time alloted for this job", "Is this within your current job description?", "Reasons for doing this task"]
   ] + @jb_description.jb_performeds.map do |jb_performed|
     [
       jb_performed.job_performed.upcase,
@@ -284,7 +291,7 @@
 
           # Table for other_positions and other_performed
           pdf.table([
-            ["Position Title", "Position Year", "Position Month", "Job Performed", "Job Done", "Job Hours", "Job Minutes", "Job Current", "Job Reason"]
+            ["Position Title", "Position Year", "Position Month", "Job Performed", "How often do you perform this task?", "Is this within your current job description?", "Job Current", "Job Reason"]
           ] + [
             [
               other_position.pos_title, other_position.pos_yr, other_position.pos_month, # These will be repeated for each row
@@ -293,7 +300,7 @@
           ] + other_position.other_perfromeds.map { |performed|
             [
               nil, nil, nil, # Empty placeholders for single row
-              performed&.job_performed, performed&.job_done, performed&.job_hr, performed&.job_min,
+              performed&.job_performed, performed&.job_done, "#{performed.job_hr} hour/s #{performed.job_min} mins",
               performed&.job_current ? 'Yes' : 'No', performed&.job_reason
             ]
           },
@@ -430,6 +437,192 @@
 
       send_data(pdf.render, filename: 'employee.pdf', type: 'application/pdf', disposition: 'inline')
     end
+
+
+    def download_excel
+      users = User.all
+
+      respond_to do |format|
+        format.xlsx do
+          package = Axlsx::Package.new
+          workbook = package.workbook
+
+          workbook.add_worksheet(name: 'Users') do |sheet|
+
+                  # Merge cells for Employee Details and Educational Attainment titles
+                  sheet.merge_cells('A1:L1')
+                  sheet.merge_cells('M1:Q1')
+                  sheet.merge_cells('R1:Y1')
+                  sheet.merge_cells('Z1:AE1')
+                  sheet.merge_cells('AF1:AI1')
+                  sheet.merge_cells('AJ1:AU1')
+                  sheet.merge_cells('AV1:AW1')
+                  sheet.merge_cells('AX1:AY1')
+                  sheet.merge_cells('AZ1:BA1')
+                  sheet.merge_cells('BB1:BC1')
+
+                  # Add Employee Details and Educational Attainment headers
+                  sheet.add_row(['Employee Details', nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, 'Educational Attainment', nil, nil, nil, nil, 'Position Details', nil, nil, nil, nil, nil, nil, nil, 'Job description', nil, nil, nil, nil, nil, 'Task Performance', nil, nil, nil, 'Other Position',nil, nil, nil,nil, nil, nil,nil, nil, nil,nil, nil, 'Required Training', nil, 'Previous Training Related to the Job Role', nil, 'Previous Training Not Related to the Job Role', nil,  'Requested Training (not related to the job role)' ], style: sheet.styles.add_style(b: true, alignment: { horizontal: :center }, sz: 18))
+
+            # Add headers
+            sheet.add_row(['Employee No.', 'Email', 'First Name','Middle Name','Last Name', 'Division', 'Department', 'Position Title', 'Year in Service', 'Contact No.', 'Immidiate Superior','Immidiate Superior Title','Course','Year Graduated','Skills','Certificate','Other Skills','Work Hours Perday','Work Hours Perweek','Workdays','Break Time','Lunch Time','Overtime Weekday','Overtime Weekend','Benefits','Job Description','Job Performed','Whenever this work done','Time alloted for this job','Is this within your current job description','Reasons for doing this task','Required Competencies','Task that are not done','Reasons for not doing the task','Impact of not doing the task','
+              Position Title','Position Year','Position Month','Job Performed','How often do you perform this task?','Time allotted for this job','Is this within your current job description?','Reason for doing this task','Task that are not done','Reasons for not doing the task','Impact of not doing the task','Competencies','Type of Training(Required Training)','Benefits of training in your current role(Required Training)','Type of Training(Previous Training Related)','Benefits of training in your current role(Previous Training Related)','Type of Training(Previous Training Not Related)','Benefits of training in your current role(Previous Training Not Related)','Type of Training(Requested Training)','Benefits of training in your current role(Requested Training)'], style: sheet.styles.add_style(b: true, alignment: { horizontal: :center }))
+
+            # Add data
+            users.each do |user|
+              benefits_string = user.emp_detail&.benefits&.map(&:benefit)&.join(',')
+
+            #for Job Description
+              description_string = user.jb_description&.description
+              nested_description_string = user.jb_description&.nested_descriptions&.map(&:description)&.join(',')
+              description_list = [description_string, nested_description_string].compact
+                    .map { |desc| desc&.split(',') }
+                    .flatten
+                    .map(&:strip)
+                    .reject(&:empty?)
+              job_performed_list = user.jb_description&.jb_performeds&.map(&:job_performed)
+              job_done_list = user.jb_description&.jb_performeds&.map(&:job_done)
+              # Create a list of strings for job_hr and job_min for each jb_performed record
+              job_hr_min_list = user.jb_description&.jb_performeds&.map do |jb_performed|
+                "#{jb_performed.job_hr} hours and #{jb_performed.job_min} minutes"
+              end
+              job_current_list = user.jb_description&.jb_performeds&.map do |jb_performed|
+                jb_performed.job_current ? 'Yes' : 'No'
+              end
+              job_reason_list = user.jb_description&.jb_performeds&.map(&:job_reason)
+
+              #for taskperformance
+              task_comptency_list = user.taskperformance&.competencies&.map(&:competencies)
+              task_notdone_list = [
+                user.taskperformance&.task_notdone,
+                user.taskperformance&.nested_taskperfomances&.map(&:task_notdone)&.join(',')
+              ].compact
+
+              task_reason_list = [
+                user.taskperformance&.task_reason,
+                user.taskperformance&.nested_taskperfomances&.map(&:task_reason)&.join(',')
+              ].compact
+
+              task_impact_list = [
+                user.taskperformance&.task_impact,
+                user.taskperformance&.nested_taskperfomances&.map(&:task_impact)&.join(',')
+              ].compact
+
+             # For other position
+            other_position_list = user.other_positions.present? ? user.other_positions&.map(&:pos_title).join("\n") : nil
+            other_year_list = user.other_positions.present? ? user.other_positions&.map(&:pos_yr).join("\n") : nil
+            other_month_list = user.other_positions.present? ? user.other_positions&.map(&:pos_month).join("\n") : nil
+            other_job_performed_list = user.other_positions.present? ? user.other_positions.flat_map { |op| op.other_perfromeds&.map(&:job_performed) }.compact.join("\n") : nil
+            other_job_done_list = user.other_positions.present? ? user.other_positions.flat_map { |op| op.other_perfromeds&.map(&:job_done) }.compact.join("\n") : nil
+            other_hr_min_list = user.other_positions.present? ? user.other_positions.flat_map { |op| op.other_perfromeds&.map { |opd| "#{opd.job_hr} hours and #{opd.job_min} minutes" } }.compact.join("\n") : nil
+            other_current_list = user.other_positions.present? ? user.other_positions.flat_map { |op| op.other_perfromeds&.map { |opd| opd.job_current ? 'Yes' : 'No' } }.compact.join("\n") : nil
+            other_job_reason_list = user.other_positions.present? ? user.other_positions.flat_map { |op| op.other_perfromeds&.map(&:job_reason) }.compact.join("\n") : nil
+
+            other_task_notdone_list = user.other_positions.present? ? user.other_positions.flat_map { |op| op.other_taskperformances&.map(&:task_notdone) }.compact.join("\n") : nil
+            other_task_reason_list = user.other_positions.present? ? user.other_positions.flat_map { |op| op.other_taskperformances&.map(&:task_reason) }.compact.join("\n") : nil
+            other_task_impact_list = user.other_positions.present? ? user.other_positions.flat_map { |op| op.other_taskperformances&.map(&:task_impact) }.compact.join("\n") : nil
+
+            other_competencies_list = user.other_positions.present? ? user.other_positions.flat_map { |op| op.other_competences&.map(&:competencies) }.compact.join("\n") : nil
+
+            #for Required Training
+
+            #required training
+            train_type_list = [
+              user.req_training&.train_type,
+              user.req_training&.nested_trainings&.map(&:train_type)&.join(',')
+            ].compact
+
+            train_benefit_list = [
+              user.req_training&.train_benefit,
+              user.req_training&.nested_trainings&.map(&:train_benefit)&.join(',')
+            ].compact
+
+
+            # Related training
+            train_type_related_list = user.req_training.present? ? user.req_training.rel_trainings&.map(&:train_type)&.reject(&:empty?)&.join("\n") : nil
+            train_benefit_related_list = user.req_training.present? ? user.req_training.rel_trainings&.map(&:train_benefit)&.reject(&:empty?)&.join("\n") : nil
+
+            # Not related training
+            train_type_notrelated_list = user.req_training.present? ? user.req_training.notrel_trainings&.map(&:train_type)&.reject(&:empty?)&.join("\n") : nil
+            train_benefit_notrelated_list = user.req_training.present? ? user.req_training.notrel_trainings&.map(&:train_benefit)&.reject(&:empty?)&.join("\n") : nil
+
+            # Request training
+            train_type_request_list = user.req_training.present? ? user.req_training.request_trainings&.map(&:train_type)&.reject(&:empty?)&.join("\n") : nil
+            train_benefit_request_list = user.req_training.present? ? user.req_training.request_trainings&.map(&:train_benefit)&.reject(&:empty?)&.join("\n") : nil
+
+
+
+              sheet.add_row([
+                #empplyee Details
+                user.emp_detail&.emp_id,
+                user.email,
+                user.emp_detail&.firstname,
+                user.emp_detail&.middlename,
+                user.emp_detail&.lastname,
+                user.emp_detail&.division,
+                user.emp_detail&.department,
+                user.emp_detail&.pos_title,
+                "#{user.emp_detail&.ser_year} year#{'s' if user.emp_detail&.ser_year != 1}" +
+                (user.emp_detail&.ser_year.present? && user.emp_detail&.ser_month.present? ? " and " : "") +
+                "#{user.emp_detail&.ser_month} month#{'s' if user.emp_detail&.ser_month != 1}",
+                user.emp_detail&.contact,
+                user.emp_detail&.sup_name,
+                user.emp_detail&.sup_title,
+                user.emp_detail&.educ_course,
+                user.emp_detail&.educ_grad,
+                user.emp_detail&.educ_undergrad,
+                user.emp_detail&.educ_skill,
+                user.emp_detail&.educ_othskill,
+                user.emp_detail&.hr_perday,
+                user.emp_detail&.hr_perweek,
+                user.emp_detail&.workday,
+                user.emp_detail&.launch,
+                user.emp_detail&.break,
+                user.emp_detail&.ot_weekday ? 'Yes' : 'No',
+                user.emp_detail&.ot_weekend ? 'Yes' : 'No',
+                benefits_string,
+                description_list&.join("\n"),
+                job_performed_list&.join("\n"),
+                job_done_list&.join("\n"),
+                job_hr_min_list&.join("\n"),
+                job_current_list&.join("\n"),
+                job_reason_list&.join("\n"),
+                task_comptency_list&.join("\n"),
+                task_notdone_list&.join("\n"),
+                task_reason_list&.join("\n"),
+                task_impact_list&.join("\n"),
+                other_position_list,
+                other_year_list,
+                other_month_list,
+                other_job_performed_list,
+                other_job_done_list,
+                other_hr_min_list,
+                other_current_list,
+                other_job_reason_list,
+                other_task_notdone_list,
+                other_task_reason_list,
+                other_task_impact_list,
+                other_competencies_list,
+                train_type_list&.join("\n"),
+                train_benefit_list&.join("\n"),
+                train_type_related_list,
+                train_benefit_related_list,
+                train_type_notrelated_list,
+                train_benefit_notrelated_list,
+                train_type_request_list,
+                train_benefit_request_list
+
+
+
+              ], style: sheet.styles.add_style(b: false, alignment: { horizontal: :center }))
+            end
+          end
+
+          send_data package.to_stream.read, filename: 'Employee.xlsx', type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', disposition: 'attachment'
+        end
+      end
+    end
+
 
 
 

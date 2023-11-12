@@ -122,12 +122,23 @@
   <h5 class="card-header text-uppercase">Job Description</h5>
   <div class="card-body">
     <table class="table table-bordered table-striped">
+    <thead>
+     
+    </thead>
       <tbody>
        
           <tr>
-            <td><strong>Job Description</strong></td>
+            
             <td><%= @jb_description.description %></td>
-          </tr>
+             </tr>
+            <%if @jb_description.nested_descriptions.present? %>
+            <%@jb_description.nested_descriptions.each do |description|%>
+            <tr>
+              <td><%= description.description%> </td>
+               </tr>
+            <%end%>  
+            <%end%>
+         
           </tbody>
           </table>
           </div>
@@ -198,9 +209,9 @@
         <table class="table table-bordered table-striped">
           <thead>
             <tr>
-              <td><strong>Job Performed</strong></td>
-              <td><strong>Whenever this work done</strong></td>
-              <td><strong>Time allotted for this job</strong></td>
+              <th>Task that are not done</th>
+                <th>Reasons for not doing the task</th>
+                <th>Impact of not doing the task</th>
             </tr>
           </thead>
           <tbody>
@@ -235,18 +246,16 @@
           <table class="table table-lg">
             <thead>
               <tr>
-                <th>Position Title</th>
+               <th>Position Title</th>
                 <th>Position Year</th>
                 <th>Position Month</th>
                 <th>Job Performed</th>
-                <th>Whenever this work done</th>
+                <th>How often do you perform this task?</th>
                 <th>Time allotted for this job</th>
-                <th>Is this within your current job description</th>
+                <th></th>
+                <th>Is this within your current job description?</th>
                 <th>Reason for doing this task</th>
-                <th>Task that are not done</th>
-                <th>Reasons for not doing the task</th>
-                <th>Impact of not doing the task</th>
-                <th>Competencies</th>
+                
               </tr>
             </thead>
             <tbody>
@@ -266,12 +275,7 @@
                   <td><%= performed&.job_min %></td>
                   <td><%= performed&.job_current ? 'Yes' : 'No' %></td>
                   <td><%= performed&.job_reason %></td>
-                  <td><%= other_taskperformances[index]&.task_notdone %></td>
-                  <td><%= other_taskperformances[index]&.task_reason %></td>
-                  <td><%= other_taskperformances[index]&.task_impact %></td>
-                  <% if index == 0 %>
-                    <td rowspan="<%= other_perfromeds.count %>"><%= other_competences.map(&:competencies).join(', ') %></td>
-                  <% end %>
+                 
                 </tr>
               <% end %>
             </tbody>
@@ -419,7 +423,7 @@
 <br>
 
 <div class="card">
-  <h5 class="card-header text-uppercase">Previous Training Not Related to the Job Role</h5>
+  <h5 class="card-header text-uppercase">Requested Training</h5>
   <div class="card-body">
      <table class="table table-bordered table-striped">
           <thead>

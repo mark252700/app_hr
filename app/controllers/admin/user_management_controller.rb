@@ -17,7 +17,7 @@ class Admin::UserManagementController < ApplicationController
       @user = User.new(user_params)
 
       if @user.save
-        redirect_to new_user_session_path, notice: 'User created successfully, Wait for the admin approved your account.'
+        redirect_to new_user_session_path, notice: 'You account has been created successfully, please wait for the admin to approve your account.'
       else
 
         flash[:validation_errors] = @user.errors.full_messages
@@ -49,6 +49,32 @@ class Admin::UserManagementController < ApplicationController
         flash[:success] = "User has been approved, and an approval email has been sent."
       else
         flash[:error] = "Failed to approve the user."
+        flash[:update_errors] = @user.errors.full_messages.join(', ')
+      end
+
+      redirect_to admin_index_path
+    end
+
+    def archieve_user
+      @user = User.find(params[:id])
+
+      if @user.update(archive: true)
+        flash[:success] = "User has been archieve."
+      else
+        flash[:error] = "Failed to archieve the user."
+        flash[:update_errors] = @user.errors.full_messages.join(', ')
+      end
+
+      redirect_to admin_index_path
+    end
+
+    def restore_user
+      @user = User.find(params[:id])
+
+      if @user.update(archive: false)
+        flash[:success] = "User has been Restore."
+      else
+        flash[:error] = "Failed to Restore the user."
         flash[:update_errors] = @user.errors.full_messages.join(', ')
       end
 

@@ -32,10 +32,7 @@
                 <th>Time allotted for this job</th>
                 <th>Is this within your current job description</th>
                 <th>Reason for doing this task</th>
-                <th>Task that are not done</th>
-                <th>Reasons for not doing the task</th>
-                <th>Impact of not doing the task</th>
-                <th>Competencies</th>
+               
                 <th>Action</th>
               </tr>
             </thead>
@@ -56,11 +53,9 @@
                   <td><%= performed&.job_min %></td>
                   <td><%= performed&.job_current ? 'Yes' : 'No' %></td>
                   <td><%= performed&.job_reason %></td>
-                  <td><%= other_taskperformances[index]&.task_notdone %></td>
-                  <td><%= other_taskperformances[index]&.task_reason %></td>
-                  <td><%= other_taskperformances[index]&.task_impact %></td>
+                  
                   <% if index == 0 %>
-                    <td rowspan="<%= other_perfromeds.count %>"><%= other_competences.map(&:competencies).join(', ') %></td>
+                    
                     <td rowspan="<%= other_perfromeds.count %>">
                   <%= link_to custom_destroy_oth_performed_path(other_position), method: :get, class: 'btn text-danger', onclick: "return confirm('Are you sure you want to delete this record?');" do %>
                   <i class="fas fa-trash"></i>

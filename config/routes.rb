@@ -27,6 +27,7 @@ Rails.application.routes.draw do
   get 'home/index'
   get 'admin_index', to: 'admin#index'
   get 'admin_dashboard', to: 'admin#dashboard'
+  get 'admin_archieve', to: 'admin#archieve'
 
 
   get '/emp_details/new', to: 'emp_details#new', as: 'emp_details_new'
@@ -54,6 +55,7 @@ Rails.application.routes.draw do
  # Define the custom actions for AdminController outside the resources block
 get 'admin/destroy_data/:id', to: 'admin#destroy_data', as: 'admin_destroy_data'
 get 'admin/generate_pdf/:id', to: 'admin#generate_pdf', as: 'pdfadmin'
+get 'admin/download_excel', to: 'admin#download_excel', as: 'download_excel'
 get 'search_users', to: 'admin#search'
 get 'destroy_data' => 'final_step#destroy_data', as: :destroy_data_home
 
@@ -64,6 +66,8 @@ namespace :admin do
   resources :user_management, only: [:new, :create, :edit, :update, :index] do
     member do
       get :approve_user
+      get :archieve_user
+      get :restore_user
       get :show_user
     end
   end
