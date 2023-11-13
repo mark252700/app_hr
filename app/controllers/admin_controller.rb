@@ -470,6 +470,8 @@ end
 
             # Add data
             users.each do |user|
+
+
               benefits_string = user.emp_detail&.benefits&.map(&:benefit)&.join(',')
 
             #for Job Description
@@ -618,7 +620,7 @@ end
             end
           end
 
-          send_data package.to_stream.read, filename: 'Employee.xlsx', type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', disposition: 'attachment'
+          send_data package.to_stream.read, filename: "employee-list-#{Time.now.strftime('%Y%m%d')}.xlsx", type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', disposition: 'attachment'
         end
       end
     end
