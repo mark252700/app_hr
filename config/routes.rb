@@ -93,6 +93,6 @@ end
   # Defines the root path route ("/")
   devise_scope :user do
     root to: "devise/sessions#new"
-    get '/news_session', to: 'users/sessions#news', as: 'news_session'
+    # get '/news_session', to: 'users/sessions#news', as: 'news_session'
   end
 end
