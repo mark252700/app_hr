@@ -3,7 +3,7 @@
     "flowbite": "^2.0.0",
     "stimulus-notification": "^2.2.0"
   },
-  "overrides": {
+  "resolutions": {
     "autoprefixer": "10.4.5"
   }
 }
