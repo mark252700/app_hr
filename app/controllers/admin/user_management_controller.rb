@@ -46,7 +46,7 @@ class Admin::UserManagementController < ApplicationController
 
       if @user.update(approved: true)
 
-        flash[:success] = "User has been approved, and an approval email has been sent."
+        flash[:success] = "User has been approved."
       else
         flash[:error] = "Failed to approve the user."
         flash[:update_errors] = @user.errors.full_messages.join(', ')
