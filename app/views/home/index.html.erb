@@ -10,6 +10,8 @@ float:right;
   <%= link_to 'Add Data', new_emp_detail_path, class: 'btn btn-success', id: 'float' %>
 <% end %>
 
+ <%= link_to 'Edit', edit_emp_detail_path(current_user.emp_detail), class: 'btn btn-warning' if @user.submitted %>
+
 
 
 <%= link_to "Generate PDF", pdf_home_path(current_user), class: "btn btn-primary" if @user.submitted %>
@@ -49,9 +51,9 @@ float:right;
           <td><%= @emp_detail.department&.upcase %></td>
         </tr>
          <tr>
-         <td><strong>Supervisor Name:</strong></td>
+         <td><strong>Immediate Superior:</strong></td>
           <td> <%= @emp_detail.sup_name&.upcase %></td>
-          <td><strong>Supervisor Title:</strong> </td>
+          <td><strong>Immediate Superior Position:</strong> </td>
           <td><%= @emp_detail.sup_title&.upcase %></td>
         </tr>
       </tbody>

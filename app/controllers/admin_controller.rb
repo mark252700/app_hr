@@ -115,7 +115,7 @@ end
                ["Employee ID:", @emp_detail.emp_id, "Years in Service:", "Years: #{@emp_detail.ser_year}, Month: #{@emp_detail.ser_month}"],
                ["Email:", @user.email.upcase, "Mobile No.:", @emp_detail.contact],
                ["Division:", @emp_detail.division&.upcase, "Department:", @emp_detail.department&.upcase],
-               ["Supervisor Name:", @emp_detail.sup_name&.upcase, "Supervisor Title:", @emp_detail.sup_title&.upcase]],
+               ["Immediate Superior:", @emp_detail.sup_name&.upcase, "Immediate Superior Position:", @emp_detail.sup_title&.upcase]],
               cell_style: { border_width: 0, padding: [5, 10] }, # Set border_width to 0 for no borders
               width: pdf.bounds.width) # Set the width to match the PDF document's width
   end
