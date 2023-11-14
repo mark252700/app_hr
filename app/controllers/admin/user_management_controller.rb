@@ -45,7 +45,7 @@ class Admin::UserManagementController < ApplicationController
       @user = User.find(params[:id])
 
       if @user.update(approved: true)
-        UserMailer.approval_notification(@user).deliver_now
+
         flash[:success] = "User has been approved, and an approval email has been sent."
       else
         flash[:error] = "Failed to approve the user."
