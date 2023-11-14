@@ -12,4 +12,6 @@ class OtherPosition < ApplicationRecord
   validate :other_taskperformances, presence :true
   validate :other_competences, presence :true
 
+  validate :pos_title, :pos_yr, :pos_month, presence :true
+
 end
