@@ -6,7 +6,7 @@ class User < ApplicationRecord
   has_one :req_training, class_name: 'ReqTraining', dependent: :destroy
 
   has_many :other_positions, dependent: :destroy
-  accepts_nested_attributes_for :other_positions, allow_destroy: true
+  accepts_nested_attributes_for :other_positions, allow_destroy: true, reject_if: proc { |attributes| attributes.all? { |key, value| value.blank? } }
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable, and :omniauthable
   devise :database_authenticatable, :registerable,
