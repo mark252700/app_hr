@@ -7,4 +7,9 @@ class OtherPosition < ApplicationRecord
   accepts_nested_attributes_for :other_perfromeds, allow_destroy: true
   accepts_nested_attributes_for :other_taskperformances, allow_destroy: true
   accepts_nested_attributes_for :other_competences, allow_destroy: true
+
+  validate :other_perfromeds, presence :true
+  validate :other_taskperformances, presence :true
+  validate :other_competences, presence :true
+
 end

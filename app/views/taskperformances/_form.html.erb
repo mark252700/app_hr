@@ -48,7 +48,7 @@
  <tr>
     <td class="col-4">
       <div class="mb-3">
-        <%= t.input :task_notdone, label: 'Task that are not done', input_html: { class: 'form-control' } %>
+        <%= t.input :task_notdone, label: 'Tasks that were not done', input_html: { class: 'form-control' } %>
       </div>
     </td>
     <td class="col-4">
@@ -131,19 +131,19 @@ document.getElementById('addRowBtn').addEventListener('click', function() {
   newRow.innerHTML = `
     <td class="col-4">
       <div class="mb-3">
-        <label>Task Not Done</label>
+        <label>Tasks that were not done</label>
         <input type="text" name="taskperformance[nested_taskperfomances_attributes][${rowCount}][task_notdone]" class="form-control">
       </div>
     </td>
     <td class="col-4">
       <div class="mb-3">
-        <label>Reason for Not Doing</label>
+        <label>Reasons for not doing the task</label>
         <input type="text" name="taskperformance[nested_taskperfomances_attributes][${rowCount}][task_reason]" class="form-control">
       </div>
     </td>
     <td class="col-4">
       <div class="mb-3">
-        <label>Impact of Not Doing</label>
+        <label>Impact of not doing the task</label>
         <input type="text" name="taskperformance[nested_taskperfomances_attributes][${rowCount}][task_impact]" class="form-control">
       </div>
     </td>
