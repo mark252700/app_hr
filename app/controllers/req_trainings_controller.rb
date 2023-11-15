@@ -31,7 +31,7 @@ class ReqTrainingsController < ApplicationController
 
   # GET /req_trainings/1/edit
   def edit
-    @req_training = ReqTraining.find_by(user_id: current_user.id)
+
 
     if @req_training.blank?
       redirect_to new_req_training_path
@@ -95,6 +95,7 @@ class ReqTrainingsController < ApplicationController
         redirect_to new_req_training_path
       else
         @req_training = ReqTraining.find_by(id: params[:id])
+        @req_training = ReqTraining.find_by(id: params[:user_id])
         if @req_training.nil?
           redirect_to new_req_training_path
         end

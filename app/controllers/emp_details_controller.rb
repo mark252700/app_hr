@@ -127,6 +127,7 @@ end
     # Use callbacks to share common setup or constraints between actions.
     def set_emp_detail
       @emp_detail = EmpDetail.find(params[:id])
+      @emp_detail = EmpDetail.find_by(user_id: current_user.id)
     end
 
     # Only allow a list of trusted parameters through.

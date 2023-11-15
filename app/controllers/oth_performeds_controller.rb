@@ -40,6 +40,7 @@ def edit
     @user = current_user
     set_button_label('Save')
     @other_positions = OtherPosition.where(user_id: current_user.id)
+
   end
 end
 
@@ -100,6 +101,7 @@ end
  def custom_destroy
   @other_position = OtherPosition.find(params[:id])
 
+
   # Perform the deletion
   @other_position.destroy
 
@@ -116,10 +118,9 @@ end
     @button_label = label
   end
   def set_oth_performed
-    if params[:id].nil? || !OthPerformed.exists?(id: params[:id])
-      redirect_to new_oth_performed_path
-    else
+
       @oth_performed = OthPerformed.find(params[:id])
+      @oth_performed = OthPerformed.find_by(user_id: current_user.id)
     end
   end
 
@@ -127,6 +128,3 @@ end
     def oth_performed_params
       params.permit(:job_performed, :job_done, :job_hr, :job_min, :integer, :job_current, :job_reason)
     end
-
-
-end

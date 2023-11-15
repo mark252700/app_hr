@@ -25,7 +25,7 @@ class TaskperformancesController < ApplicationController
   end
 
   def edit
-    @taskperformance = Taskperformance.find_by(user_id: current_user.id)
+
 
     if @taskperformance.nil?
       redirect_to new_taskperformance_path, alert: "Taskperformance not found for current user"
@@ -58,7 +58,8 @@ class TaskperformancesController < ApplicationController
   def update
     respond_to do |format|
       if @taskperformance.update(task_performance_params)
-        format.html { redirect_to edit_oth_performed_path }
+        format.html { redirect_to edit_oth_performed_path(user_id: @taskperformance.user_id) }
+
         format.json { render :show, status: :ok, location: @taskperformance }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -93,6 +94,7 @@ class TaskperformancesController < ApplicationController
       if @taskperformance.nil?
         redirect_to new_taskperformance_path
       end
+      @taskperformance = Taskperformance.find_by(params[:user_id])
     end
 
     def task_performance_params
