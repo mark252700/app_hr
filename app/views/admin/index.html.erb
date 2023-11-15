@@ -88,11 +88,12 @@
         <td><%= user.emp_detail&.department %></td>
         <td><%= user.created_at.strftime('%m/%d/%Y %I:%M %p') %></td>
         <td>
-          <% if user.emp_detail&.emp_id.present? %>
-            <%= link_to show_user_admin_user_management_path(user), class: "btn btn-info btn-sm", data: { turbo_frame: "show_user" } do %>
-              <i class="fas fa-eye"></i>
-            <% end %>
-          <% end %>
+         <% if user.emp_detail&.emp_id.present? && user.submitted %>
+  <%= link_to show_user_admin_user_management_path(user), class: "btn btn-info btn-sm", data: { turbo_frame: "show_user" } do %>
+    <i class="fas fa-eye"></i>
+  <% end %>
+<% end %>
+
 
           <%= link_to edit_admin_user_management_path(user), class: "btn btn-warning btn-sm", data: { turbo_frame: "user_modal" } do %>
             <i class="fas fa-edit"></i>
@@ -106,7 +107,7 @@
             <i class="fas fa-check"></i>
           <% end unless user.approved? %>
 
-          <% if user.emp_detail&.emp_id.present? %>
+          <% if user.emp_detail&.emp_id.present? && user.submitted %>
             <%= link_to pdfadmin_path(user), class: "btn btn-secondary btn-sm" do %>
               <i class="fas fa-file-pdf"></i>
             <% end %>

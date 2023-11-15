@@ -34,18 +34,25 @@ class OtherPerfromedsController < ApplicationController
     end
   end
 
-  # PATCH/PUT /other_perfromeds/1 or /other_perfromeds/1.json
-  def update
-    respond_to do |format|
-      if @other_perfromed.update(other_perfromed_params)
-        format.html { redirect_to other_perfromed_url(@other_perfromed), notice: "Other perfromed was successfully updated." }
-        format.json { render :show, status: :ok, location: @other_perfromed }
+  # Assuming @other_perfromed has a belongs_to association with :req_training
+
+# PATCH/PUT /other_perfromeds/1 or /other_perfromeds/1.json
+def update
+  respond_to do |format|
+    if @other_perfromed.update(other_perfromed_params)
+      if @other_perfromed.req_training&.user_id.present?
+        format.html { redirect_to edit_req_training_path(user_id: @other_perfromed.req_training.user_id) }
       else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @other_perfromed.errors, status: :unprocessable_entity }
+        format.html { redirect_to new_req_training_path }
       end
+      format.json { render :show, status: :ok, location: @other_perfromed }
+    else
+      format.html { render :edit, status: :unprocessable_entity }
+      format.json { render json: @other_perfromed.errors, status: :unprocessable_entity }
     end
   end
+end
+
 
   # DELETE /other_perfromeds/1 or /other_perfromeds/1.json
   def destroy

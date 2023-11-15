@@ -25,23 +25,18 @@ class JbDescriptionsController < ApplicationController
 
   end
 
-  # GET /jb_descriptions/1/edit
-  def edit
-    @jb_description = JbDescription.find_by(user_id: current_user.id)
+# Assuming you have a JbDescription model with belongs_to association to User
+def edit
+  @user_id = params[:user_id] || current_user.id
+  @jb_description = JbDescription.find_by(user_id: @user_id)
 
-    # if @jb_description.new_record?
-    #   # Redirect to new_taskperformance_path for new records
-    #   redirect_to new_taskperformance_path
-    # else
-    #   @jb_description.jb_performeds.build if @jb_description.jb_performeds.empty?
-      # Only build jb_performeds for existing records
-
-      if @jb_description.blank?
-        redirect_to new_jb_description_path
-      end
-      set_button_label('Save')
-
+  if @jb_description.blank?
+    redirect_to new_jb_description_path(user_id: @user_id)
+  else
+    @jb_description.jb_performeds.build if @jb_description.jb_performeds.empty?
+    set_button_label('Save')
   end
+end
 
   # POST /jb_descriptions or /jb_descriptions.json
   def create
@@ -63,23 +58,25 @@ class JbDescriptionsController < ApplicationController
     end
   end
 
-  # PATCH/PUT /jb_descriptions/1 or /jb_descriptions/1.json
   def update
     respond_to do |format|
       if @jb_description.update(jb_description_params)
-        if @jb_description.user.taskperformance.nil?
-          format.html { redirect_to new_taskperformance_path }
+        user_id = params[:user_id] || current_user.id
+
+        if Taskperformance.exists?(user_id: user_id)
+          format.html { redirect_to edit_taskperformance_path(user_id: user_id) }
         else
-          format.html { redirect_to edit_taskperformance_path }
+          format.html { redirect_to new_taskperformance_path(user_id: user_id) }
         end
+
         format.json { render :show, status: :ok, location: @jb_description }
       else
         format.html { render :edit, status: :unprocessable_entity }
         format.json { render json: @jb_description.errors, status: :unprocessable_entity }
-
       end
     end
   end
+
 
   # DELETE /jb_descriptions/1 or /jb_descriptions/1.json
   def destroy

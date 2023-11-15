@@ -83,12 +83,16 @@ class ReqTrainingsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_req_training
+      if params[:user_id].present?
+        @req_training = ReqTraining.find_by(user_id: params[:user_id])
+      else
+        @req_training = ReqTraining.find(params[:id])
+      end
 
-        @req_training = ReqTraining.find_by(id: params[:id])
+      unless @req_training
+        redirect_to new_req_training_path
+      end
 
-        if @req_training.nil?
-          redirect_to new_req_training_path
-        end
       end
 
 

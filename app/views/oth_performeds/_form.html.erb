@@ -7,6 +7,11 @@
   }
   </style>
 <%= simple_form_for(@oth_performed) do |f| %>
+  <%= f.hidden_field :id, value: @oth_performed.id if @oth_performed.persisted? %>
+  <%= f.hidden_field :user_id, value: @oth_performed.user_id if @oth_performed.persisted? %>
+  
+
+
   <%= f.error_notification %>
   <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
 
@@ -128,6 +133,8 @@
 <br>
 
 
+
+
 <div class="form-actions">
    <%= f.button :submit, @button_label, name: 'save_button', class: action_name == 'new' ? 'btn btn-primary' : 'btn btn-success' , id: 'float'%>
 
@@ -135,6 +142,8 @@
   <% if (taskperformance = current_user.taskperformance).present? %>
     <%= link_to 'Previous', edit_taskperformance_path(taskperformance), class: 'btn btn-secondary' %>
   <% end %>
+
+  
 </div>
 <% end %>
 

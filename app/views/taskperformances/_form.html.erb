@@ -116,9 +116,8 @@
   <div class="form-actions">
       <%= f.button :submit, @button_label, name: 'save_button', class: action_name == 'new' ? 'btn btn-primary' : 'btn btn-success', id: 'float' %>
      
-     <% if (jb_description = current_user.jb_description).present? %>
-    <%= link_to 'Previous', edit_jb_description_path(jb_description) ,class: 'btn btn-secondary' %>
-  <% end %>
+   <%= link_to 'Previous', edit_jb_description_path(id: @user_id, user_id: @user_id), class: 'btn btn-secondary' %>
+
   </div>
 <% end %>
 

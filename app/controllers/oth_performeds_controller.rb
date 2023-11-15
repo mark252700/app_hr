@@ -33,6 +33,9 @@ end
 
  # GET /oth_performeds/1/edit
 def edit
+  @user_id = params[:user_id] || current_user.id
+  @oth_performed = OthPerformed.find_by(user_id: @user_id)
+
   if @oth_performed.nil? || @oth_performed.blank?
     # Redirect to a new path (e.g., new_oth_performed_path)
     redirect_to new_oth_performed_path
@@ -72,7 +75,7 @@ end
     respond_to do |format|
       @other_positions = OtherPosition.all
       if @oth_performed.update(oth_performed_params)
-        format.html { redirect_to edit_req_training_path }
+        format.html { redirect_to edit_req_training_path(user_id: @oth_performed.user_id) }
         format.json { render :show, status: :ok, location: @oth_performed }
       else
         # If validation fails, re-render the 'edit' view without redirecting
@@ -117,12 +120,17 @@ end
   def set_button_label(label)
     @button_label = label
   end
-  def set_oth_performed
 
+  def set_oth_performed
+    if params[:user_id].present?
+      @oth_performed = OthPerformed.find_by(user_id: params[:user_id], id: params[:id])
+    else
       @oth_performed = OthPerformed.find(params[:id])
-      @oth_performed = OthPerformed.find_by(user_id: current_user.id)
     end
+
+
   end
+end
 
     # Only allow a list of trusted parameters through.
     def oth_performed_params

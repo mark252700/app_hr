@@ -14,18 +14,20 @@ class TaskperformancesController < ApplicationController
 
   # GET /taskperformances/new
   def new
+
     if Taskperformance.exists?(user_id: current_user.id)
       redirect_to new_oth_performed_path
     else
        @taskperformance = Taskperformance.new
-
+       @user_id = current_user.id
        @taskperformance.competencies.build
     end
     set_button_label('Next')
   end
 
   def edit
-
+    @user_id = params[:user_id] || current_user.id
+    @taskperformance = Taskperformance.find_by(user_id: @user_id)
 
     if @taskperformance.nil?
       redirect_to new_taskperformance_path, alert: "Taskperformance not found for current user"
@@ -54,24 +56,43 @@ class TaskperformancesController < ApplicationController
   end
 
 
-  # PATCH/PUT /taskperformances/1 or /taskperformances/1.json
-  def update
-    respond_to do |format|
-      if @taskperformance.update(task_performance_params)
-        format.html { redirect_to edit_oth_performed_path(user_id: @taskperformance.user_id) }
+# PATCH/PUT /taskperformances/1 or /taskperformances/1.json
+def update
+  respond_to do |format|
+    user_id = params[:user_id] || current_user.id
 
-        format.json { render :show, status: :ok, location: @taskperformance }
+    if @taskperformance.update(task_performance_params)
+      # Check if OthPerformed is successfully updated
+      if OthPerformed.find_by(user_id: user_id).update(oth_performed_params)
+        format.html { redirect_to edit_oth_performed_path(user_id: user_id) }
       else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @taskperformance.errors, status: :unprocessable_entity }
+        format.html { redirect_to new_oth_performed_path(user_id: user_id) }
+      end
+
+      format.json { render :show, status: :ok, location: @taskperformance }
+    else
+      format.html do
+        render :edit, status: :unprocessable_entity
 
         # Add the redirect condition here
-        if @taskperformance.blank?
-          redirect_to new_taskperformance_path
+        if @taskperformance.nil?
+          redirect_to new_taskperformance_path(user_id: user_id)
+        else
+          # Handle other associated records, for example, Competency
+          @taskperformance.competencies.build if @taskperformance.competencies.empty?
         end
       end
+
+      format.json { render json: @taskperformance.errors, status: :unprocessable_entity }
     end
   end
+end
+
+
+
+
+
+
 
   # DELETE /taskperformances/1 or /taskperformances/1.json
   def destroy
@@ -90,12 +111,17 @@ class TaskperformancesController < ApplicationController
   end
     # Use callbacks to share common setup or constraints between actions.
     def set_taskperformance
-      @taskperformance = Taskperformance.find(params[:id])
+      if params[:user_id].present?
+        @taskperformance = Taskperformance.find_by(user_id: params[:user_id])
+      else
+        @taskperformance = Taskperformance.find(params[:id])
+      end
+
       if @taskperformance.nil?
         redirect_to new_taskperformance_path
       end
-      @taskperformance = Taskperformance.find_by(params[:user_id])
     end
+
 
     def task_performance_params
       params.require(:taskperformance).permit(
