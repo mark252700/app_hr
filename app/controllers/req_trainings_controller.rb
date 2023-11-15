@@ -32,14 +32,6 @@ class ReqTrainingsController < ApplicationController
   # GET /req_trainings/1/edit
   def edit
 
-
-    if @req_training.blank?
-      redirect_to new_req_training_path
-
-    elsif current_user.submitted
-      flash[:alert] = 'You have already submitted this form.'
-      redirect_to home_index_path  # Replace with the path you want to redirect to
-    end
   end
 
   # POST /req_trainings or /req_trainings.json
@@ -91,16 +83,14 @@ class ReqTrainingsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_req_training
-      if params[:id].nil?
-        redirect_to new_req_training_path
-      else
+
         @req_training = ReqTraining.find_by(id: params[:id])
-        @req_training = ReqTraining.find_by(id: params[:user_id])
+
         if @req_training.nil?
           redirect_to new_req_training_path
         end
       end
-    end
+
 
 
     # Only allow a list of trusted parameters through.
