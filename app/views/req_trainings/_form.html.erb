@@ -197,9 +197,10 @@ float:right;
   <div class="form-actions">
      <%= f.button :submit, 'Save', name: 'save_button', class: 'btn btn-success', id: 'float' %>
    
-    <% if (oth_performed = current_user.oth_performed).present? %>
+   <% if (oth_performed = OthPerformed.find_by(user_id: current_user.id)).present? %>
   <%= link_to 'Previous', edit_oth_performed_path(oth_performed), class: 'btn btn-secondary' %>
 <% end %>
+
   </div>
 <% end %>
 

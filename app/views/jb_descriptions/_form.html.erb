@@ -90,7 +90,7 @@
           <td class=> 
            <div class="mb-3">
           <label></label>
-          <%= jb.select :job_done, options_for_select(["", "Daily", "Monthly", "Quarterly", "Annually"], jb.object.job_done), {}, class: 'form-select shorter-inputs next-input' %>
+          <%= jb.select :job_done, options_for_select(["Daily", "Weekly", "Monthly", "Quarterly", "Semi-Annually" ,"Annually"], jb.object.job_done), {}, class: 'form-select shorter-inputs next-input' %>
           </div>
           </td>
           <td class="">
@@ -181,8 +181,10 @@
         <select name="jb_description[jb_performeds_attributes][${rowCount}][job_done]" class="form-select shorter-inputs next-input">
           <option value="none" selected>Select</option>
           <option value="Daily">Daily</option>
+          <option value="Weekly">Weekly</option>
           <option value="Monthly">Monthly</option>
           <option value="Quarterly">Quarterly</option>
+          <option value="Semi-Annually">Semi-Annually</option>
           <option value="Annually">Annually</option>
         </select>
       </div>

@@ -24,13 +24,15 @@ class TaskperformancesController < ApplicationController
     set_button_label('Next')
   end
 
-  # GET /taskperformances/1/edit
   def edit
-    if @taskperformance.blank?
-      redirect_to new_taskperformance_path
-    end
-    set_button_label('Save')
+    @taskperformance = Taskperformance.find_by(user_id: current_user.id)
 
+    if @taskperformance.nil?
+      redirect_to new_taskperformance_path, alert: "Taskperformance not found for current user"
+    else
+      set_button_label('Save')
+      # Additional logic for the edit action if needed
+    end
   end
 
   def create

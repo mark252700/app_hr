@@ -1,4 +1,4 @@
-<%= render "oth_performeds/position_modal", title: "Other Position" do %>
+
 <%= simple_form_for( @other_position) do |f| %>
     <%= f.error_notification %>
     <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
@@ -73,7 +73,7 @@
                                   <td>
                                     <br>
                                     <div class="mb-3">
-                                      <%= jb.select :job_done, options_for_select(["", "Daily", "Monthly", "Quarterly", "Annually"], jb.object.job_done), {}, class: 'form-select shorter-inputs' %>
+                                      <%= jb.select :job_done, options_for_select(["Daily", "Weekly", "Monthly", "Quarterly", "Semi-Annually" ,"Annually"], jb.object.job_done), {}, class: 'form-select shorter-inputs' %>
                                     </div>
                                   </td>
                                   <td>
@@ -245,10 +245,12 @@
       <div class="mb-3">
        
         <select name="other_position[other_perfromeds_attributes][${rowCount}][job_done]" class="form-select shorter-inputs">
-          <option value="none" selected></option>
+          <option value="none" selected>Select</option>
           <option value="Daily">Daily</option>
+          <option value="Weekly">Weekly</option>
           <option value="Monthly">Monthly</option>
           <option value="Quarterly">Quarterly</option>
+          <option value="Semi-Annually">Semi-Annually</option>
           <option value="Annually">Annually</option>
         </select>
       </div>
@@ -376,4 +378,4 @@ document.getElementById('formContainers').addEventListener('click', function(e) 
 
 
 </script>
-<%end%>
+

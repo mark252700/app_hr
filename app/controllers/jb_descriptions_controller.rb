@@ -27,16 +27,20 @@ class JbDescriptionsController < ApplicationController
 
   # GET /jb_descriptions/1/edit
   def edit
-    set_button_label('Save')
+    @jb_description = JbDescription.find_by(user_id: current_user.id)
 
-    if @jb_description.new_record?
-      # Redirect to new_taskperformance_path for new records
-      redirect_to new_taskperformance_path
-    else
-      @jb_description.jb_performeds.build if @jb_description.jb_performeds.empty?
+    # if @jb_description.new_record?
+    #   # Redirect to new_taskperformance_path for new records
+    #   redirect_to new_taskperformance_path
+    # else
+    #   @jb_description.jb_performeds.build if @jb_description.jb_performeds.empty?
       # Only build jb_performeds for existing records
 
-    end
+      if @jb_description.blank?
+        redirect_to new_jb_description_path
+      end
+      set_button_label('Save')
+
   end
 
   # POST /jb_descriptions or /jb_descriptions.json
@@ -93,10 +97,13 @@ class JbDescriptionsController < ApplicationController
     @button_label = label
   end
 
-    # Use callbacks to share common setup or constraints between actions.
-    def set_jb_description
-      @jb_description = JbDescription.find(params[:id])
+  def set_jb_description
+    @jb_description = JbDescription.find_by(id: params[:id])
+
+    if @jb_description.nil?
+      redirect_to new_jb_description_path
     end
+  end
 
 
     def jb_description_params

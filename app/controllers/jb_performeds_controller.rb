@@ -17,6 +17,7 @@ class JbPerformedsController < ApplicationController
 
   # GET /jb_performeds/1/edit
   def edit
+
   end
 
   # POST /jb_performeds or /jb_performeds.json

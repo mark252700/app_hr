@@ -50,20 +50,22 @@ end
 
 
   # PATCH/PUT /other_positions/1 or /other_positions/1.json
-  def update
-    respond_to do |format|
-      if @other_position.update(other_position_params)
-        format.html { redirect_to new_oth_performed_path}
-        format.json { render :show, status: :ok, location: @other_position }
-      else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @other_position.errors, status: :unprocessable_entity }
-        @other_position.other_perfromeds.build if @other_position.other_perfromeds.empty?
-        @other_position.other_taskperformances.build if @other_position.other_taskperformances.empty?
-        @other_position.other_competences.build if @other_position.other_competences.empty?
-      end
+def update
+  respond_to do |format|
+    if @other_position.update(other_position_params)
+      format.html { redirect_to edit_oth_performed_path(current_user) }
+      format.json { render :show, status: :ok, location: @other_position }
+    else
+      format.html { render :edit, status: :unprocessable_entity }
+      format.json { render json: @other_position.errors, status: :unprocessable_entity }
+      @other_position.other_perfromeds.build if @other_position.other_perfromeds.empty?
+      @other_position.other_taskperformances.build if @other_position.other_taskperformances.empty?
+      @other_position.other_competences.build if @other_position.other_competences.empty?
     end
   end
+end
+
+
 
   # DELETE /other_positions/1 or /other_positions/1.json
   def destroy

@@ -55,6 +55,7 @@ end
 
   # GET /emp_details/1/edit
   def edit
+    @emp_detail = EmpDetail.find_by(user_id: current_user.id)
     @emp_detail.benefits.build if @emp_detail.benefits.empty?
     set_button_label('Save')
 
@@ -80,12 +81,17 @@ def create
 end
 
 
-  # PATCH/PUT /emp_details/1 or /emp_details/1.json
-  def update
-    respond_to do |format|
-      if @emp_detail.update(emp_detail_params)
-        format.html { redirect_to edit_jb_description_path }
-        format.json { render :show, status: :ok, location: @emp_detail }
+# PATCH/PUT /emp_details/1 or /emp_details/1.json
+def update
+  respond_to do |format|
+    if @emp_detail.update(emp_detail_params)
+      format.html { redirect_to edit_jb_description_path }
+      format.json { render :show, status: :ok, location: @emp_detail }
+    else
+      if @emp_detail.errors.empty?
+        # Redirect to new_jb_description_path if the update was successful but ID is nil
+        format.html { redirect_to new_jb_description_path }
+        format.json { render json: @emp_detail.errors, status: :unprocessable_entity }
       else
         format.html { render :edit, status: :unprocessable_entity }
         format.json { render json: @emp_detail.errors, status: :unprocessable_entity }
@@ -94,6 +100,10 @@ end
       end
     end
   end
+end
+
+
+
 
   # DELETE /emp_details/1 or /emp_details/1.json
   def destroy

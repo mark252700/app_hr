@@ -31,6 +31,8 @@ class ReqTrainingsController < ApplicationController
 
   # GET /req_trainings/1/edit
   def edit
+    @req_training = ReqTraining.find_by(user_id: current_user.id)
+
     if @req_training.blank?
       redirect_to new_req_training_path
 
