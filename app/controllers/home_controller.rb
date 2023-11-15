@@ -209,7 +209,7 @@ pdf.bounding_box([0, pdf.cursor], width: pdf.bounds.width) do
 end
 
 pdf.table([
-  ["ask that are not done", "Reasons for not doing the task", "Impact of not doing the task"]
+  ["Task that are not done", "Reasons for not doing the task", "Impact of not doing the task"]
 ] + [
   [
     @taskperformance.task_notdone.upcase,

@@ -234,7 +234,7 @@ end
   end
 
   pdf.table([
-    ["ask that are not done", "Reasons for not doing the task", "Impact of not doing the task"]
+    ["Task that are not done", "Reasons for not doing the task", "Impact of not doing the task"]
   ] + [
     [
       @taskperformance.task_notdone.upcase,

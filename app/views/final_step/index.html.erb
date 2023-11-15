@@ -92,27 +92,26 @@ float:right;
            <td><strong>Workdays:</strong></td>
           <td><%= @emp_detail.workday %></td>
         </tr>
-        <tr>
-          <td><strong>Overtime Weekday:</strong></td>
-          <td>
-            <%= @emp_detail.ot_weekday ? 'Yes' : 'No' %>
-          </td>
-          <td><strong>Overtime Weekend:</strong></td>
-          <td> <% if @emp_detail.ot_weekend.present? %>
-            <%= @emp_detail.ot_weekend ? 'Yes' : 'No' %>
-            <% end %></td>
-          <td><strong>Benefits:</strong></td>
-           <ul>
-                <% if @emp_detail.benefits.present? %>
-                <% @emp_detail.benefits.each do |benefit| %>
-                    <li><%= benefit.benefit %></li>
-                <% end %>
-                <% else %>
-                <li>No benefits found</li>
-                <% end %>
-            </ul>
-          </td>
-        </tr>
+       <tr>
+  <td><strong>Overtime Weekend:</strong></td>
+  <td>
+    <% if @emp_detail.ot_weekend.present? %>
+      <%= @emp_detail.ot_weekend ? 'Yes' : 'No' %>
+    <% end %>
+  </td>
+  <td><strong>Benefits:</strong></td>
+  <td>
+    <ul>
+      <% if @emp_detail.benefits.present? %>
+        <% @emp_detail.benefits.each do |benefit| %>
+          <li><%= benefit.benefit %></li>
+        <% end %>
+      <% else %>
+        <li>No benefits found</li>
+      <% end %>
+    </ul>
+  </td>
+</tr>
         
           
        
