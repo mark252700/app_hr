@@ -56,37 +56,31 @@ class TaskperformancesController < ApplicationController
   end
 
 
-# PATCH/PUT /taskperformances/1 or /taskperformances/1.json
-def update
-  respond_to do |format|
-    user_id = params[:user_id] || current_user.id
+  def update
+    respond_to do |format|
+      user_id = params[:user_id] || current_user.id
 
-    if @taskperformance.update(task_performance_params)
-      # Check if OthPerformed is successfully updated
-      if OthPerformed.find_by(user_id: user_id).update(oth_performed_params)
+      if @taskperformance.update(task_performance_params)
         format.html { redirect_to edit_oth_performed_path(user_id: user_id) }
+        format.json { render :show, status: :ok, location: @taskperformance }
       else
-        format.html { redirect_to new_oth_performed_path(user_id: user_id) }
-      end
+        format.html do
+          render :edit, status: :unprocessable_entity
 
-      format.json { render :show, status: :ok, location: @taskperformance }
-    else
-      format.html do
-        render :edit, status: :unprocessable_entity
-
-        # Add the redirect condition here
-        if @taskperformance.nil?
-          redirect_to new_taskperformance_path(user_id: user_id)
-        else
-          # Handle other associated records, for example, Competency
-          @taskperformance.competencies.build if @taskperformance.competencies.empty?
+          # Add the redirect condition here
+          if @taskperformance.nil?
+            redirect_to new_taskperformance_path(user_id: user_id)
+          else
+            # Handle other associated records, for example, Competency
+            @taskperformance.competencies.build if @taskperformance.competencies.empty?
+          end
         end
-      end
 
-      format.json { render json: @taskperformance.errors, status: :unprocessable_entity }
+        format.json { render json: @taskperformance.errors, status: :unprocessable_entity }
+      end
     end
   end
-end
+
 
 
 
@@ -121,6 +115,8 @@ end
         redirect_to new_taskperformance_path
       end
     end
+
+
 
 
     def task_performance_params
