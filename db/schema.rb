@@ -10,9 +10,9 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_11_17_052717) do
+ActiveRecord::Schema[7.0].define(version: 2023_11_21_012133) do
   create_table "benefits", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
-    t.string "benefit"
+    t.text "benefit"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "emp_detail_id", null: false
