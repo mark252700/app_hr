@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_11_16_120515) do
+ActiveRecord::Schema[7.0].define(version: 2023_11_17_052717) do
   create_table "benefits", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "benefit"
     t.datetime "created_at", null: false
@@ -70,12 +70,12 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_16_120515) do
   end
 
   create_table "jb_performeds", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
-    t.string "job_performed"
+    t.text "job_performed"
     t.string "job_done"
     t.integer "job_hr"
     t.integer "job_min"
     t.boolean "job_current"
-    t.string "job_reason"
+    t.text "job_reason"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "jb_description_id", null: false
@@ -189,6 +189,17 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_16_120515) do
     t.datetime "updated_at", null: false
     t.bigint "oth_performed_id", null: false
     t.index ["oth_performed_id"], name: "index_other_competencies_on_oth_performed_id"
+  end
+
+  create_table "other_perfromed", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.text "job_performed"
+    t.string "job_done"
+    t.integer "job_hr"
+    t.integer "job_min"
+    t.boolean "job_current"
+    t.text "job_reason"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "other_perfromeds", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
