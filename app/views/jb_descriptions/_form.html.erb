@@ -20,7 +20,7 @@
         <div class="row justify-content-center">
           <div class="col">
             <table class="table ">
-              <button type="button" class="btn btn-success" id="addrows">+</button>
+             
               <thead>
               <tr>
                 <td class="col-11">
@@ -47,6 +47,7 @@
                 <% end %>
               </tbody>
             </table>
+             <button type="button" class="btn btn-success" id="addrows">+</button>
           </div>
           </div>
             </div>
@@ -66,7 +67,7 @@
       <div class="form-group ">
 
        <table class="table table-striped">
-    <button type="button" id="addRowBtn" class="btn btn-success">+</button>
+   
     <thead>
     <td class="col-4"> Job Performed </td>
     <td class="col-2"> How often do you perform this task?</td>
@@ -144,7 +145,7 @@
       <% end %>
     </tbody>
   </table>
-
+ <button type="button" id="addRowBtn" class="btn btn-success">+</button>
       </div>
       </div>
       </div>
@@ -270,7 +271,7 @@ document.getElementById('formContainer').addEventListener('click', function(e) {
   var newRow = document.createElement('tr');
   newRow.innerHTML = `
     <td class="col-11">
-      <input type="text" name="jb_description[nested_descriptions_attributes][${rowCount}][description]" class="form-control">
+      <textarea name="jb_description[nested_descriptions_attributes][${rowCount}][description]" class="form-control"></textarea>
     </td>
     <td>
       <button type="button" class="removebenefit btn btn-danger">Remove</button>
