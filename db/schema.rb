@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_11_21_012133) do
+ActiveRecord::Schema[7.0].define(version: 2023_11_21_064800) do
   create_table "benefits", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.text "benefit"
     t.datetime "created_at", null: false
@@ -203,12 +203,12 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_21_012133) do
   end
 
   create_table "other_perfromeds", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
-    t.string "job_performed"
+    t.text "job_performed"
     t.string "job_done"
     t.integer "job_hr"
     t.integer "job_min"
     t.boolean "job_current"
-    t.string "job_reason"
+    t.text "job_reason"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "other_position_id", null: false
