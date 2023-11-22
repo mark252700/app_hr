@@ -107,6 +107,11 @@
             <i class="fas fa-check"></i>
           <% end unless user.approved? %>
 
+          <%= link_to unsubmitted_user_admin_user_management_path(user), method: :patch, class: "text-danger btn-sm", onclick: "return showApprovalConfirmation();" do %>
+          <i class="fas fa-undo"></i>
+         <% end if user.submitted? %>
+
+
           <% if user.emp_detail&.emp_id.present? && user.submitted %>
             <%= link_to pdfadmin_path(user), class: "btn btn-secondary btn-sm" do %>
               <i class="fas fa-file-pdf"></i>

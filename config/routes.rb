@@ -69,6 +69,7 @@ namespace :admin do
       get :archieve_user
       get :restore_user
       get :show_user
+      get :unsubmitted_user
     end
   end
 end

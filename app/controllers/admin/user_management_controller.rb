@@ -55,6 +55,21 @@ class Admin::UserManagementController < ApplicationController
       redirect_to admin_index_path
     end
 
+    def unsubmitted_user
+      @user = User.find(params[:id])
+
+      if @user.update(submitted: false)
+        flash[:success] = "User has been unsubmitted."
+      else
+        flash[:error] = "Failed to unsubmit the user."
+        flash[:update_errors] = @user.errors.full_messages.join(', ')
+      end
+
+      redirect_to admin_index_path
+    end
+
+
+
     def archieve_user
       @user = User.find(params[:id])
 
