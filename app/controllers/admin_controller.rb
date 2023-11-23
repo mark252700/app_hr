@@ -12,6 +12,7 @@
       @submitted_users = User.includes(:emp_detail).where(submitted: true)
       @approved_users = User.includes(:emp_detail).where(approved: true)
       @non_client_users = User.where(role: false)
+      @division_counts = EmpDetail.group(:division).count
   end
 
   def archieve

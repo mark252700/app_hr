@@ -62,33 +62,6 @@ float:right;
 </div>
 <br>
 <div class="card">
-  <h5 class="card-header text-uppercase">Educational Attainment</h5>
-  <div class="card-body">
-    <table class="table table-bordered table-striped">
-      <tbody>
-        <tr>
-          <td><strong>Course:</strong></td>
-          <td><%= @emp_detail.educ_course&.upcase %></td>
-          <td><strong>Year Graduated:</strong></td>
-          <td><%= @emp_detail.educ_grad&.strftime("%B %d, %Y") %></td>
-        </tr>
-        <tr>
-          <td><strong>Skills:</strong></td>
-          <td><%= @emp_detail.educ_skill&.upcase %></td>
-          <td><strong>Certificate:</strong></td>
-          <td><%= @emp_detail.educ_certificate&.upcase %></td>
-        </tr>
-        <tr>
-          <td><strong>Other Skills:</strong></td>
-          <td><%= @emp_detail.educ_othskill&.upcase %></td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-</div>
-
-<br>
-<div class="card">
   <h5 class="card-header text-uppercase">Position Details</h5>
   <div class="card-body">
     <table class="table table-bordered table-striped">
@@ -107,8 +80,14 @@ float:right;
            <td><strong>Workdays:</strong></td>
           <td><%= @emp_detail.workday %></td>
         </tr>
-        <tr>
-  <td><strong>Overtime Weekend:</strong></td>
+       <tr>
+  <td><strong>Overtime Weekday:</strong></td>
+  <td>
+    <% if @emp_detail.ot_weekday.present? %>
+      <%= @emp_detail.ot_weekday ? 'Yes' : 'No' %>
+    <% end %>
+  </td>
+   <td><strong>Overtime Weekend:</strong></td>
   <td>
     <% if @emp_detail.ot_weekend.present? %>
       <%= @emp_detail.ot_weekend ? 'Yes' : 'No' %>

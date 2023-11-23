@@ -63,7 +63,7 @@ float:right
   <div class="col-sm-4">
     <div class="form-group">
       <%= f.label :division, class: 'control-label' %>
-      <%= f.select :division, [['Select Division', ''], ['Life Operations', 'Life Operations'], ['Nonlife Operations', 'Nonlife Operations'], ['Admin and Finance', 'Admin and Finance'],['Sales and Marketing', 'Sales and Marketing'], ['Support', 'Support'], ['CDO Branch', 'CDO,Branch'], ['Ilo-ilo Branch', 'Ilo-ilo Branch'], ['Davao Branch', 'Davao Branch']] , {}, { class: "form-control #{'is-invalid' if f.object.errors[:division].any?}" } %>
+      <%= f.select :division, [['Select Division', ''], ['Life Operations', 'Life Operations'], ['Nonlife Operations', 'Nonlife Operations'], ['Admin and Finance', 'Admin and Finance'],['Sales and Marketing', 'Sales and Marketing'], ['Support', 'Support'], ['CDO Branch', 'CDO Branch'], ['Ilo-ilo Branch', 'Ilo-ilo Branch'], ['Davao Branch', 'Davao Branch']] , {}, { class: "form-control #{'is-invalid' if f.object.errors[:division].any?}" } %>
       <% if f.object.errors[:division].any? %>
         <div class="invalid-feedback">
           <%= f.object.errors.full_messages_for(:division).join(', ') %>

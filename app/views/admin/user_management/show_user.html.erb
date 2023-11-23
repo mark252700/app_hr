@@ -88,7 +88,13 @@
           <td><%= @emp_detail.workday %></td>
         </tr>
        <tr>
-  <td><strong>Overtime Weekend:</strong></td>
+  <td><strong>Overtime Weekday:</strong></td>
+  <td>
+    <% if @emp_detail.ot_weekday.present? %>
+      <%= @emp_detail.ot_weekday ? 'Yes' : 'No' %>
+    <% end %>
+  </td>
+   <td><strong>Overtime Weekend:</strong></td>
   <td>
     <% if @emp_detail.ot_weekend.present? %>
       <%= @emp_detail.ot_weekend ? 'Yes' : 'No' %>
