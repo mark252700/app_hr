@@ -477,12 +477,15 @@ end
 
             #for Job Description
               description_string = user.jb_description&.description
+
               nested_description_string = user.jb_description&.nested_descriptions&.map(&:description)&.join(',')
+
               description_list = [description_string, nested_description_string].compact
-                    .map { |desc| desc&.split(',') }
-                    .flatten
-                    .map(&:strip)
-                    .reject(&:empty?)
+              .map { |desc| desc&.split(/\W+/) }
+              .flatten
+              .map { |desc| desc&.strip&.gsub(/\n/, "\r\n") }
+              .reject(&:empty?)
+
               job_performed_list = user.jb_description&.jb_performeds&.map(&:job_performed)
               job_done_list = user.jb_description&.jb_performeds&.map(&:job_done)
               # Create a list of strings for job_hr and job_min for each jb_performed record
@@ -512,20 +515,20 @@ end
               ].compact
 
              # For other position
-            other_position_list = user.other_positions.present? ? user.other_positions&.map(&:pos_title).join("\n") : nil
-            other_year_list = user.other_positions.present? ? user.other_positions&.map(&:pos_yr).join("\n") : nil
-            other_month_list = user.other_positions.present? ? user.other_positions&.map(&:pos_month).join("\n") : nil
-            other_job_performed_list = user.other_positions.present? ? user.other_positions.flat_map { |op| op.other_perfromeds&.map(&:job_performed) }.compact.join("\n") : nil
-            other_job_done_list = user.other_positions.present? ? user.other_positions.flat_map { |op| op.other_perfromeds&.map(&:job_done) }.compact.join("\n") : nil
-            other_hr_min_list = user.other_positions.present? ? user.other_positions.flat_map { |op| op.other_perfromeds&.map { |opd| "#{opd.job_hr} hours and #{opd.job_min} minutes" } }.compact.join("\n") : nil
-            other_current_list = user.other_positions.present? ? user.other_positions.flat_map { |op| op.other_perfromeds&.map { |opd| opd.job_current ? 'Yes' : 'No' } }.compact.join("\n") : nil
-            other_job_reason_list = user.other_positions.present? ? user.other_positions.flat_map { |op| op.other_perfromeds&.map(&:job_reason) }.compact.join("\n") : nil
+            other_position_list = user.other_positions.present? ? user.other_positions&.map(&:pos_title).join("\r\n") : nil
+            other_year_list = user.other_positions.present? ? user.other_positions&.map(&:pos_yr).join("\r\n") : nil
+            other_month_list = user.other_positions.present? ? user.other_positions&.map(&:pos_month).join("\r\n") : nil
+            other_job_performed_list = user.other_positions.present? ? user.other_positions.flat_map { |op| op.other_perfromeds&.map(&:job_performed) }.compact.join("\r\n") : nil
+            other_job_done_list = user.other_positions.present? ? user.other_positions.flat_map { |op| op.other_perfromeds&.map(&:job_done) }.compact.join("\r\n") : nil
+            other_hr_min_list = user.other_positions.present? ? user.other_positions.flat_map { |op| op.other_perfromeds&.map { |opd| "#{opd.job_hr} hours and #{opd.job_min} minutes" } }.compact.join("\r\n") : nil
+            other_current_list = user.other_positions.present? ? user.other_positions.flat_map { |op| op.other_perfromeds&.map { |opd| opd.job_current ? 'Yes' : 'No' } }.compact.join("\r\n") : nil
+            other_job_reason_list = user.other_positions.present? ? user.other_positions.flat_map { |op| op.other_perfromeds&.map(&:job_reason) }.compact.join("\r\n") : nil
 
-            other_task_notdone_list = user.other_positions.present? ? user.other_positions.flat_map { |op| op.other_taskperformances&.map(&:task_notdone) }.compact.join("\n") : nil
-            other_task_reason_list = user.other_positions.present? ? user.other_positions.flat_map { |op| op.other_taskperformances&.map(&:task_reason) }.compact.join("\n") : nil
-            other_task_impact_list = user.other_positions.present? ? user.other_positions.flat_map { |op| op.other_taskperformances&.map(&:task_impact) }.compact.join("\n") : nil
+            other_task_notdone_list = user.other_positions.present? ? user.other_positions.flat_map { |op| op.other_taskperformances&.map(&:task_notdone) }.compact.join("\r\n") : nil
+            other_task_reason_list = user.other_positions.present? ? user.other_positions.flat_map { |op| op.other_taskperformances&.map(&:task_reason) }.compact.join("\r\n") : nil
+            other_task_impact_list = user.other_positions.present? ? user.other_positions.flat_map { |op| op.other_taskperformances&.map(&:task_impact) }.compact.join("\r\n") : nil
 
-            other_competencies_list = user.other_positions.present? ? user.other_positions.flat_map { |op| op.other_competences&.map(&:competencies) }.compact.join("\n") : nil
+            other_competencies_list = user.other_positions.present? ? user.other_positions.flat_map { |op| op.other_competences&.map(&:competencies) }.compact.join("\r\n") : nil
 
             #for Required Training
 
@@ -542,16 +545,16 @@ end
 
 
             # Related training
-            train_type_related_list = user.req_training.present? ? user.req_training.rel_trainings&.map(&:train_type)&.reject(&:empty?)&.join("\n") : nil
-            train_benefit_related_list = user.req_training.present? ? user.req_training.rel_trainings&.map(&:train_benefit)&.reject(&:empty?)&.join("\n") : nil
+            train_type_related_list = user.req_training.present? ? user.req_training.rel_trainings&.map(&:train_type)&.reject(&:empty?)&.join("\r\n") : nil
+            train_benefit_related_list = user.req_training.present? ? user.req_training.rel_trainings&.map(&:train_benefit)&.reject(&:empty?)&.join("\r\n") : nil
 
             # Not related training
-            train_type_notrelated_list = user.req_training.present? ? user.req_training.notrel_trainings&.map(&:train_type)&.reject(&:empty?)&.join("\n") : nil
-            train_benefit_notrelated_list = user.req_training.present? ? user.req_training.notrel_trainings&.map(&:train_benefit)&.reject(&:empty?)&.join("\n") : nil
+            train_type_notrelated_list = user.req_training.present? ? user.req_training.notrel_trainings&.map(&:train_type)&.reject(&:empty?)&.join("\r\n") : nil
+            train_benefit_notrelated_list = user.req_training.present? ? user.req_training.notrel_trainings&.map(&:train_benefit)&.reject(&:empty?)&.join("\r\n") : nil
 
             # Request training
-            train_type_request_list = user.req_training.present? ? user.req_training.request_trainings&.map(&:train_type)&.reject(&:empty?)&.join("\n") : nil
-            train_benefit_request_list = user.req_training.present? ? user.req_training.request_trainings&.map(&:train_benefit)&.reject(&:empty?)&.join("\n") : nil
+            train_type_request_list = user.req_training.present? ? user.req_training.request_trainings&.map(&:train_type)&.reject(&:empty?)&.join("\r\n") : nil
+            train_benefit_request_list = user.req_training.present? ? user.req_training.request_trainings&.map(&:train_benefit)&.reject(&:empty?)&.join("\r\n") : nil
 
 
 
@@ -584,16 +587,16 @@ end
                 user.emp_detail&.ot_weekday ? 'Yes' : 'No',
                 user.emp_detail&.ot_weekend ? 'Yes' : 'No',
                 benefits_string,
-                description_list&.join("\n"),
-                job_performed_list&.join("\n"),
-                job_done_list&.join("\n"),
-                job_hr_min_list&.join("\n"),
-                job_current_list&.join("\n"),
-                job_reason_list&.join("\n"),
-                task_comptency_list&.join("\n"),
-                task_notdone_list&.join("\n"),
-                task_reason_list&.join("\n"),
-                task_impact_list&.join("\n"),
+                description_list&.join("\r\n"),
+                job_performed_list&.join("\r\n"),
+                job_done_list&.join("\r\n"),
+                job_hr_min_list&.join("\r\n"),
+                job_current_list&.join("\r\n"),
+                job_reason_list&.join("\r\n"),
+                task_comptency_list&.join("\r\n"),
+                task_notdone_list&.join("\r\n"),
+                task_reason_list&.join("\r\n"),
+                task_impact_list&.join("\r\n"),
                 other_position_list,
                 other_year_list,
                 other_month_list,
@@ -606,8 +609,8 @@ end
                 other_task_reason_list,
                 other_task_impact_list,
                 other_competencies_list,
-                train_type_list&.join("\n"),
-                train_benefit_list&.join("\n"),
+                train_type_list&.join("\r\n"),
+                train_benefit_list&.join("\r\n"),
                 train_type_related_list,
                 train_benefit_related_list,
                 train_type_notrelated_list,
@@ -617,7 +620,10 @@ end
 
 
 
-              ], style: sheet.styles.add_style(b: false, alignment: { horizontal: :center }))
+                ], style: sheet.styles.add_style(
+      b: false,
+      alignment: { horizontal: :center, vertical: :top, wrap_text: true } # Added wrap_text: true
+    ))
             end
           end
 
