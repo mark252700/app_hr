@@ -575,7 +575,7 @@ end
                 user.emp_detail&.sup_name,
                 user.emp_detail&.sup_title,
                 user.emp_detail&.educ_course,
-                user.emp_detail&.educ_grad,
+                user.emp_detail&.educ_grad&.strftime('%B-%d-%Y'),
                 user.emp_detail&.educ_undergrad,
                 user.emp_detail&.educ_skill,
                 user.emp_detail&.educ_othskill,
